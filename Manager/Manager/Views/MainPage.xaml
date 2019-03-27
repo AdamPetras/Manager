@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:local="clr-namespace:Manager"
+                x:Class="Manager.Views.MainPage"
+                xmlns:views="clr-namespace:Manager.Views"
+                xmlns:viewModels="clr-namespace:Manager.ViewModels"
+                xmlns:manager="clr-namespace:Manager"
+                mc:Ignorable="d"
+                d:DataContext="{d:DesignInstance viewModels:MainPageVm}"
+                Title="Work manager">
+    <MasterDetailPage.Master>
+        <ContentPage Padding="10" BackgroundColor="Gray" Title="Master">
+            <ContentPage.Content>
+                <StackLayout Margin="5,30,5,5">
+                    <Image HorizontalOptions="FillAndExpand" HeightRequest="200" Source="menuimg.png"/>
+                    <Button Text = "Add record" Clicked="ButtonAddPageClicked"/>
+                    <Button Text = "Table" Clicked="ButtonTablePageClicked"/>
+                    <Button Text = "About" Clicked="ButtonAboutPageClicked"/>
+                </StackLayout>
+            </ContentPage.Content>
+        </ContentPage>
+    </MasterDetailPage.Master>
+    <MasterDetailPage.Detail>
+        <NavigationPage>
+        </NavigationPage>
+    </MasterDetailPage.Detail>
+</MasterDetailPage>

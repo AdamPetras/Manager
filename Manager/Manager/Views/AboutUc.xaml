@@ -1,0 +1,21 @@
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="Manager.Views.AboutUc"
+             xmlns:views="clr-namespace:Manager.Views"
+             xmlns:viewModels="clr-namespace:Manager.ViewModels"
+             xmlns:converters="clr-namespace:Manager.Converters"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance viewModels:AboutUcVm}">
+    <StackLayout VerticalOptions="FillAndExpand" Margin="10,10,10,10">
+        <Label Text="Work manager" FontSize="Large" HorizontalOptions="Center"/>
+        <BoxView HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand"/>
+        <Label Text="This is my app, please see"/>
+        <Label Text="https://github.com/abushrek"/>
+        <Label Text=""/>
+        <Label Text="Email support at"/>
+        <Label Text="abushrek@seznam.cz"/>
+        <Label Text="v1.00" VerticalOptions="EndAndExpand" HorizontalOptions="End"/>
+    </StackLayout>
+</ContentPage>
