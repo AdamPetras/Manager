@@ -16,15 +16,48 @@ namespace Manager.ViewModels
     {
         private DateTime _date;
         private DateTime _dateTo;
-        private uint _bonus;
+        private double _bonus;
         private uint _hours;
         private uint _minutes;
-        private uint _price;
+        private double _price;
         private uint _pieces;
         private int _selectedPicker;
+        private string _buttonText;
+        private string _description;
         private TableItemUcVm _modifying;
+        private bool _isOverTime;
         public ICommand ButtonAdd { get; }
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public bool IsOverTime
+        {
+            get => _isOverTime;
+            set
+            {
+                _isOverTime = value;
+                OnPropertyChanged(nameof(IsOverTime));
+            }
+        }
+
+        public string Description
+        {
+            get => _description;
+            set
+            {
+                _description = value;
+                OnPropertyChanged(nameof(Description));
+            }
+    }
+
+        public string ButtonText
+        {
+            get => _buttonText;
+            set
+            {
+                _buttonText = value;
+                OnPropertyChanged(nameof(ButtonText));
+            }
+        }
 
         public int SelectedPicker
         {
@@ -66,7 +99,7 @@ namespace Manager.ViewModels
             }
         }
 
-        public uint Bonus
+        public double Bonus
         {
             get => _bonus;
             set
@@ -101,7 +134,7 @@ namespace Manager.ViewModels
         }
 
         
-        public uint Price
+        public double Price
         {
             get => _price;
             set
@@ -121,43 +154,79 @@ namespace Manager.ViewModels
             }
         }
 
-        public ObservableCollection<string> PickerRecordTypes { get; } = new ObservableCollection<string>(Enum.GetNames(typeof(ERecordType)));
+        public ObservableCollection<string> PickerRecordTypes { get; } = new ObservableCollection<string>(Enum.GetNames(typeof(ERecordType)).Where(s=>s != "None"));
 
 
         public AddRecordVm()
         {
+            ButtonText = "Add";
             _date = DateTime.Now;
             _dateTo = DateTime.Now;
             ButtonAdd = new Command(AddButtonCommand);
             MessagingCenter.Subscribe<TableItemUcVm>(this, "ModifyItem", (modifer) =>
             {
                 _modifying = modifer;
+                if (modifer != null)
+                {
+                    if (modifer.Record.Type != ERecordType.None)
+                    {
+                        Date = modifer.Record.Date;
+                        if (modifer.Record.Type == ERecordType.Vacation)
+                        {
+                            SelectedPicker = (int) ERecordType.Vacation;
+                            return;
+                        }
+
+                        if (modifer.Record.Type == ERecordType.Hours)
+                        {
+                            Hours = ((IHoursRecord) modifer.Record).Time.Hours;
+                            Minutes = ((IHoursRecord) modifer.Record).Time.Minutes;
+                            SelectedPicker = (int) ERecordType.Hours;
+                        }
+                        else if (modifer.Record.Type == ERecordType.Pieces)
+                        {
+                            Pieces = ((IPiecesRecord) modifer.Record).Pieces;
+                            SelectedPicker = (int) ERecordType.Pieces;
+                        }
+
+                        Price = ((IRecord) modifer.Record).Price;
+                        Bonus = ((IRecord) modifer.Record).Bonus;
+                        ButtonText = "Modify";
+                    }
+                    else
+                        ButtonText = "Add";
+                }
             });
         }
 
         private void AddButtonCommand()
         {
+            string str = "";
             if (_modifying == null)
             {
+                str = "added";
                 AddRecords();
             }
             else
             {
+                str = "modified";
                 MessagingCenter.Send(_modifying, "Modify",
-                    new TableItemUcVm(new HoursRecord(Date, Hours, Minutes, Price, Bonus)));
+                    new TableItemUcVm(new HoursRecord(Date, Hours, Minutes, Price, Bonus, Description, IsOverTime)));
                 _modifying = null;
             }
+            Application.Current.MainPage.DisplayAlert("Info", "Record has been "+str+".", "OK");
         }
+
 
         private void AddRecords()
         {
             switch (SelectedPicker)
             {
                 case (int)ERecordType.Hours:
-                    CallAddMethod(new HoursRecord(Date, Hours, Minutes, Price, Bonus));
+                    CallAddMethod(new HoursRecord(Date, Hours, Minutes, Price, Bonus, Description, IsOverTime));
                     break;
                 case (int)ERecordType.Pieces:
-                    CallAddMethod(new PiecesRecord(Date,Pieces,Price,Bonus));
+                    CallAddMethod(new PiecesRecord(Date,Pieces,Price,Bonus, Description, IsOverTime));
                     break;
                 default:
                     AddVacationRecord();
@@ -175,7 +244,7 @@ namespace Manager.ViewModels
             DateTime tmpDate = Date;
             while (tmpDate <= DateTo)
             {
-                CallAddMethod(new VacationRecord(tmpDate));
+                CallAddMethod(new VacationRecord(tmpDate, Description));
                 tmpDate = tmpDate.AddDays(1);
             }
         }

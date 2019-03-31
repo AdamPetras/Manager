@@ -4,6 +4,7 @@
     {
         Hours,
         Pieces,
-        Vacation
+        Vacation,
+        None
     }
 }

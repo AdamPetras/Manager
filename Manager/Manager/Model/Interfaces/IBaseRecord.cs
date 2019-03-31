@@ -9,6 +9,6 @@ namespace Manager.Model.Interfaces
         string DateString { get; }
         ERecordType Type { get; set; }
         string TotalPrice { get; }
-
+        string Description { get; set; }
     }
 }

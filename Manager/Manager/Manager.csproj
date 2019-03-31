@@ -19,14 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="menuImg.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="menuImg.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="LiveXAML" Version="2.1.70" />
     <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
   </ItemGroup>

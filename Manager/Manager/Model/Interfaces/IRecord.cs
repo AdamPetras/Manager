@@ -4,5 +4,6 @@
     {
         double Bonus { get; set; }
         double Price { get; set; }
+        bool IsOverTime { get; set; }
     }
 }

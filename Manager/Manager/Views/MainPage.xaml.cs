@@ -5,34 +5,40 @@ namespace Manager.Views
 {
     public partial class MainPage : MasterDetailPage
     {
-        private readonly NavigationPage _addTab;
-        private readonly NavigationPage _tableTab;
-        private readonly NavigationPage _aboutTab;
+        public static readonly NavigationPage AddTab;
+        public static readonly NavigationPage TableTab;
+        public static readonly NavigationPage AboutTab;
+
+        static MainPage()
+        {
+            AddTab = new NavigationPage(new AddRecordUc());
+            TableTab = new NavigationPage(new TableUc());
+            AboutTab = new NavigationPage(new AboutUc());
+        }
+
         public MainPage()
         {
             InitializeComponent();
-            _addTab = new NavigationPage(new AddRecordUc());
-            _tableTab = new NavigationPage(new TableUc());
-            _aboutTab = new NavigationPage( new AboutUc());
-            Detail = _addTab;
+            Detail = AddTab;
             IsPresented = false;
         }
 
+
         public void ButtonAddPageClicked(object sender, EventArgs e)
         {
-            Detail = _addTab;
+            Detail = AddTab;
             IsPresented = false;
         }
 
         public void ButtonTablePageClicked(object sender, EventArgs e)
         {
-            Detail = _tableTab;
+            Detail = TableTab;
             IsPresented = false;
         }
 
         public void ButtonAboutPageClicked(object sender, EventArgs e)
         {
-            Detail = _aboutTab;
+            Detail = AboutTab;
             IsPresented = false;
         }
     }

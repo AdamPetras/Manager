@@ -8,7 +8,14 @@
              xmlns:converters="clr-namespace:Manager.Converters"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance viewModels:AboutUcVm}">
-    <StackLayout VerticalOptions="FillAndExpand" Margin="10,10,10,10">
+        <ContentPage.Resources>
+            <ResourceDictionary>
+                <Style TargetType="Label">
+                    <Setter Property="Margin" Value="10,0,10,10"/>
+                </Style>
+            </ResourceDictionary>
+        </ContentPage.Resources>
+    <StackLayout VerticalOptions="FillAndExpand" >
         <Label Text="Work manager" FontSize="Large" HorizontalOptions="Center"/>
         <BoxView HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand"/>
         <Label Text="This is my app, please see"/>

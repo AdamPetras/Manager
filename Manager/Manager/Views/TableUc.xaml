@@ -8,7 +8,14 @@
              xmlns:converters="clr-namespace:Manager.Converters"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance viewModels:TableUcVm}">
-        <ContentPage.Content>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="ListView">
+                <Setter Property="SeparatorColor" Value="#2d2d2d"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
             <StackLayout VerticalOptions="FillAndExpand">
             <Picker Margin="10,0,10,0" SelectedIndex ="{Binding SelectedPeriod}"  SelectedIndexChanged="Picker_OnSelectedIndexChanged">
                     <Picker.Items>
@@ -34,7 +41,7 @@
                 <Label Text="Price" Grid.Row="0" Grid.Column="1" HorizontalOptions="End"/>
             </Grid>
             <BoxView BackgroundColor="Black" HeightRequest = "1" HorizontalOptions="FillAndExpand"/>
-            <ListView Margin="10,0,10,0" HorizontalOptions="Center" ItemsSource="{Binding RecordList}"
+            <ListView Margin="0,0,0,0" HorizontalOptions="Center" ItemsSource="{Binding RecordList}"
                       SelectedItem="{Binding SelectedItem}">
                 <ListView.ItemTemplate>
                     <DataTemplate>

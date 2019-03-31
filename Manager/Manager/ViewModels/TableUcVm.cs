@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Manager.Annotations;
@@ -21,7 +20,6 @@ namespace Manager.ViewModels
         private ObservableCollection<TableItemUcVm> SavedRecordList { get; set; }
         private TableItemUcVm _selectedItem;
         private uint _datesFounded;
-        private string _hoursFounded;
         private WorkTime _workHours;
         private double _priceTogether;
         private uint _piecesTogether;
@@ -102,29 +100,29 @@ namespace Manager.ViewModels
 
         public TableUcVm()
         {
+            SavedRecordList = new ObservableCollection<TableItemUcVm>();
             InitializeTableItems();
-            SavedRecordList = new ObservableCollection<TableItemUcVm>(RecordList);
             MessagingCenter.Subscribe<TableItemUcVm>(this, "Add", (item) =>
             {
                 SelectedPeriod = 0;
-                RecordList.Add(item);
+                SavedRecordList.Add(item);
                 ShowStatistics();
             });
 
             MessagingCenter.Subscribe<TableItemUcVm>(this, "Remove", (item) =>
             {
                 SelectedPeriod = 0;
-                RecordList.Remove(item);
+                SavedRecordList.Remove(item);
                 ShowStatistics();
             });
             MessagingCenter.Subscribe<TableItemUcVm, TableItemUcVm>(this, "Modify", (find,modify) =>
             {
                 SelectedPeriod = 0;
-                for (int i = 0; i<RecordList.Count;i++)
+                for (int i = 0; i< SavedRecordList.Count;i++)
                 {
-                    if (RecordList[i] == find)
+                    if (SavedRecordList[i] == find)
                     {
-                        RecordList[i] = modify;
+                        SavedRecordList[i] = modify;
                     }
                 }
                 ShowStatistics();
@@ -143,8 +141,6 @@ namespace Manager.ViewModels
         public void ShowStatistics()
         {
             ClearUp();
-            if(RecordList.Count > SavedRecordList.Count)
-                SavedRecordList = new ObservableCollection<TableItemUcVm>(RecordList);
             RecordList.Clear();
             switch (SelectedPeriod)
             {
@@ -256,9 +252,9 @@ namespace Manager.ViewModels
 
         private void InitializeTableItems()
         {
-            RecordList.Add(new TableItemUcVm(new PiecesRecord(DateTime.Now, 10, 10, 10)));
-            RecordList.Add(new TableItemUcVm(new HoursRecord(DateTime.Now, 10, 10, 10, 10)));
-            RecordList.Add(new TableItemUcVm(new VacationRecord(DateTime.Now)));
+            SavedRecordList.Add(new TableItemUcVm(new PiecesRecord(DateTime.Now, 10, 10, 10,"Description 1",false)));
+            SavedRecordList.Add(new TableItemUcVm(new HoursRecord(DateTime.Now, 10, 10, 10, 10,"Description 2",true)));
+            SavedRecordList.Add(new TableItemUcVm(new VacationRecord(DateTime.Now, "Description 3Description 3Description 3Description 3Description 3Description 3Description 3Description 3")));
         }
 
         

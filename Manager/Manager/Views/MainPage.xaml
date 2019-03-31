@@ -11,11 +11,20 @@
                 mc:Ignorable="d"
                 d:DataContext="{d:DesignInstance viewModels:MainPageVm}"
                 Title="Work manager">
+    <MasterDetailPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="#AA2d2d2d" />
+            </Style>
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="#2d2d2d"/>
+            </Style>
+        </ResourceDictionary>
+    </MasterDetailPage.Resources>
     <MasterDetailPage.Master>
-        <ContentPage Padding="10" BackgroundColor="Gray" Title="Master">
+        <ContentPage Title="Master">
             <ContentPage.Content>
                 <StackLayout Margin="5,30,5,5">
-                    <Image HorizontalOptions="FillAndExpand" HeightRequest="200" Source="menuimg.png"/>
                     <Button Text = "Add record" Clicked="ButtonAddPageClicked"/>
                     <Button Text = "Table" Clicked="ButtonTablePageClicked"/>
                     <Button Text = "About" Clicked="ButtonAboutPageClicked"/>
