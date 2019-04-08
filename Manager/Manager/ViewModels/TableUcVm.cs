@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Manager.Annotations;
 using Manager.Model;
 using Manager.Model.Enums;
 using Manager.Model.Interfaces;
+using Manager.SaveManagement;
 using Xamarin.Forms;
 
 namespace Manager.ViewModels
@@ -25,6 +27,7 @@ namespace Manager.ViewModels
         private uint _piecesTogether;
         private double _bonusTogether;
         private uint _selectedPeriod;
+        private IXmlManager _saveAndLoad;
 
         public uint SelectedPeriod
         {
@@ -102,10 +105,18 @@ namespace Manager.ViewModels
         {
             SavedRecordList = new ObservableCollection<TableItemUcVm>();
             InitializeTableItems();
+            _saveAndLoad = new XmlManager(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "recordData.xml"));
+            foreach (IBaseRecord tmp in _saveAndLoad.LoadXmlFile())
+            {
+                SelectedPeriod = 0;
+                SavedRecordList.Add(new TableItemUcVm(tmp));
+                ShowStatistics();
+            }
             MessagingCenter.Subscribe<TableItemUcVm>(this, "Add", (item) =>
             {
                 SelectedPeriod = 0;
                 SavedRecordList.Add(item);
+                _saveAndLoad.AppendXmlFile(item.Record);
                 ShowStatistics();
             });
 
@@ -113,6 +124,7 @@ namespace Manager.ViewModels
             {
                 SelectedPeriod = 0;
                 SavedRecordList.Remove(item);
+                _saveAndLoad.RemoveXmlRecord(item.Record);
                 ShowStatistics();
             });
             MessagingCenter.Subscribe<TableItemUcVm, TableItemUcVm>(this, "Modify", (find,modify) =>

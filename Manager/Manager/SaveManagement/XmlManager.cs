@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using Manager.Model;
@@ -29,6 +30,7 @@ namespace Manager.SaveManagement
             {
                 CreateRootElement(writer);
             }
+            _document.Load(path);
             foreach (IBaseRecord tmp in recordList)
             {
                 _document.DocumentElement?.AppendChild(CreateRecordElement(tmp));
@@ -42,6 +44,18 @@ namespace Manager.SaveManagement
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        public void CreateNewXmlFile(params IBaseRecord[] records)
+        {
+            CreateNewXmlFile(records.ToList());
+        }
+
+        public void RemoveXmlRecord(IBaseRecord rec)
+        {
+            XElement xElement = XElement.Load(path);
+            FindElementByRecord(xElement.Elements(), rec)?.Remove();
+            xElement.Save(path);
         }
 
         public void AppendXmlFile(IBaseRecord rec)
@@ -84,6 +98,50 @@ namespace Manager.SaveManagement
             }
         }
 
+        private XElement IsHoursRecordEqual(XElement element, IBaseRecord rec, IBaseRecord foundRec)
+        {
+            return (HoursRecord)foundRec == (HoursRecord)rec ? element : null;
+        }
+        private XElement IsPiecesRecordEqual(XElement element, IBaseRecord rec, IBaseRecord foundRec)
+        {
+            return (PiecesRecord)foundRec == (PiecesRecord)rec ? element : null;
+        }
+        private XElement IsVacationRecordEqual(XElement element, IBaseRecord rec, IBaseRecord foundRec)
+        {
+            return (VacationRecord)foundRec == (VacationRecord)rec ? element : null;
+        }
+
+        private XElement ReturnElementIfEquals(XElement element, IBaseRecord rec, IBaseRecord foundRec)
+        {
+            switch (rec.Type)
+            {
+                case ERecordType.Hours:
+                    return IsHoursRecordEqual(element, rec, foundRec);
+                case ERecordType.Pieces:
+                    return IsPiecesRecordEqual(element, rec, foundRec);
+                case ERecordType.Vacation:
+                    return IsVacationRecordEqual(element, rec, foundRec);
+            }
+            return null;
+        }
+
+        
+
+        private XElement FindElementByRecord(IEnumerable<XElement> records, IBaseRecord rec)
+        {
+            foreach (XElement recordElement in records)
+            {
+                IBaseRecord foundRec = ParsePiecesAndTimeRecord(recordElement);
+                if (rec.Type == foundRec.Type)
+                {
+                    XElement elem = ReturnElementIfEquals(recordElement, rec, foundRec);
+                    if (elem != null)
+                        return elem;
+                }
+            }
+            return null;
+        }
+
         private void CreateRootElement(XmlWriter writer)
         {
             writer.WriteStartDocument();
@@ -98,23 +156,23 @@ namespace Manager.SaveManagement
             record.SetAttribute("Type", rec.Type.ToString());
             XmlElement data = _document.CreateElement("Data");
             record.AppendChild(data);
-            record.SetAttribute("Date", rec.Date.ToString(CultureInfo.InvariantCulture));
-            record.SetAttribute("Description", rec.Description);
+            data.SetAttribute("Date", rec.Date.ToString(CultureInfo.InvariantCulture));
+            data.SetAttribute("Description", rec.Description);
             switch (rec.Type)
             {
                 case ERecordType.Hours:
-                    record.SetAttribute("Variable", ((IHoursRecord)rec).Time.ToString());
+                    data.SetAttribute("Variable", ((IHoursRecord)rec).Time.ToString());
                     break;
                 case ERecordType.Pieces:
-                    record.SetAttribute("Variable", ((IPiecesRecord)rec).Pieces.ToString());
+                    data.SetAttribute("Variable", ((IPiecesRecord)rec).Pieces.ToString());
                     break;
             }
             if (rec.Type != ERecordType.Vacation && rec.Type != ERecordType.None)
             {
                 IRecord baseRec = (IRecord)rec;
-                record.SetAttribute("Price", baseRec.Price.ToString(CultureInfo.InvariantCulture));
-                record.SetAttribute("Bonus", baseRec.Bonus.ToString(CultureInfo.InvariantCulture));
-                record.SetAttribute("IsOverTime", baseRec.IsOverTime.ToString());
+                data.SetAttribute("Price", baseRec.Price.ToString(CultureInfo.InvariantCulture));
+                data.SetAttribute("Bonus", baseRec.Bonus.ToString(CultureInfo.InvariantCulture));
+                data.SetAttribute("IsOverTime", baseRec.IsOverTime.ToString());
             }
             return record;
         }

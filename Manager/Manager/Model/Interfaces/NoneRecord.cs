@@ -5,6 +5,7 @@ namespace Manager.Model.Interfaces
 {
     public class NoneRecord:IBaseRecord
     {
+        public Guid Id { get; set; }
         public DateTime Date { get; set; }
         public string DateString { get; }
         public ERecordType Type { get; set; }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -8,6 +9,7 @@ using Manager.Annotations;
 using Manager.Model;
 using Manager.Model.Enums;
 using Manager.Model.Interfaces;
+using Manager.SaveManagement;
 using Xamarin.Forms;
 
 namespace Manager.ViewModels
@@ -163,6 +165,7 @@ namespace Manager.ViewModels
             _date = DateTime.Now;
             _dateTo = DateTime.Now;
             ButtonAdd = new Command(AddButtonCommand);
+
             MessagingCenter.Subscribe<TableItemUcVm>(this, "ModifyItem", (modifer) =>
             {
                 _modifying = modifer;
@@ -220,13 +223,16 @@ namespace Manager.ViewModels
 
         private void AddRecords()
         {
+            IBaseRecord rec;
             switch (SelectedPicker)
             {
                 case (int)ERecordType.Hours:
-                    CallAddMethod(new HoursRecord(Date, Hours, Minutes, Price, Bonus, Description, IsOverTime));
+                    rec = new HoursRecord(Date, Hours, Minutes, Price, Bonus, Description, IsOverTime);
+                    CallAddMethod(rec);
                     break;
                 case (int)ERecordType.Pieces:
-                    CallAddMethod(new PiecesRecord(Date,Pieces,Price,Bonus, Description, IsOverTime));
+                    rec = new PiecesRecord(Date, Pieces, Price, Bonus, Description, IsOverTime);
+                    CallAddMethod(rec);
                     break;
                 default:
                     AddVacationRecord();
@@ -244,7 +250,8 @@ namespace Manager.ViewModels
             DateTime tmpDate = Date;
             while (tmpDate <= DateTo)
             {
-                CallAddMethod(new VacationRecord(tmpDate, Description));
+                IBaseRecord rec = new VacationRecord(tmpDate, Description);
+                CallAddMethod(rec);
                 tmpDate = tmpDate.AddDays(1);
             }
         }
