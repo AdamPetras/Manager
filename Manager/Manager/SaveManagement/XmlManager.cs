@@ -8,6 +8,8 @@ using System.Xml.Linq;
 using Manager.Model;
 using Manager.Model.Enums;
 using Manager.Model.Interfaces;
+using Manager.ViewModels;
+using Xamarin.Forms;
 
 namespace Manager.SaveManagement
 {
@@ -98,31 +100,31 @@ namespace Manager.SaveManagement
             }
         }
 
-        private XElement IsHoursRecordEqual(XElement element, IBaseRecord rec, IBaseRecord foundRec)
+        public void EditXmlRecord(IBaseRecord oldRec, IBaseRecord newRecord)
         {
-            return (HoursRecord)foundRec == (HoursRecord)rec ? element : null;
-        }
-        private XElement IsPiecesRecordEqual(XElement element, IBaseRecord rec, IBaseRecord foundRec)
-        {
-            return (PiecesRecord)foundRec == (PiecesRecord)rec ? element : null;
-        }
-        private XElement IsVacationRecordEqual(XElement element, IBaseRecord rec, IBaseRecord foundRec)
-        {
-            return (VacationRecord)foundRec == (VacationRecord)rec ? element : null;
+            XElement root = XElement.Load(path);
+            XElement el = FindElementByRecord(root.Elements(), oldRec);
+            if (el == null)
+                return;
+            XElement newEl = XElement.Parse(CreateRecordElement(newRecord).OuterXml);
+            el.ReplaceWith(
+                newEl
+            );
+            root.Save(path);
         }
 
-        private XElement ReturnElementIfEquals(XElement element, IBaseRecord rec, IBaseRecord foundRec)
+        private bool IfFoundedElementIsEquals(IBaseRecord rec, IBaseRecord foundRec)
         {
             switch (rec.Type)
             {
                 case ERecordType.Hours:
-                    return IsHoursRecordEqual(element, rec, foundRec);
+                    return (HoursRecord)foundRec == (HoursRecord)rec;
                 case ERecordType.Pieces:
-                    return IsPiecesRecordEqual(element, rec, foundRec);
+                    return (PiecesRecord)foundRec == (PiecesRecord)rec;
                 case ERecordType.Vacation:
-                    return IsVacationRecordEqual(element, rec, foundRec);
+                    return (VacationRecord)foundRec == (VacationRecord)rec;
             }
-            return null;
+            return false;
         }
 
         
@@ -134,9 +136,8 @@ namespace Manager.SaveManagement
                 IBaseRecord foundRec = ParsePiecesAndTimeRecord(recordElement);
                 if (rec.Type == foundRec.Type)
                 {
-                    XElement elem = ReturnElementIfEquals(recordElement, rec, foundRec);
-                    if (elem != null)
-                        return elem;
+                    if (IfFoundedElementIsEquals(rec, foundRec))
+                        return recordElement;
                 }
             }
             return null;
@@ -157,11 +158,14 @@ namespace Manager.SaveManagement
             XmlElement data = _document.CreateElement("Data");
             record.AppendChild(data);
             data.SetAttribute("Date", rec.Date.ToString(CultureInfo.InvariantCulture));
+            if (rec.Description == null)
+                rec.Description = "";
             data.SetAttribute("Description", rec.Description);
             switch (rec.Type)
             {
                 case ERecordType.Hours:
                     data.SetAttribute("Variable", ((IHoursRecord)rec).Time.ToString());
+                    data.SetAttribute("OverTime", ((IHoursRecord)rec).OverTime.ToString());
                     break;
                 case ERecordType.Pieces:
                     data.SetAttribute("Variable", ((IPiecesRecord)rec).Pieces.ToString());
@@ -172,7 +176,6 @@ namespace Manager.SaveManagement
                 IRecord baseRec = (IRecord)rec;
                 data.SetAttribute("Price", baseRec.Price.ToString(CultureInfo.InvariantCulture));
                 data.SetAttribute("Bonus", baseRec.Bonus.ToString(CultureInfo.InvariantCulture));
-                data.SetAttribute("IsOverTime", baseRec.IsOverTime.ToString());
             }
             return record;
         }
@@ -201,16 +204,17 @@ namespace Manager.SaveManagement
             {
                 DateTime date = ParseDate(dataElement.Attribute("Date")?.Value);
                 string description = dataElement.Attribute("Description")?.Value;
-                var (price, bonus, isOverTime) = ParseIRecord(recType, dataElement.Attribute("Price")?.Value, dataElement.Attribute("Bonus")?.Value,dataElement.Attribute("IsOverTime")?.Value);
+                var (price, bonus) = ParseIRecord(recType, dataElement.Attribute("Price")?.Value, dataElement.Attribute("Bonus")?.Value);
                 switch (recType)
                 {
                     case ERecordType.Hours:
                         WorkTime workTime = ParseTimeRecord(dataElement.Attribute("Variable")?.Value.Split(':'));
-                        rec = new HoursRecord(date,workTime,price,bonus, description,isOverTime);
+                        WorkTime overTime = ParseTimeRecord(dataElement.Attribute("OverTime")?.Value.Split(':'));
+                        rec = new HoursRecord(date,workTime,price,bonus, description, overTime);
                         break;
                     case ERecordType.Pieces:
                         uint.TryParse(dataElement.Attribute("Variable")?.Value, out uint pieces);
-                        rec = new PiecesRecord(date, pieces, price, bonus, description, isOverTime);
+                        rec = new PiecesRecord(date, pieces, price, bonus, description);
                         break;
                     case ERecordType.Vacation:
                         rec = new VacationRecord(date, description);
@@ -221,21 +225,20 @@ namespace Manager.SaveManagement
         }
 
 
-        private Tuple<double, double, bool> ParseIRecord(ERecordType recType, string priceString, string bonusString, string isOverTimeString)
+        private Tuple<double, double> ParseIRecord(ERecordType recType, string priceString, string bonusString)
         {
             if (recType != ERecordType.Vacation && recType != ERecordType.None)
             {
                 double.TryParse(priceString, out double price);
                 double.TryParse(bonusString, out double bonus);
-                bool.TryParse(isOverTimeString, out bool isOverTime);
-                return new Tuple<double, double, bool>(price, bonus, isOverTime);
+                return new Tuple<double, double>(price, bonus);
             }
-            return new Tuple<double, double, bool>(0, 0, false);
+            return new Tuple<double, double>(0, 0);
         }
 
         private DateTime ParseDate(string dateString)
         {
-            DateTime date = DateTime.Now;
+            DateTime date = DateTime.Today;
             try
             {
                 date = DateTime.Parse(dateString, new CultureInfo("en"));

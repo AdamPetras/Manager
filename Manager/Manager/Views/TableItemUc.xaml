@@ -23,7 +23,9 @@
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*"/>
         <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
     <Label Text="{Binding Record.DateString}"/>
-    <Label Text="{Binding Record.TotalPrice}" Grid.Column="1" HorizontalOptions="End"/>
+    <Label Text="{Binding Record.GetRecordType}" Grid.Column="1" HorizontalOptions="Center"/>
+    <Label Text="{Binding Record.TotalPrice}" Grid.Column="2" HorizontalOptions="End"/>
 </Grid>

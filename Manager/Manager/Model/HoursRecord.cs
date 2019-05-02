@@ -4,6 +4,7 @@ using Manager.Annotations;
 using Manager.Extensions;
 using Manager.Model.Enums;
 using Manager.Model.Interfaces;
+using Manager.Resources;
 
 namespace Manager.Model
 {
@@ -13,27 +14,28 @@ namespace Manager.Model
         public DateTime Date { get; set; }
         public double Bonus { get; set; }
         public double Price { get; set; }
-        public bool IsOverTime { get; set; }
         public string DateString => Date.GetDateWithoutTime();
         public ERecordType Type { get; set; }
-        public string TotalPrice => Math.Round(Time.Hours * Price + Time.Minutes / 60.0 * Price + Bonus,1).ToString(CultureInfo.InvariantCulture);
+        public string TotalPrice => Math.Round((Time.Hours * Price + Time.Minutes / 60.0 * Price) + (OverTime.Hours * Price + OverTime.Minutes / 60.0 * Price)+Bonus,1).ToString(CultureInfo.InvariantCulture);
         public string Description { get; set; }
+        public string GetRecordType { get; }
         public WorkTime Time { get; set; }
+        public WorkTime OverTime { get; set; }
 
 
-
-        public HoursRecord(DateTime date, uint hours,uint minutes, double price, double bonus, string description,bool isOverTime)
+        public HoursRecord(DateTime date, uint hours,uint minutes, double price, double bonus, string description,uint overTimeHours,uint overTimeMinutes)
         {
             Id = Guid.NewGuid();
             Date = date;
             Time = new WorkTime(hours, minutes);
             Price = price;
             Bonus = bonus;
-            Description = description;
-            IsOverTime = isOverTime;
+            Description = description ?? "";
+            OverTime = new WorkTime(overTimeHours,overTimeMinutes);
             Type = ERecordType.Hours;
+            GetRecordType = AppResource.HoursType;
         }
-        public HoursRecord(DateTime date, WorkTime time, double price, double bonus, string description, bool isOverTime) :this(date,time.Hours,time.Minutes,price,bonus, description,isOverTime)
+        public HoursRecord(DateTime date, WorkTime time, double price, double bonus, string description, WorkTime overTime) :this(date,time.Hours,time.Minutes,price,bonus, description,overTime.Hours,overTime.Minutes)
         {
         }
 
@@ -53,8 +55,15 @@ namespace Manager.Model
                 return false;
             }
             return obj1.Type == obj2.Type && obj1.Time == obj2.Time
-                                          && obj1.Date == obj2.Date && obj1.Description == obj2.Description
+                                          && IsDateEqual(obj1,obj2)
+                                            && obj1.Description == obj2.Description
                                           && obj1.TotalPrice == obj2.TotalPrice;
+        }
+
+        private static bool IsDateEqual(HoursRecord obj1, HoursRecord obj2)
+        {
+            return obj1.Date.Day == obj2.Date.Day && obj1.Date.Month == obj2.Date.Month &&
+                   obj1.Date.Year == obj2.Date.Year;
         }
 
         public static bool operator !=(HoursRecord a, HoursRecord b)
@@ -63,9 +72,8 @@ namespace Manager.Model
         }
         protected bool Equals(HoursRecord other)
         {
-            return Id.Equals(other.Id) && Date.Equals(other.Date) && Bonus.Equals(other.Bonus) && Price.Equals(other.Price) && IsOverTime == other.IsOverTime && Type == other.Type && string.Equals(Description, other.Description) && Equals(Time, other.Time);
+            return Id.Equals(other.Id) && Date.Equals(other.Date) && Bonus.Equals(other.Bonus) && Price.Equals(other.Price) && Equals(OverTime,other.OverTime) && Type == other.Type && string.Equals(Description, other.Description) && Equals(Time, other.Time);
         }
-
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -82,10 +90,11 @@ namespace Manager.Model
                 hashCode = (hashCode * 397) ^ Date.GetHashCode();
                 hashCode = (hashCode * 397) ^ Bonus.GetHashCode();
                 hashCode = (hashCode * 397) ^ Price.GetHashCode();
-                hashCode = (hashCode * 397) ^ IsOverTime.GetHashCode();
                 hashCode = (hashCode * 397) ^ (int)Type;
                 hashCode = (hashCode * 397) ^ (Description != null ? Description.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (GetRecordType != null ? GetRecordType.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (Time != null ? Time.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (OverTime != null ? OverTime.GetHashCode() : 0);
                 return hashCode;
             }
         }

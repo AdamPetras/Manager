@@ -9,6 +9,7 @@ namespace Manager.SaveManagement
         void CreateNewXmlFile(params IBaseRecord[] records);
         void RemoveXmlRecord(IBaseRecord rec);
         void AppendXmlFile(IBaseRecord rec);
+        void EditXmlRecord(IBaseRecord rec, IBaseRecord newRecord);
         List<IBaseRecord> LoadXmlFile();
         void WriteXmlToConsole();
     }

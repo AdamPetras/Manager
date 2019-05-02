@@ -2,15 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Manager.Annotations;
 using Manager.Model;
 using Manager.Model.Enums;
 using Manager.Model.Interfaces;
+using Manager.Resources;
 using Manager.SaveManagement;
+using Manager.Views;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace Manager.ViewModels
 {
@@ -27,7 +33,12 @@ namespace Manager.ViewModels
         private uint _piecesTogether;
         private double _bonusTogether;
         private uint _selectedPeriod;
+        private uint _vacationDays;
+        private double _averagePricePerHour;
+        private double _totalPriceForHourType;
         private IXmlManager _saveAndLoad;
+        private double _totalOvertimePrice;
+        private WorkTime _totalOvertimeHours;
 
         public uint SelectedPeriod
         {
@@ -101,44 +112,92 @@ namespace Manager.ViewModels
             }
         }
 
+        public ICommand ShowStatisticsCommand { get; }
+
+        public static List<string> WorkingTermList = new List<string>
+        {
+            AppResource.AllItem,
+            AppResource.WeekItem,
+            AppResource.LastWeekItem,
+            AppResource.MonthItem,
+            AppResource.LastMonthItem,
+            AppResource.YearItem,
+            AppResource.VacationAllItem,
+            AppResource.VacationYearItem,
+        };
+
+
+
         public TableUcVm()
         {
+            ShowStatisticsCommand = new Command(ShowStatistics);
             SavedRecordList = new ObservableCollection<TableItemUcVm>();
-            InitializeTableItems();
             _saveAndLoad = new XmlManager(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "recordData.xml"));
-            foreach (IBaseRecord tmp in _saveAndLoad.LoadXmlFile())
-            {
-                SelectedPeriod = 0;
-                SavedRecordList.Add(new TableItemUcVm(tmp));
-                ShowStatistics();
-            }
-            MessagingCenter.Subscribe<TableItemUcVm>(this, "Add", (item) =>
-            {
-                SelectedPeriod = 0;
-                SavedRecordList.Add(item);
-                _saveAndLoad.AppendXmlFile(item.Record);
-                ShowStatistics();
-            });
+            LoadRecordsAsync();
+            MessagingCenter.Subscribe<TableItemUcVm>(this, "Add", PersistAdd);
+            MessagingCenter.Subscribe<TableItemUcVm, TableItemUcVm>(this, "Modify", PersistModify);
+            MessagingCenter.Subscribe<TableItemUcVm>(this, "Remove", PersistRemove);
+            MessagingCenter.Subscribe<IBaseRecord>(this, "ClearRecords", ClearAll);
+        }
 
-            MessagingCenter.Subscribe<TableItemUcVm>(this, "Remove", (item) =>
+        private void ClearAll(IBaseRecord rec)
+        {
+            _saveAndLoad.CreateNewXmlFile();
+            SavedRecordList.Clear();
+            RecordList.Clear();
+        }
+
+        private async void LoadRecordsAsync()
+        {
+            await Task.Factory.StartNew(() =>
             {
-                SelectedPeriod = 0;
-                SavedRecordList.Remove(item);
-                _saveAndLoad.RemoveXmlRecord(item.Record);
-                ShowStatistics();
-            });
-            MessagingCenter.Subscribe<TableItemUcVm, TableItemUcVm>(this, "Modify", (find,modify) =>
-            {
-                SelectedPeriod = 0;
-                for (int i = 0; i< SavedRecordList.Count;i++)
+                foreach (IBaseRecord tmp in _saveAndLoad.LoadXmlFile())
                 {
-                    if (SavedRecordList[i] == find)
-                    {
-                        SavedRecordList[i] = modify;
-                    }
+                    SelectedPeriod = 0;
+                    SavedRecordList.Add(new TableItemUcVm(tmp));
                 }
-                ShowStatistics();
+                ClearAndWriteStatistics();
             });
+        }
+
+        private void PersistModify(TableItemUcVm find, TableItemUcVm modify)
+        {
+            SelectedPeriod = 0;
+            for (int i = 0; i < SavedRecordList.Count; i++)
+            {
+                if (SavedRecordList[i] == find)
+                {
+                    _saveAndLoad.EditXmlRecord(SavedRecordList[i].Record, modify.Record);
+                    SavedRecordList[i] = modify;
+                }
+            }
+            ((MasterDetailPage)Application.Current.MainPage).Detail = MainPage.TableTab;
+            ClearAndWriteStatistics();
+        }
+
+        private void PersistRemove(TableItemUcVm item)
+        {
+            SelectedPeriod = 0;
+            SavedRecordList.Remove(item);
+            _saveAndLoad.RemoveXmlRecord(item.Record);
+            ClearAndWriteStatistics();
+        }
+
+        private void PersistAdd(TableItemUcVm item)
+        {
+            SelectedPeriod = 0;
+            SavedRecordList.Add(item);
+            _saveAndLoad.AppendXmlFile(item.Record);
+            ClearAndWriteStatistics();
+        }
+
+        private void ShowStatistics()
+        {
+            Application.Current.MainPage.DisplayAlert(AppResource.Statistics, AppResource.AveragePricePerHour+": "+ _averagePricePerHour + 
+                                                                              "\n"+AppResource.Bonuses+": "+BonusTogether+
+                                                                              "\n"+AppResource.VacationDays+": "+_vacationDays+
+                                                                              "\n"+AppResource.TotalOvertimePrice+": "+_totalOvertimePrice+
+                                                                              "\n"+AppResource.TotalOvertimeHours+": "+_totalOvertimeHours, AppResource.CancelButton);
         }
 
         private void ClearUp()
@@ -146,11 +205,16 @@ namespace Manager.ViewModels
             DatesFounded = 0;
             WorkHours = new WorkTime();
             PiecesTogether = 0;
+            _vacationDays = 0;
             BonusTogether = 0;
+            _averagePricePerHour = 0;
+            _totalPriceForHourType = 0;
             PriceTogether = 0;
+            _totalOvertimePrice = 0;
+            _totalOvertimeHours = new WorkTime();
         }
 
-        public void ShowStatistics()
+        public void ClearAndWriteStatistics()
         {
             ClearUp();
             RecordList.Clear();
@@ -163,16 +227,16 @@ namespace Manager.ViewModels
                     }
                     break;
                 case (int)ESelectedStage.LastWeek:
-                    Week(DateTime.Now.AddDays(-7), SavedRecordList);
+                    Week(DateTime.Today.AddDays(-7), SavedRecordList);
                     break;
                 case (int)ESelectedStage.LastMonth:
-                    Month(SavedRecordList, DateTime.Now.Month - 1);
+                    Month(SavedRecordList, DateTime.Today.Month - 1);
                     break;
                 case (int)ESelectedStage.Week:
-                    Week(DateTime.Now, SavedRecordList);
+                    Week(DateTime.Today, SavedRecordList);
                     break;
                 case (int)ESelectedStage.Month:
-                    Month(SavedRecordList, DateTime.Now.Month);
+                    Month(SavedRecordList, DateTime.Today.Month);
                     break;
                 case (int)ESelectedStage.Year:
                     Year(SavedRecordList);
@@ -187,6 +251,7 @@ namespace Manager.ViewModels
                     Year(SelectVacations(SavedRecordList));
                     break;
             }
+            _averagePricePerHour = Math.Round(_totalPriceForHourType / (WorkHours.Hours + WorkHours.Minutes/60.0), 2);
         }
 
         private ObservableCollection<TableItemUcVm> SelectVacations(IReadOnlyCollection<TableItemUcVm> records)
@@ -224,7 +289,7 @@ namespace Manager.ViewModels
         {
             foreach (TableItemUcVm rec in records)
             {
-                if (rec.Record.Date.Month == month && rec.Record.Date.Year == DateTime.Now.Year)
+                if (rec.Record.Date.Month == month && rec.Record.Date.Year == DateTime.Today.Year)
                 {
                     CalcAndSet(rec);
                 }
@@ -234,7 +299,7 @@ namespace Manager.ViewModels
         {
             foreach (TableItemUcVm rec in records)
             {
-                if (rec.Record.Date.Year == DateTime.Now.Year)
+                if (rec.Record.Date.Year == DateTime.Today.Year)
                 {
                     CalcAndSet(rec);
                 }
@@ -248,7 +313,7 @@ namespace Manager.ViewModels
             switch (rec.Record.Type)
             {
                 case ERecordType.Hours:
-                    WorkHours += ((IHoursRecord) rec.Record).Time;
+                    SetHoursStats((IHoursRecord)rec.Record);
                     break;
                 case ERecordType.Pieces:
                     PiecesTogether += ((IPiecesRecord)rec.Record).Pieces;
@@ -256,20 +321,28 @@ namespace Manager.ViewModels
             }
             if (rec.Record.Type != ERecordType.Vacation)
             {
-                BonusTogether += ((IRecord)rec.Record).Bonus;
-                Double.TryParse(rec.Record.TotalPrice, out double price);
+                BonusTogether += ((IRecord) rec.Record).Bonus;
+                double.TryParse(rec.Record.TotalPrice, NumberStyles.Any, CultureInfo.InvariantCulture,
+                    out double price);
+                if (rec.Record.Type == ERecordType.Hours)
+                {
+                    _totalPriceForHourType += price;
+                }
                 PriceTogether += price;
             }
+            else
+            {
+                _vacationDays++;
+            }
+            
         }
 
-        private void InitializeTableItems()
+        private void SetHoursStats(IHoursRecord rec)
         {
-            SavedRecordList.Add(new TableItemUcVm(new PiecesRecord(DateTime.Now, 10, 10, 10,"Description 1",false)));
-            SavedRecordList.Add(new TableItemUcVm(new HoursRecord(DateTime.Now, 10, 10, 10, 10,"Description 2",true)));
-            SavedRecordList.Add(new TableItemUcVm(new VacationRecord(DateTime.Now, "Description 3Description 3Description 3Description 3Description 3Description 3Description 3Description 3")));
+            WorkHours += rec.Time + rec.OverTime;
+            _totalOvertimeHours += rec.OverTime;
+            _totalOvertimePrice += rec.OverTime.Hours * rec.Price+(rec.OverTime.Minutes/60.0)*rec.Price;
         }
-
-        
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

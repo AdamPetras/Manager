@@ -8,6 +8,7 @@
                 xmlns:views="clr-namespace:Manager.Views"
                 xmlns:viewModels="clr-namespace:Manager.ViewModels"
                 xmlns:manager="clr-namespace:Manager"
+                xmlns:resource="clr-namespace:Manager.Resources;assembly=Manager"
                 mc:Ignorable="d"
                 d:DataContext="{d:DesignInstance viewModels:MainPageVm}"
                 Title="Work manager">
@@ -25,9 +26,10 @@
         <ContentPage Title="Master">
             <ContentPage.Content>
                 <StackLayout Margin="5,30,5,5">
-                    <Button Text = "Add record" Clicked="ButtonAddPageClicked"/>
-                    <Button Text = "Table" Clicked="ButtonTablePageClicked"/>
-                    <Button Text = "About" Clicked="ButtonAboutPageClicked"/>
+                    <Button Text = "{x:Static resource:AppResource.AddRecordTab}" Clicked="ButtonAddPageClicked"/>
+                    <Button Text = "{x:Static resource:AppResource.TableTab}" Clicked="ButtonTablePageClicked"/>
+                    <Button Text = "{x:Static resource:AppResource.SettingsTab}" Clicked="ButtonSettingsPageClicked"/>
+                    <Button Text = "{x:Static resource:AppResource.AboutTab}" Clicked="ButtonAboutPageClicked"/>
                 </StackLayout>
             </ContentPage.Content>
         </ContentPage>

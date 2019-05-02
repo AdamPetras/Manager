@@ -2,10 +2,13 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Manager.Annotations;
+using Manager.Model;
 using Manager.Model.Enums;
 using Manager.Model.Interfaces;
+using Manager.Resources;
 using Manager.Views;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace Manager.ViewModels
 {
@@ -42,9 +45,9 @@ namespace Manager.ViewModels
             More = new Command<TableItemUcVm>(MoreInformationRecord);
             Delete = new Command<TableItemUcVm>(RemoveRecord);
             Modify = new Command<TableItemUcVm>(ModifyRecord);
-            if (rec.Type != ERecordType.Vacation && rec.Type != ERecordType.None)
+            if (rec.Type == ERecordType.Hours)
             {
-                if (((IRecord) rec).IsOverTime)
+                if (((IHoursRecord) rec).OverTime != new WorkTime())
                     IsOverTimeColor = Color.Red;
             }
             _record = rec;
@@ -54,18 +57,16 @@ namespace Manager.ViewModels
         {
             MessagingCenter.Send(new TableItemUcVm(new NoneRecord()), "ModifyItem");
             if (item.Record.Type == ERecordType.Vacation)
-                Application.Current.MainPage.DisplayAlert("Info", "Date: " + item.Record.DateString+"\nVACATION!" + "\nDescription:\n" + item.Record.Description, "OK");
+                Application.Current.MainPage.DisplayAlert("Info", AppResource.Date+": " + item.Record.DateString+"\n"+AppResource.VacationType+"!" + "\n"+AppResource.Description+":\n" + item.Record.Description, AppResource.Ok);
             if (item.Record.Type == ERecordType.Hours)
             {
                 IHoursRecord rec = (IHoursRecord) item.Record;
-                string overTime = rec.IsOverTime ? "Yes" : "No";
-                Application.Current.MainPage.DisplayAlert("Info", "Date: \t\t\t\t\t\t\t" + rec.DateString+ "\nHours: \t\t\t\t\t\t" + rec.Time+ "\nPrice per hour: \t"+rec.Price+ "\nBonus: \t\t\t\t\t\t" + rec.Bonus+ "\nTotal price: \t\t\t" + rec.TotalPrice+ "\nOvertime:\t\t\t\t\t" + overTime + "\nDescription:\n" + rec.Description, "OK");
+                Application.Current.MainPage.DisplayAlert("Info", AppResource.Date + ": " + rec.DateString+ "\n"+AppResource.HoursAndMinutes+": " + rec.Time+ "\n"+AppResource.PricePerHour+": "+rec.Price+ "\n"+AppResource.Bonus+": " + rec.Bonus+ "\n"+AppResource.TotalPrice+": " + rec.TotalPrice+ "\n"+AppResource.OverTime+": " + rec.OverTime + "\n"+AppResource.Description+":\n" + rec.Description, AppResource.Ok);
             }
             else if (item.Record.Type == ERecordType.Pieces)
             {
                 IPiecesRecord rec = (IPiecesRecord)item.Record;
-                string overTime = rec.IsOverTime ? "Yes" : "No";
-                Application.Current.MainPage.DisplayAlert("Info", "Date: \t\t\t\t\t\t\t\t" + rec.DateString + "\nPieces: \t\t\t\t\t\t\t" + rec.Pieces+ "\nPrice per piece: \t" + rec.Price + "\nBonus: \t\t\t\t\t\t\t" + rec.Bonus + "\nTotal price: \t\t\t\t" + rec.TotalPrice + "\nOvertime:\t\t\t\t\t" + overTime + "\nDescription:\n" + rec.Description, "OK");
+                Application.Current.MainPage.DisplayAlert("Info", AppResource.Date + ": " + rec.DateString + "\n"+AppResource.Pieces+": " + rec.Pieces+ "\n"+AppResource.PricePerPiece+": " + rec.Price + "\nBonus: " + rec.Bonus + "\n" + AppResource.TotalPrice + ": " + rec.TotalPrice + "\n" + AppResource.Description + ":\n" + rec.Description, AppResource.Ok);
             }
         }
 
@@ -75,10 +76,13 @@ namespace Manager.ViewModels
             ((MasterDetailPage) Application.Current.MainPage).Detail = MainPage.AddTab;
         }
 
-        private void RemoveRecord(TableItemUcVm item)
+        private async void RemoveRecord(TableItemUcVm item)
         {
-            MessagingCenter.Send(new TableItemUcVm(new NoneRecord()), "ModifyItem");
-            MessagingCenter.Send(item, "Remove");
+            if (await Application.Current.MainPage.DisplayAlert(AppResource.DialogRemoveTitle, AppResource.DialogRemoveMessage, AppResource.Yes, AppResource.No))
+            {
+                MessagingCenter.Send(new TableItemUcVm(new NoneRecord()), "ModifyItem");
+                MessagingCenter.Send(item, "Remove");
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

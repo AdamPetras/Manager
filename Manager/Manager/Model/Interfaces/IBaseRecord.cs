@@ -11,5 +11,6 @@ namespace Manager.Model.Interfaces
         ERecordType Type { get; set; }
         string TotalPrice { get; }
         string Description { get; set; }
+        string GetRecordType { get; }
     }
 }

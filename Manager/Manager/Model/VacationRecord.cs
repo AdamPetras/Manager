@@ -2,6 +2,7 @@
 using Manager.Extensions;
 using Manager.Model.Enums;
 using Manager.Model.Interfaces;
+using Manager.Resources;
 
 namespace Manager.Model
 {
@@ -13,13 +14,15 @@ namespace Manager.Model
         public string DateString => Date.GetDateWithoutTime();
         public string TotalPrice => "VACATION";
         public string Description { get; set; }
+        public string GetRecordType { get; }
 
         public VacationRecord(DateTime date, string description)
         {
             Id = Guid.NewGuid();
             Date = date;
-            Description = description;
+            Description = description ?? "";
             Type = ERecordType.Vacation;
+            GetRecordType = AppResource.VacationType;
         }
 
         public static bool operator ==(VacationRecord obj1, VacationRecord obj2)

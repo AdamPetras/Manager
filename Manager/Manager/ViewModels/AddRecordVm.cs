@@ -1,20 +1,20 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Manager.Annotations;
 using Manager.Model;
 using Manager.Model.Enums;
 using Manager.Model.Interfaces;
-using Manager.SaveManagement;
+using Manager.Resources;
 using Xamarin.Forms;
+
 
 namespace Manager.ViewModels
 {
-    public class AddRecordVm :INotifyPropertyChanged
+    public class AddRecordVm : INotifyPropertyChanged
     {
         private DateTime _date;
         private DateTime _dateTo;
@@ -27,19 +27,12 @@ namespace Manager.ViewModels
         private string _buttonText;
         private string _description;
         private TableItemUcVm _modifying;
-        private bool _isOverTime;
+        private bool _isCancelModifyVisible;
+        private int _buttonAddColumnSpan;
+        private uint _overTimeHours;
+        private uint _overTimeMinutes;
         public ICommand ButtonAdd { get; }
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public bool IsOverTime
-        {
-            get => _isOverTime;
-            set
-            {
-                _isOverTime = value;
-                OnPropertyChanged(nameof(IsOverTime));
-            }
-        }
 
         public string Description
         {
@@ -49,7 +42,7 @@ namespace Manager.ViewModels
                 _description = value;
                 OnPropertyChanged(nameof(Description));
             }
-    }
+        }
 
         public string ButtonText
         {
@@ -135,7 +128,7 @@ namespace Manager.ViewModels
             }
         }
 
-        
+
         public double Price
         {
             get => _price;
@@ -150,110 +143,209 @@ namespace Manager.ViewModels
         {
             get => _pieces;
             set
-            {                
+            {
                 _pieces = value;
                 OnPropertyChanged(nameof(Pieces));
             }
         }
 
-        public ObservableCollection<string> PickerRecordTypes { get; } = new ObservableCollection<string>(Enum.GetNames(typeof(ERecordType)).Where(s=>s != "None"));
+        public ObservableCollection<string> PickerRecordTypes { get; } =
+            new ObservableCollection<string>()
+
+            {
+                AppResource.HoursType,
+                AppResource.PiecesType,
+                AppResource.VacationType
+            };
+
+        public bool IsCancelModifyVisible
+        {
+            get => _isCancelModifyVisible;
+            set
+            {
+                _isCancelModifyVisible = value;
+                OnPropertyChanged(nameof(IsCancelModifyVisible));
+            }
+        }
+
+        public Command CancelModify { get; }
+
+        public int ButtonAddColumnSpan
+        {
+            get => _buttonAddColumnSpan;
+            set
+            {
+                _buttonAddColumnSpan = value;
+                OnPropertyChanged(nameof(ButtonAddColumnSpan));
+            }
+        }
+
+        public uint OverTimeHours
+        {
+            get => _overTimeHours;
+            set
+            {
+                if (value > 23)
+                    value = 23;
+                _overTimeHours = value;
+                OnPropertyChanged(nameof(OverTimeHours));
+            }
+        }
+
+        public uint OverTimeMinutes
+        {
+            get => _overTimeMinutes;
+            set
+            {
+                if (value > 59)
+                    value = 59;
+                _overTimeMinutes = value;
+                OnPropertyChanged(nameof(OverTimeMinutes));
+            }
+        }
 
 
         public AddRecordVm()
         {
-            ButtonText = "Add";
-            _date = DateTime.Now;
-            _dateTo = DateTime.Now;
+            ButtonText = AppResource.AddButton;
+            _date = DateTime.Today;
+            _dateTo = DateTime.Today;
             ButtonAdd = new Command(AddButtonCommand);
+            CancelModify = new Command(ClearModifyProperty);
+            SetButtonCancelModifyVisible(false);
+            MessagingCenter.Subscribe<TableItemUcVm>(this, "ModifyItem", SetupModifyAction);
+            ClearValues();
+        }
 
-            MessagingCenter.Subscribe<TableItemUcVm>(this, "ModifyItem", (modifer) =>
+        private void SetupModifyAction(TableItemUcVm modifer)
+        {
+            _modifying = modifer;
+            if (modifer != null)
             {
-                _modifying = modifer;
-                if (modifer != null)
+                if (modifer.Record.Type != ERecordType.None)
                 {
-                    if (modifer.Record.Type != ERecordType.None)
+                    Date = modifer.Record.Date;
+                    ButtonText = AppResource.ModifyButton;
+                    SetButtonCancelModifyVisible();
+                    switch (modifer.Record.Type)
                     {
-                        Date = modifer.Record.Date;
-                        if (modifer.Record.Type == ERecordType.Vacation)
-                        {
+                        case ERecordType.Vacation:
                             SelectedPicker = (int) ERecordType.Vacation;
                             return;
-                        }
-
-                        if (modifer.Record.Type == ERecordType.Hours)
-                        {
+                        case ERecordType.Hours:
                             Hours = ((IHoursRecord) modifer.Record).Time.Hours;
                             Minutes = ((IHoursRecord) modifer.Record).Time.Minutes;
                             SelectedPicker = (int) ERecordType.Hours;
-                        }
-                        else if (modifer.Record.Type == ERecordType.Pieces)
-                        {
+                            break;
+                        case ERecordType.Pieces:
                             Pieces = ((IPiecesRecord) modifer.Record).Pieces;
                             SelectedPicker = (int) ERecordType.Pieces;
-                        }
-
-                        Price = ((IRecord) modifer.Record).Price;
-                        Bonus = ((IRecord) modifer.Record).Bonus;
-                        ButtonText = "Modify";
+                            break;
                     }
-                    else
-                        ButtonText = "Add";
+                    Price = ((IRecord) modifer.Record).Price;
+                    Bonus = ((IRecord) modifer.Record).Bonus;
                 }
-            });
+                else
+                {
+                    SetButtonCancelModifyVisible(false);
+                    _modifying = null;
+                    ClearValues();
+                    ButtonText = AppResource.AddButton;
+                }
+            }
+        }
+
+        private void ClearValues()
+        {
+            SelectedPicker = 0;
+            Date = DateTime.Today;
+            Description = "";
+            Hours = 0;
+            Minutes = 0;
+            Pieces = 0;
+            Price = 0;
+            DateTo = DateTime.Today;
+            Bonus = 0;
+            OverTimeHours = 0;
+            OverTimeMinutes = 0;
+        }
+
+        private void SetButtonCancelModifyVisible(bool visible = true)
+        {
+            IsCancelModifyVisible = visible;
+            ButtonAddColumnSpan = SetTermPickerColumnSpan(visible);
+        }
+
+        private int SetTermPickerColumnSpan(bool isButtonVisible)
+        {
+            return isButtonVisible ? 3 : 5;
+        }
+
+        private void ClearModifyProperty()
+        {
+            SetupModifyAction(new TableItemUcVm(new NoneRecord()));
         }
 
         private void AddButtonCommand()
         {
-            string str = "";
-            if (_modifying == null)
-            {
-                str = "added";
-                AddRecords();
-            }
-            else
-            {
-                str = "modified";
-                MessagingCenter.Send(_modifying, "Modify",
-                    new TableItemUcVm(new HoursRecord(Date, Hours, Minutes, Price, Bonus, Description, IsOverTime)));
-                _modifying = null;
-            }
-            Application.Current.MainPage.DisplayAlert("Info", "Record has been "+str+".", "OK");
+            Application.Current.MainPage.DisplayAlert("Info", "Record has been " + AddOrModifyRecord() + ".", "OK");
+            ClearValues();
         }
 
-
-        private void AddRecords()
+        private string AddOrModifyRecord()
         {
-            IBaseRecord rec;
+            if (_modifying == null)
+            {
+                Add();
+                return "added";
+            }
+            Modify();
+            return "modified";
+        }
+
+        private void Add()
+        {
+            IBaseRecord[] records = CreateRecords();
+            foreach (IBaseRecord rec in records)
+            {
+                MessagingCenter.Send(new TableItemUcVm(rec), "Add");
+            }
+        }
+
+        private void Modify()
+        {
+            IBaseRecord[] records = CreateRecords();
+            if (records.Length == 1)
+                MessagingCenter.Send(_modifying, "Modify", new TableItemUcVm(records[0]));
+            _modifying = null;
+            ButtonText = AppResource.AddButton;
+            SetButtonCancelModifyVisible(false);
+        }
+
+        private IBaseRecord[] CreateRecords()
+        {
             switch (SelectedPicker)
             {
                 case (int)ERecordType.Hours:
-                    rec = new HoursRecord(Date, Hours, Minutes, Price, Bonus, Description, IsOverTime);
-                    CallAddMethod(rec);
-                    break;
+                    return new IBaseRecord[] {new HoursRecord(Date, Hours, Minutes, Price, Bonus, Description, OverTimeHours,OverTimeMinutes)};
                 case (int)ERecordType.Pieces:
-                    rec = new PiecesRecord(Date, Pieces, Price, Bonus, Description, IsOverTime);
-                    CallAddMethod(rec);
-                    break;
+                    return new IBaseRecord[] {new PiecesRecord(Date, Pieces, Price, Bonus, Description)};
                 default:
-                    AddVacationRecord();
-                    break;
+                    return AddVacationRecords();
             }
         }
 
-        private void CallAddMethod(IBaseRecord rec)
-        {
-            MessagingCenter.Send(new TableItemUcVm(rec), "Add");
-        }
-
-        private void AddVacationRecord()
+        private IBaseRecord[] AddVacationRecords()
         {
             DateTime tmpDate = Date;
-            while (tmpDate <= DateTo)
+            Debug.WriteLine((int) (DateTo-tmpDate).TotalDays);
+            IBaseRecord[] vacationRecords = new IBaseRecord[(int)(DateTo - tmpDate).TotalDays + 1];
+            for (int i =0;tmpDate <= DateTo;i++)
             {
-                IBaseRecord rec = new VacationRecord(tmpDate, Description);
-                CallAddMethod(rec);
+                vacationRecords[i] = new VacationRecord(tmpDate, Description);
                 tmpDate = tmpDate.AddDays(1);
             }
+            return vacationRecords;
         }
 
         [NotifyPropertyChangedInvocator]

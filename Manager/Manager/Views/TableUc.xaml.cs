@@ -15,7 +15,7 @@ namespace Manager.Views
 
         private void Picker_OnSelectedIndexChanged(object sender, EventArgs e)
         {
-            _context.ShowStatistics();
+            _context.ClearAndWriteStatistics();
         }
     }
 }

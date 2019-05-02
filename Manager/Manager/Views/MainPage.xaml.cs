@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Manager.Views
@@ -8,12 +9,14 @@ namespace Manager.Views
         public static readonly NavigationPage AddTab;
         public static readonly NavigationPage TableTab;
         public static readonly NavigationPage AboutTab;
+        public static readonly NavigationPage SettingsTab;
 
         static MainPage()
         {
             AddTab = new NavigationPage(new AddRecordUc());
             TableTab = new NavigationPage(new TableUc());
             AboutTab = new NavigationPage(new AboutUc());
+            SettingsTab = new NavigationPage(new SettingsUc());
         }
 
         public MainPage()
@@ -24,21 +27,39 @@ namespace Manager.Views
         }
 
 
-        public void ButtonAddPageClicked(object sender, EventArgs e)
+        public async void ButtonAddPageClicked(object sender, EventArgs e)
         {
-            Detail = AddTab;
+            await Task.Factory.StartNew(() =>
+            {
+                Detail = AddTab;
+            });
             IsPresented = false;
         }
 
-        public void ButtonTablePageClicked(object sender, EventArgs e)
+        public async void ButtonTablePageClicked(object sender, EventArgs e)
         {
-            Detail = TableTab;
+            await Task.Factory.StartNew(() =>
+            {
+                Detail = TableTab;
+            });
             IsPresented = false;
         }
 
-        public void ButtonAboutPageClicked(object sender, EventArgs e)
+        public async void ButtonAboutPageClicked(object sender, EventArgs e)
         {
-            Detail = AboutTab;
+            await Task.Factory.StartNew(() =>
+            {
+                Detail = AboutTab;
+            });
+            IsPresented = false;
+        }
+
+        public async void ButtonSettingsPageClicked(object sender, EventArgs e)
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                Detail = SettingsTab;
+            });
             IsPresented = false;
         }
     }

@@ -6,6 +6,7 @@
              xmlns:views="clr-namespace:Manager.Views"
              xmlns:viewModels="clr-namespace:Manager.ViewModels"
              xmlns:converters="clr-namespace:Manager.Converters"
+             xmlns:resource="clr-namespace:Manager.Resources;assembly=Manager"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance viewModels:TableUcVm}">
     <ContentPage.Resources>
@@ -17,18 +18,17 @@
     </ContentPage.Resources>
     <ContentPage.Content>
             <StackLayout VerticalOptions="FillAndExpand">
-            <Picker Margin="10,0,10,0" SelectedIndex ="{Binding SelectedPeriod}"  SelectedIndexChanged="Picker_OnSelectedIndexChanged">
-                    <Picker.Items>
-                        <x:String>All</x:String>
-                        <x:String>Week</x:String>
-                        <x:String>LastWeek</x:String>
-                        <x:String>Month</x:String>
-                        <x:String>LastMonth</x:String>
-                        <x:String>Year</x:String>
-                        <x:String>VacationAll</x:String>
-                        <x:String>VacationYear</x:String>
-                    </Picker.Items>
-                </Picker>
+                <Grid HeightRequest="80">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Picker Margin="10,0,10,0" ItemsSource="{x:Static viewModels:TableUcVm.WorkingTermList}" SelectedIndex ="{Binding SelectedPeriod}"  SelectedIndexChanged="Picker_OnSelectedIndexChanged"/>
+                <Button Text="{x:Static resource:AppResource.MoreButton}" Command="{Binding ShowStatisticsCommand}" Grid.Column="1"/>
+                </Grid>
             <Grid Margin="10,0,10,0">
                     <Grid.RowDefinitions>
                     <RowDefinition Height="20"/>
@@ -36,9 +36,11 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Label Text="Date"  Grid.Row="0" Grid.Column="0"/>
-                <Label Text="Price" Grid.Row="0" Grid.Column="1" HorizontalOptions="End"/>
+                <Label Text="{x:Static resource:AppResource.Date}"  Grid.Row="0" Grid.Column="0"/>
+                <Label Text="{x:Static resource:AppResource.TypeOfWork}" Grid.Row="0" Grid.Column="1" HorizontalOptions="Center"/>
+                <Label Text="{x:Static resource:AppResource.Price}" Grid.Row="0" Grid.Column="2" HorizontalOptions="End"/>
             </Grid>
             <BoxView BackgroundColor="Black" HeightRequest = "1" HorizontalOptions="FillAndExpand"/>
             <ListView Margin="0,0,0,0" HorizontalOptions="Center" ItemsSource="{Binding RecordList}"
@@ -47,9 +49,9 @@
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.ContextActions>
-                                <MenuItem Text="More" Command="{Binding More}" CommandParameter="{Binding .}" />
-                                <MenuItem Text="Modify" Command="{Binding Modify}" CommandParameter="{Binding .}" />
-                                <MenuItem Text="Delete" IsDestructive="true" Command="{Binding Delete}" CommandParameter="{Binding .}" />
+                                <MenuItem Text="{x:Static resource:AppResource.MoreButton}" Command="{Binding More}" CommandParameter="{Binding .}" />
+                                <MenuItem Text="{x:Static resource:AppResource.DeleteButton}" Command="{Binding Delete}" CommandParameter="{Binding .}" />
+                                <MenuItem Text="{x:Static resource:AppResource.ModifyButton}" IsDestructive="true" Command="{Binding Modify}" CommandParameter="{Binding .}" />
                             </ViewCell.ContextActions>
                             <views:TableItemUc/>
                         </ViewCell>
@@ -64,21 +66,18 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1.5*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Label Text="Days" HorizontalOptions="Center"/>
-                <Label Text="Hours" Grid.Row="0" Grid.Column="1" HorizontalOptions="Center"/>
-                <Label Text="Pieces" Grid.Row="0" Grid.Column="2" HorizontalOptions="Center"/>
-                <Label Text="Bonus" Grid.Row="0" Grid.Column="3" HorizontalOptions="Center"/>
-                <Label Text="Price" Grid.Row="0" Grid.Column="4" HorizontalOptions="Center"/>
+                <Label Text="{x:Static resource:AppResource.Days}" HorizontalOptions="Center"/>
+                <Label Text="{x:Static resource:AppResource.HoursAndMinutes}" Grid.Row="0" Grid.Column="1" HorizontalOptions="Center"/>
+                <Label Text="{x:Static resource:AppResource.Pieces}" Grid.Row="0" Grid.Column="2" HorizontalOptions="Center"/>
+                <Label Text="{x:Static resource:AppResource.Price}" Grid.Row="0" Grid.Column="3" HorizontalOptions="Center"/>
                 <Label Text="{Binding DatesFounded}" Grid.Row="1" Grid.Column="0" HorizontalOptions="Center"/>
                 <Label Text="{Binding HoursFounded}" Grid.Row="1" Grid.Column="1" HorizontalOptions="Center"/>
                 <Label Text="{Binding PiecesTogether}" Grid.Row="1" Grid.Column="2" HorizontalOptions="Center"/>
-                <Label Text="{Binding BonusTogether}" Grid.Row="1" Grid.Column="3" HorizontalOptions="Center"/>
-                <Label Text="{Binding PriceTogether}" Grid.Row="1" Grid.Column="4" HorizontalOptions="Center"/>
+                <Label Text="{Binding PriceTogether}" Grid.Row="1" Grid.Column="3" HorizontalOptions="Center"/>
             </Grid>
         </StackLayout>
         </ContentPage.Content>
