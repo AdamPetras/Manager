@@ -10,6 +10,7 @@ namespace Manager.Views
         public static readonly NavigationPage TableTab;
         public static readonly NavigationPage AboutTab;
         public static readonly NavigationPage SettingsTab;
+        public static readonly NavigationPage CalendarTab;
 
         static MainPage()
         {
@@ -17,6 +18,7 @@ namespace Manager.Views
             TableTab = new NavigationPage(new TableUc());
             AboutTab = new NavigationPage(new AboutUc());
             SettingsTab = new NavigationPage(new SettingsUc());
+            CalendarTab = new NavigationPage(new CalendarUc());
         }
 
         public MainPage()
@@ -62,5 +64,15 @@ namespace Manager.Views
             });
             IsPresented = false;
         }
+
+        public async void ButtonCalendarPageClicked(object sender, EventArgs e)
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                Detail = CalendarTab;
+            });
+            IsPresented = false;
+        }
+
     }
 }

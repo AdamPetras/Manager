@@ -3,12 +3,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              x:Class="Manager.Views.SettingsUc"
-             xmlns:views="clr-namespace:Manager.Views"
              xmlns:viewModels="clr-namespace:Manager.ViewModels"
              xmlns:resources="clr-namespace:Manager.Resources;assembly=Manager"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance viewModels:SettingsUcVm}">
-    <StackLayout>
-        <Button Text="{x:Static resources:AppResource.RemoveDatabase}" Command="{Binding ClearAllRecords}"/>
-    </StackLayout>
+    <ContentPage.Content>
+        <StackLayout Margin="10,10,10,10">
+            <Button Text="{x:Static resources:AppResource.RemoveDatabase}" Command="{Binding ClearAllRecords}"/>
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

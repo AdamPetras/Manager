@@ -28,6 +28,7 @@
                 <StackLayout Margin="5,30,5,5">
                     <Button Text = "{x:Static resource:AppResource.AddRecordTab}" Clicked="ButtonAddPageClicked"/>
                     <Button Text = "{x:Static resource:AppResource.TableTab}" Clicked="ButtonTablePageClicked"/>
+                    <Button Text= "{x:Static resource:AppResource.Calendar}" Clicked="ButtonCalendarPageClicked"/>
                     <Button Text = "{x:Static resource:AppResource.SettingsTab}" Clicked="ButtonSettingsPageClicked"/>
                     <Button Text = "{x:Static resource:AppResource.AboutTab}" Clicked="ButtonAboutPageClicked"/>
                 </StackLayout>

@@ -16,7 +16,6 @@ using Manager.Resources;
 using Manager.SaveManagement;
 using Manager.Views;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 
 namespace Manager.ViewModels
 {
@@ -25,7 +24,7 @@ namespace Manager.ViewModels
         
         public event PropertyChangedEventHandler PropertyChanged;
         public ObservableCollection<TableItemUcVm> RecordList { get; private set; } = new ObservableCollection<TableItemUcVm>();
-        private ObservableCollection<TableItemUcVm> SavedRecordList { get; set; }
+        public static ObservableCollection<TableItemUcVm> SavedRecordList { get; set; } = new ObservableCollection<TableItemUcVm>();
         private TableItemUcVm _selectedItem;
         private uint _datesFounded;
         private WorkTime _workHours;
@@ -131,7 +130,6 @@ namespace Manager.ViewModels
         public TableUcVm()
         {
             ShowStatisticsCommand = new Command(ShowStatistics);
-            SavedRecordList = new ObservableCollection<TableItemUcVm>();
             _saveAndLoad = new XmlManager(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "recordData.xml"));
             LoadRecordsAsync();
             MessagingCenter.Subscribe<TableItemUcVm>(this, "Add", PersistAdd);
@@ -251,7 +249,8 @@ namespace Manager.ViewModels
                     Year(SelectVacations(SavedRecordList));
                     break;
             }
-            _averagePricePerHour = Math.Round(_totalPriceForHourType / (WorkHours.Hours + WorkHours.Minutes/60.0), 2);
+            if((WorkHours.Hours + WorkHours.Minutes / 60.0) != 0)
+                _averagePricePerHour = Math.Round(_totalPriceForHourType / (WorkHours.Hours + WorkHours.Minutes/60.0), 2);
         }
 
         private ObservableCollection<TableItemUcVm> SelectVacations(IReadOnlyCollection<TableItemUcVm> records)

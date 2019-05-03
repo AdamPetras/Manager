@@ -19,7 +19,7 @@ namespace Manager.Resources {
     // pomocí nástroje podobného aplikaci ResGen nebo Visual Studio.
     // Chcete-li přidat nebo odebrat člena, upravte souboru .ResX a pak znovu spusťte aplikaci ResGen
     // s parametrem /str nebo znovu sestavte projekt aplikace Visual Studio.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class AppResource {
@@ -97,6 +97,24 @@ namespace Manager.Resources {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný April.
+        /// </summary>
+        public static string April {
+            get {
+                return ResourceManager.GetString("April", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný August.
+        /// </summary>
+        public static string August {
+            get {
+                return ResourceManager.GetString("August", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Average price per hour.
         /// </summary>
         public static string AveragePricePerHour {
@@ -120,6 +138,15 @@ namespace Manager.Resources {
         public static string Bonuses {
             get {
                 return ResourceManager.GetString("Bonuses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Calendar.
+        /// </summary>
+        public static string Calendar {
+            get {
+                return ResourceManager.GetString("Calendar", resourceCulture);
             }
         }
         
@@ -178,6 +205,15 @@ namespace Manager.Resources {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný December.
+        /// </summary>
+        public static string December {
+            get {
+                return ResourceManager.GetString("December", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Delete.
         /// </summary>
         public static string DeleteButton {
@@ -214,6 +250,15 @@ namespace Manager.Resources {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný February.
+        /// </summary>
+        public static string February {
+            get {
+                return ResourceManager.GetString("February", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný hours.
         /// </summary>
         public static string Hours {
@@ -241,6 +286,33 @@ namespace Manager.Resources {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný January.
+        /// </summary>
+        public static string January {
+            get {
+                return ResourceManager.GetString("January", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný July.
+        /// </summary>
+        public static string July {
+            get {
+                return ResourceManager.GetString("July", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný June.
+        /// </summary>
+        public static string June {
+            get {
+                return ResourceManager.GetString("June", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný LastMonth.
         /// </summary>
         public static string LastMonthItem {
@@ -255,6 +327,24 @@ namespace Manager.Resources {
         public static string LastWeekItem {
             get {
                 return ResourceManager.GetString("LastWeekItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný March.
+        /// </summary>
+        public static string March {
+            get {
+                return ResourceManager.GetString("March", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný May.
+        /// </summary>
+        public static string May {
+            get {
+                return ResourceManager.GetString("May", resourceCulture);
             }
         }
         
@@ -300,6 +390,24 @@ namespace Manager.Resources {
         public static string No {
             get {
                 return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný November.
+        /// </summary>
+        public static string November {
+            get {
+                return ResourceManager.GetString("November", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný October.
+        /// </summary>
+        public static string October {
+            get {
+                return ResourceManager.GetString("October", resourceCulture);
             }
         }
         
@@ -372,6 +480,15 @@ namespace Manager.Resources {
         public static string RemoveDatabase {
             get {
                 return ResourceManager.GetString("RemoveDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný September.
+        /// </summary>
+        public static string September {
+            get {
+                return ResourceManager.GetString("September", resourceCulture);
             }
         }
         

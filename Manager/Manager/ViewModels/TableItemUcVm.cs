@@ -53,7 +53,7 @@ namespace Manager.ViewModels
             _record = rec;
         }
 
-        private void MoreInformationRecord(TableItemUcVm item)
+        public void MoreInformationRecord(TableItemUcVm item)
         {
             MessagingCenter.Send(new TableItemUcVm(new NoneRecord()), "ModifyItem");
             if (item.Record.Type == ERecordType.Vacation)

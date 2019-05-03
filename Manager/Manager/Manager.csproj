@@ -45,6 +45,9 @@
     <EmbeddedResource Update="Views\AddRecordUc.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\CalendarUc.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsUc.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

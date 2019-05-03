@@ -129,6 +129,12 @@
   <data name="AllItem" xml:space="preserve">
     <value>Vše</value>
   </data>
+  <data name="April" xml:space="preserve">
+    <value>Duben</value>
+  </data>
+  <data name="August" xml:space="preserve">
+    <value>Srpen</value>
+  </data>
   <data name="AveragePricePerHour" xml:space="preserve">
     <value>Průměrná cena za hodinu</value>
   </data>
@@ -137,6 +143,9 @@
   </data>
   <data name="Bonuses" xml:space="preserve">
     <value>Prémie</value>
+  </data>
+  <data name="Calendar" xml:space="preserve">
+    <value>Kalendář</value>
   </data>
   <data name="CancelButton" xml:space="preserve">
     <value>Ukončit</value>
@@ -156,6 +165,9 @@
   <data name="Days" xml:space="preserve">
     <value>Dny</value>
   </data>
+  <data name="December" xml:space="preserve">
+    <value>Prosinec</value>
+  </data>
   <data name="DeleteButton" xml:space="preserve">
     <value>Smazat</value>
   </data>
@@ -167,6 +179,9 @@
   </data>
   <data name="DialogRemoveTitle" xml:space="preserve">
     <value>Odebrat</value>
+  </data>
+  <data name="February" xml:space="preserve">
+    <value>Únor</value>
   </data>
   <data name="Hours" xml:space="preserve">
     <value>hodin</value>
@@ -180,11 +195,26 @@
   <data name="IsOverTime" xml:space="preserve">
     <value>Je přesčas?</value>
   </data>
+  <data name="January" xml:space="preserve">
+    <value>Leden</value>
+  </data>
+  <data name="July" xml:space="preserve">
+    <value>Červenec</value>
+  </data>
+  <data name="June" xml:space="preserve">
+    <value>Červen</value>
+  </data>
   <data name="LastMonthItem" xml:space="preserve">
     <value>Minulý měsíc</value>
   </data>
   <data name="LastWeekItem" xml:space="preserve">
     <value>Minulý týden</value>
+  </data>
+  <data name="March" xml:space="preserve">
+    <value>Březen</value>
+  </data>
+  <data name="May" xml:space="preserve">
+    <value>Květen</value>
   </data>
   <data name="Minutes" xml:space="preserve">
     <value>minut</value>
@@ -200,6 +230,12 @@
   </data>
   <data name="No" xml:space="preserve">
     <value>Ne</value>
+  </data>
+  <data name="November" xml:space="preserve">
+    <value>Listopad</value>
+  </data>
+  <data name="October" xml:space="preserve">
+    <value>Říjen</value>
   </data>
   <data name="Ok" xml:space="preserve">
     <value>Ok</value>
@@ -224,6 +260,9 @@
   </data>
   <data name="RemoveDatabase" xml:space="preserve">
     <value>Odstranění databáze</value>
+  </data>
+  <data name="September" xml:space="preserve">
+    <value>Září</value>
   </data>
   <data name="SettingsTab" xml:space="preserve">
     <value>Nastavení</value>
