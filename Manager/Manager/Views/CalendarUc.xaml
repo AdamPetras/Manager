@@ -8,7 +8,7 @@
              d:DataContext="{d:DesignInstance viewModels:CalendarUcVm}">
     <ContentPage.Content>
         <StackLayout x:Name="Background" Margin="10,10,10,10">
-            <Picker ItemsSource="{Binding MonthSelect}" SelectedIndexChanged="IndexChanged" SelectedIndex="{Binding SelectedIndex}">
+            <Picker x:Name="PickerMonth" ItemsSource="{Binding MonthSelect}" SelectedIndexChanged="IndexChanged" SelectedIndex="{Binding SelectedIndex}">
             </Picker>
         </StackLayout>
     </ContentPage.Content>

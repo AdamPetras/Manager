@@ -118,5 +118,11 @@ namespace Manager.Views
         {
             return new DateTime(date.Year, date.Month, 1).DayOfWeek;
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            DrawCalendar(2019, PickerMonth.SelectedIndex+1);
+        }
     }
 }
