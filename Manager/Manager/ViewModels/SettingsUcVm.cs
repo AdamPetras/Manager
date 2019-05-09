@@ -10,11 +10,18 @@ namespace Manager.ViewModels
 {
     public class SettingsUcVm
     {
-        public ICommand ClearAllRecords { get; }
+        public ICommand ClearAllRecordsCommand { get; }
+
+        public ICommand SaveSettingsCommand { get; }
 
         public SettingsUcVm()
         {
-            ClearAllRecords = new Command(ClearRecords);
+            SaveSettingsCommand = new Command(SaveSettings);
+            ClearAllRecordsCommand = new Command(ClearRecords);
+        }
+
+        private void SaveSettings()
+        {
         }
 
         public async void ClearRecords()

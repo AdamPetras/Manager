@@ -9,7 +9,30 @@
              d:DataContext="{d:DesignInstance viewModels:SettingsUcVm}">
     <ContentPage.Content>
         <StackLayout Margin="10,10,10,10">
-            <Button Text="{x:Static resources:AppResource.RemoveDatabase}" Command="{Binding ClearAllRecords}"/>
+            <Frame Margin="10,10,10,10" BorderColor ="Black">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Text="Default time" Grid.Column="0" Grid.Row="0" VerticalOptions="Center"/>
+                    <Entry Text="" Placeholder="hours" Grid.Column="1" Grid.Row="0"/>
+                    <Entry Text="" Placeholder="minutes" Grid.Column="2" Grid.Row="0"/>
+                    <Label Text="Default price" Grid.Column="0" Grid.Row="1" VerticalOptions="Center"/>
+                    <Entry Text="" Placeholder="price" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"/>
+                    <Label Text="Default pieces" Grid.Column="0" Grid.Row="2" VerticalOptions="Center"/>
+                    <Entry Text="" Placeholder="pieces" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2"/>
+                    <Button Text="Save" Command="{Binding SaveSettingsCommand}"  Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3"></Button>
+                </Grid>
+            </Frame>
+            <Button Text="{x:Static resources:AppResource.RemoveDatabase}" Command="{Binding ClearAllRecordsCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

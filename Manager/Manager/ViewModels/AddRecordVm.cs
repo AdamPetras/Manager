@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Manager.Annotations;
@@ -214,6 +215,7 @@ namespace Manager.ViewModels
             CancelModify = new Command(ClearModifyProperty);
             SetButtonCancelModifyVisible(false);
             MessagingCenter.Subscribe<TableItemUcVm>(this, "ModifyItem", SetupModifyAction);
+            MessagingCenter.Subscribe<DateTimeAsReference>(this, "SetupDate", SetupDate);
             ClearValues();
         }
 
@@ -334,6 +336,13 @@ namespace Manager.ViewModels
                     return AddVacationRecords();
             }
         }
+
+        private void SetupDate(DateTimeAsReference cal)
+        {
+            Date = cal.Date;
+        }
+
+
 
         private IBaseRecord[] AddVacationRecords()
         {

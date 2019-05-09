@@ -18,14 +18,14 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <Grid Margin="10">
-        <Grid.RowDefinitions> 
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -65,6 +65,6 @@
         <Entry IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Hours}}" Keyboard="Numeric" Text="{Binding OverTimeMinutes}" Grid.Row ="6" Grid.Column="3" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
         <Label IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Hours}}" Text="{x:Static resource:AppResource.Minutes}" Grid.Row ="6" Grid.Column="4" VerticalOptions="End" Margin="0,0,0,10"/>
         <Button IsVisible="{Binding IsCancelModifyVisible}" Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="2"  Text="{x:Static resource:AppResource.CancelModify}" Command="{Binding CancelModify}"/>
-        <Button Text="{Binding ButtonText}" Command="{Binding ButtonAdd}" Grid.Row ="7" Grid.Column="0" Grid.ColumnSpan="{Binding ButtonAddColumnSpan}"/>
+        <Button Text="{Binding ButtonText}" Command="{Binding ButtonAdd}" Grid.Row ="7" Grid.Column="0" Grid.ColumnSpan="{Binding ButtonAddColumnSpan}" VerticalOptions="End"/>
     </Grid>
 </ContentPage>

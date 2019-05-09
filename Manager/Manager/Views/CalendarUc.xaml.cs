@@ -14,20 +14,18 @@ namespace Manager.Views
     {
         private Grid _grid;
         private bool _gridExists;
-
+        private CalendarUcVm _calendarBinding;
         public CalendarUc()
         {
             InitializeComponent();
-            BindingContext = new CalendarUcVm();
+            _calendarBinding = new CalendarUcVm();
+            BindingContext = _calendarBinding;
         }
 
         private void IndexChanged(object sender, EventArgs eventArgs)
         {
-            if (sender is Picker pick)
-            {
-                if (pick.SelectedIndex >= 0 && pick.SelectedIndex <= 11)
-                    DrawCalendar(2019, pick.SelectedIndex + 1);
-            }
+                if (_calendarBinding.SelectedIndex >= 0 && _calendarBinding.SelectedIndex <= 11)
+                    DrawCalendar(_calendarBinding.Year, _calendarBinding.SelectedIndex + 1);
         }
 
         private void DrawCalendar(int year, int month)
@@ -92,10 +90,9 @@ namespace Manager.Views
                 if (TableUcVm.SavedRecordList?.Count>0)
                     foreach (TableItemUcVm tableItem in TableUcVm.SavedRecordList)
                     {
-                        if (tableItem?.Record == null) continue;
-                        if (tableItem.Record.Date.Year == today.Year &&
-                            tableItem.Record.Date.Month == today.Month &&
-                            tableItem.Record.Date.Day == today.Day)
+                        if (tableItem?.Record?.Date.Year == today.Year &&
+                            tableItem?.Record?.Date.Month == today.Month &&
+                            tableItem?.Record?.Date.Day == today.Day)
                         {
                             item = tableItem;
                             bgcol = tableItem.Record.Type == ERecordType.Vacation ? Color.Blue : Color.Green;
@@ -111,9 +108,21 @@ namespace Manager.Views
                 };
                 if (item != null)
                     butt.Command = new Command(()=>item.MoreInformationRecord(butt.Item));
+                else
+                {
+                    butt.Command = new Command(() => ChangeTabToAddRecordAndSetupDate(today));
+                }
+
                 _grid.Children.Add(butt, (i + offset) % 7, (i + offset) / 7 + 1);
             }
         }
+
+        private void ChangeTabToAddRecordAndSetupDate(DateTime today)
+        {
+            ((MasterDetailPage)Application.Current.MainPage).Detail = MainPage.AddTab;
+            MessagingCenter.Send(new DateTimeAsReference(today), "SetupDate");
+        }
+
         private DayOfWeek GetTheFirstDayOfMonth(DateTime date)
         {
             return new DateTime(date.Year, date.Month, 1).DayOfWeek;
@@ -122,7 +131,12 @@ namespace Manager.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            DrawCalendar(2019, PickerMonth.SelectedIndex+1);
+            DrawCalendar(_calendarBinding.Year, _calendarBinding.SelectedIndex+1);
+        }
+
+        private void EntryYear_OnCompleted(object sender, EventArgs e)
+        {
+            DrawCalendar(_calendarBinding.Year, _calendarBinding.SelectedIndex + 1);
         }
     }
 }
