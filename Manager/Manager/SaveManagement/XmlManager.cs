@@ -13,7 +13,7 @@ using Xamarin.Forms;
 
 namespace Manager.SaveManagement
 {
-    public class XmlManager : IXmlManager
+    public class XmlManager : XmlBase, IXmlManager
     {
         private XmlDocument _document;
         private string path;
@@ -255,18 +255,6 @@ namespace Manager.SaveManagement
             uint.TryParse(timeString[0], out uint hours);
             uint.TryParse(timeString[1], out uint minutes);
             return new WorkTime(hours, minutes);
-        }
-
-        public void WriteXmlToConsole()
-        {
-            using (StreamReader reader = new StreamReader(path))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    Console.WriteLine(line);
-                }
-            }
         }
     }
 }

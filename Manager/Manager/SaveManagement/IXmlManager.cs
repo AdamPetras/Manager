@@ -11,6 +11,5 @@ namespace Manager.SaveManagement
         void AppendXmlFile(IBaseRecord rec);
         void EditXmlRecord(IBaseRecord rec, IBaseRecord newRecord);
         List<IBaseRecord> LoadXmlFile();
-        void WriteXmlToConsole();
     }
 }
