@@ -14,10 +14,10 @@ namespace Manager.Views
 
         static MainPage()
         {
+            SettingsTab = new NavigationPage(new SettingsUc());
             AddTab = new NavigationPage(new AddRecordUc());
             TableTab = new NavigationPage(new TableUc());
             AboutTab = new NavigationPage(new AboutUc());
-            SettingsTab = new NavigationPage(new SettingsUc());
             CalendarTab = new NavigationPage(new CalendarUc());
         }
 

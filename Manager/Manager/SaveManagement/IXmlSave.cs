@@ -4,8 +4,8 @@ namespace Manager.SaveManagement
 {
     public interface IXmlSave
     {
-        void CreateXmlFile();
-        void EditXmlRecord();
+        void CreateXmlFile(IReadOnlyCollection<SaveOption> saveList);
+        void EditXml(SaveOption oldOpt, SaveOption newOpt);
         List<SaveOption> LoadXmlFile();
     }
 }

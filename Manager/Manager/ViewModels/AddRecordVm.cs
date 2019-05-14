@@ -10,6 +10,7 @@ using Manager.Model;
 using Manager.Model.Enums;
 using Manager.Model.Interfaces;
 using Manager.Resources;
+using Manager.SaveManagement;
 using Xamarin.Forms;
 
 
@@ -262,10 +263,10 @@ namespace Manager.ViewModels
             SelectedPicker = 0;
             Date = DateTime.Today;
             Description = "";
-            Hours = 0;
-            Minutes = 0;
-            Pieces = 0;
-            Price = 0;
+            Hours = SaveStaticVariables.DefaultHours;
+            Minutes = SaveStaticVariables.DefaultMinutes;
+            Pieces = SaveStaticVariables.DefaultPieces;
+            Price = SaveStaticVariables.DefaultPrice;
             DateTo = DateTime.Today;
             Bonus = 0;
             OverTimeHours = 0;
