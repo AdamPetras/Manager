@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
-using System.Windows.Input;
 using Manager.Model;
 using Manager.Model.Enums;
 using Manager.Model.Interfaces;
@@ -17,7 +15,7 @@ namespace Manager.Views
     {
         private Grid _grid;
         private bool _gridExists;
-        private CalendarUcVm _calendarBinding;
+        private readonly CalendarUcVm _calendarBinding;
         public CalendarUc()
         {
             InitializeComponent();
@@ -51,8 +49,10 @@ namespace Manager.Views
             _gridExists = true;
             for (int i = 0; i < 7; i++)
                 CreateColumnsAndRows(true, 1, GridUnitType.Star);
-            for (int i = 0; i < 6; i++)
-                CreateColumnsAndRows(false, 1, GridUnitType.Star);
+            CreateColumnsAndRows(false, 1, GridUnitType.Star);
+            for (int i = 0; i < 5; i++)
+                    CreateColumnsAndRows(false, 2, GridUnitType.Star);
+
             CreateLabels(AppResource.Monday, AppResource.Tuesday, AppResource.Wednesday, AppResource.Thursday, AppResource.Friday, AppResource.Saturday, AppResource.Sunday);
         }
 

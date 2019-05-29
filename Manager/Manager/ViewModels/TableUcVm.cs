@@ -250,7 +250,7 @@ namespace Manager.ViewModels
                     break;
             }
             if((WorkHours.Hours + WorkHours.Minutes / 60.0) != 0)
-                _averagePricePerHour = Math.Round(_totalPriceForHourType / (WorkHours.Hours + WorkHours.Minutes/60.0), 2);
+                _averagePricePerHour = Math.Round(_totalPriceForHourType / (WorkHours.Hours + WorkHours.Minutes/60.0), 1);
         }
 
         private ObservableCollection<TableItemUcVm> SelectVacations(IReadOnlyCollection<TableItemUcVm> records)
