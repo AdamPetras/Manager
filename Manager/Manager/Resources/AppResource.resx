@@ -123,6 +123,12 @@
   <data name="AddButton" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="Added" xml:space="preserve">
+    <value>Added</value>
+  </data>
+  <data name="AddMessage" xml:space="preserve">
+    <value>Record has been</value>
+  </data>
   <data name="AddRecordTab" xml:space="preserve">
     <value>Add record</value>
   </data>
@@ -168,6 +174,15 @@
   <data name="December" xml:space="preserve">
     <value>December</value>
   </data>
+  <data name="DefaultPieces" xml:space="preserve">
+    <value>Default pieces</value>
+  </data>
+  <data name="DefaultPrice" xml:space="preserve">
+    <value>Default price</value>
+  </data>
+  <data name="DefaultTime" xml:space="preserve">
+    <value>Default time</value>
+  </data>
   <data name="DeleteButton" xml:space="preserve">
     <value>Delete</value>
   </data>
@@ -182,6 +197,9 @@
   </data>
   <data name="February" xml:space="preserve">
     <value>February</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Fri</value>
   </data>
   <data name="Hours" xml:space="preserve">
     <value>hours</value>
@@ -216,8 +234,14 @@
   <data name="Minutes" xml:space="preserve">
     <value>minutes</value>
   </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Modified</value>
+  </data>
   <data name="ModifyButton" xml:space="preserve">
     <value>Modify</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Mon</value>
   </data>
   <data name="MonthItem" xml:space="preserve">
     <value>Month</value>
@@ -258,6 +282,15 @@
   <data name="RemoveDatabase" xml:space="preserve">
     <value>Remove database</value>
   </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Restore Defaults</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Sat</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="September" xml:space="preserve">
     <value>September</value>
   </data>
@@ -267,17 +300,41 @@
   <data name="Statistics" xml:space="preserve">
     <value>Statistics</value>
   </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Sun</value>
+  </data>
   <data name="TableTab" xml:space="preserve">
     <value>Table</value>
   </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Thu</value>
+  </data>
+  <data name="TimeOrPieces" xml:space="preserve">
+    <value>Time/pieces</value>
+  </data>
+  <data name="TotalOvertimeBonuses" xml:space="preserve">
+    <value>Overtime bonusses</value>
+  </data>
+  <data name="TotalOvertimeDays" xml:space="preserve">
+    <value>Overtime days</value>
+  </data>
   <data name="TotalOvertimeHours" xml:space="preserve">
-    <value>Total overtime hours</value>
+    <value>Total overtime</value>
+  </data>
+  <data name="TotalOvertimePieces" xml:space="preserve">
+    <value>Overtime pieces</value>
   </data>
   <data name="TotalOvertimePrice" xml:space="preserve">
     <value>Total overtime price</value>
   </data>
   <data name="TotalPrice" xml:space="preserve">
     <value>Total price</value>
+  </data>
+  <data name="TotalTime" xml:space="preserve">
+    <value>Total time</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Tue</value>
   </data>
   <data name="TypeOfWork" xml:space="preserve">
     <value>Type of work</value>
@@ -294,8 +351,17 @@
   <data name="VacationYearItem" xml:space="preserve">
     <value>VacationYear</value>
   </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Wed</value>
+  </data>
   <data name="WeekItem" xml:space="preserve">
     <value>Week</value>
+  </data>
+  <data name="WrongDateMessage" xml:space="preserve">
+    <value>Date to is earlier than the date from.</value>
+  </data>
+  <data name="WrongDateTitle" xml:space="preserve">
+    <value>Wrong date</value>
   </data>
   <data name="YearItem" xml:space="preserve">
     <value>Year</value>

@@ -18,6 +18,7 @@ namespace Manager.Model
         public ERecordType Type { get; set; }
         public string TotalPrice => Math.Round((Time.Hours * Price + Time.Minutes / 60.0 * Price) + (OverTime.Hours * Price + OverTime.Minutes / 60.0 * Price)+Bonus,1).ToString(CultureInfo.InvariantCulture);
         public string Description { get; set; }
+        public string Value { get; }
         public string GetRecordType { get; }
         public WorkTime Time { get; set; }
         public WorkTime OverTime { get; set; }
@@ -34,6 +35,7 @@ namespace Manager.Model
             OverTime = new WorkTime(overTimeHours,overTimeMinutes);
             Type = ERecordType.Hours;
             GetRecordType = AppResource.HoursType;
+            Value = (Time + OverTime).ToString();
         }
         public HoursRecord(DateTime date, WorkTime time, double price, double bonus, string description, WorkTime overTime) :this(date,time.Hours,time.Minutes,price,bonus, description,overTime.Hours,overTime.Minutes)
         {

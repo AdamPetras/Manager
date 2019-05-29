@@ -79,6 +79,24 @@ namespace Manager.Resources {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Added.
+        /// </summary>
+        public static string Added {
+            get {
+                return ResourceManager.GetString("Added", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Record has been.
+        /// </summary>
+        public static string AddMessage {
+            get {
+                return ResourceManager.GetString("AddMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Add record.
         /// </summary>
         public static string AddRecordTab {
@@ -214,6 +232,33 @@ namespace Manager.Resources {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Default pieces.
+        /// </summary>
+        public static string DefaultPieces {
+            get {
+                return ResourceManager.GetString("DefaultPieces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Default price.
+        /// </summary>
+        public static string DefaultPrice {
+            get {
+                return ResourceManager.GetString("DefaultPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Default time.
+        /// </summary>
+        public static string DefaultTime {
+            get {
+                return ResourceManager.GetString("DefaultTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Delete.
         /// </summary>
         public static string DeleteButton {
@@ -255,6 +300,15 @@ namespace Manager.Resources {
         public static string February {
             get {
                 return ResourceManager.GetString("February", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Fri.
+        /// </summary>
+        public static string Friday {
+            get {
+                return ResourceManager.GetString("Friday", resourceCulture);
             }
         }
         
@@ -358,11 +412,29 @@ namespace Manager.Resources {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Modified.
+        /// </summary>
+        public static string Modified {
+            get {
+                return ResourceManager.GetString("Modified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Modify.
         /// </summary>
         public static string ModifyButton {
             get {
                 return ResourceManager.GetString("ModifyButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Mon.
+        /// </summary>
+        public static string Monday {
+            get {
+                return ResourceManager.GetString("Monday", resourceCulture);
             }
         }
         
@@ -484,6 +556,33 @@ namespace Manager.Resources {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Restore Defaults.
+        /// </summary>
+        public static string RestoreDefaults {
+            get {
+                return ResourceManager.GetString("RestoreDefaults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Sat.
+        /// </summary>
+        public static string Saturday {
+            get {
+                return ResourceManager.GetString("Saturday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný September.
         /// </summary>
         public static string September {
@@ -511,6 +610,15 @@ namespace Manager.Resources {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Sun.
+        /// </summary>
+        public static string Sunday {
+            get {
+                return ResourceManager.GetString("Sunday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Table.
         /// </summary>
         public static string TableTab {
@@ -520,11 +628,56 @@ namespace Manager.Resources {
         }
         
         /// <summary>
-        ///   Vyhledá lokalizovaný řetězec podobný Total overtime hours.
+        ///   Vyhledá lokalizovaný řetězec podobný Thu.
+        /// </summary>
+        public static string Thursday {
+            get {
+                return ResourceManager.GetString("Thursday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Time/pieces.
+        /// </summary>
+        public static string TimeOrPieces {
+            get {
+                return ResourceManager.GetString("TimeOrPieces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Overtime bonusses.
+        /// </summary>
+        public static string TotalOvertimeBonuses {
+            get {
+                return ResourceManager.GetString("TotalOvertimeBonuses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Overtime days.
+        /// </summary>
+        public static string TotalOvertimeDays {
+            get {
+                return ResourceManager.GetString("TotalOvertimeDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Total overtime.
         /// </summary>
         public static string TotalOvertimeHours {
             get {
                 return ResourceManager.GetString("TotalOvertimeHours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Overtime pieces.
+        /// </summary>
+        public static string TotalOvertimePieces {
+            get {
+                return ResourceManager.GetString("TotalOvertimePieces", resourceCulture);
             }
         }
         
@@ -543,6 +696,24 @@ namespace Manager.Resources {
         public static string TotalPrice {
             get {
                 return ResourceManager.GetString("TotalPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Total time.
+        /// </summary>
+        public static string TotalTime {
+            get {
+                return ResourceManager.GetString("TotalTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Tue.
+        /// </summary>
+        public static string Tuesday {
+            get {
+                return ResourceManager.GetString("Tuesday", resourceCulture);
             }
         }
         
@@ -592,11 +763,38 @@ namespace Manager.Resources {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Wed.
+        /// </summary>
+        public static string Wednesday {
+            get {
+                return ResourceManager.GetString("Wednesday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Week.
         /// </summary>
         public static string WeekItem {
             get {
                 return ResourceManager.GetString("WeekItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Date to is earlier than the date from..
+        /// </summary>
+        public static string WrongDateMessage {
+            get {
+                return ResourceManager.GetString("WrongDateMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Wrong date.
+        /// </summary>
+        public static string WrongDateTitle {
+            get {
+                return ResourceManager.GetString("WrongDateTitle", resourceCulture);
             }
         }
         

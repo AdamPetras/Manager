@@ -11,10 +11,12 @@ namespace Manager.Model.Interfaces
         public ERecordType Type { get; set; }
         public string TotalPrice { get; }
         public string Description { get; set; }
+        public string Value { get; }
         public string GetRecordType { get; }
 
         public NoneRecord()
         {
+            Value = "";
             Type = ERecordType.None;
             GetRecordType = "None";
         }

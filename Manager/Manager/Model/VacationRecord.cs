@@ -14,6 +14,7 @@ namespace Manager.Model
         public string DateString => Date.GetDateWithoutTime();
         public string TotalPrice => "VACATION";
         public string Description { get; set; }
+        public string Value { get; }
         public string GetRecordType { get; }
 
         public VacationRecord(DateTime date, string description)
@@ -23,6 +24,7 @@ namespace Manager.Model
             Description = description ?? "";
             Type = ERecordType.Vacation;
             GetRecordType = AppResource.VacationType;
+            Value = "";
         }
 
         public static bool operator ==(VacationRecord obj1, VacationRecord obj2)

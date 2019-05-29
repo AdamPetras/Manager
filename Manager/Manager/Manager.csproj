@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -10,12 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Encryption\**" />
     <Compile Remove="NováSložka1\**" />
-    <Compile Remove="NováSložka\**" />
+    <EmbeddedResource Remove="Encryption\**" />
     <EmbeddedResource Remove="NováSložka1\**" />
-    <EmbeddedResource Remove="NováSložka\**" />
+    <None Remove="Encryption\**" />
     <None Remove="NováSložka1\**" />
-    <None Remove="NováSložka\**" />
   </ItemGroup>
 
   <ItemGroup>

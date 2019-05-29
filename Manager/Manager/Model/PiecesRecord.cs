@@ -17,6 +17,7 @@ namespace Manager.Model
         public ERecordType Type { get; set; }
         public string TotalPrice => Math.Round(Pieces * Price + Bonus,1).ToString(CultureInfo.InvariantCulture);
         public string Description { get; set; }
+        public string Value { get; }
         public string GetRecordType { get; }
 
         public uint Pieces { get; set; }
@@ -31,6 +32,7 @@ namespace Manager.Model
             Description = description ?? "";
             Type = ERecordType.Pieces;
             GetRecordType = AppResource.PiecesType;
+            Value = Pieces.ToString();
         }
 
         public static bool operator ==(PiecesRecord obj1, PiecesRecord obj2)

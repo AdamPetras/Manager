@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Input;
 using Manager.Model;
 using Manager.Model.Enums;
+using Manager.Model.Interfaces;
+using Manager.Resources;
 using Manager.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -24,18 +27,19 @@ namespace Manager.Views
 
         private void IndexChanged(object sender, EventArgs eventArgs)
         {
-                if (_calendarBinding.SelectedIndex >= 0 && _calendarBinding.SelectedIndex <= 11)
-                    DrawCalendar(_calendarBinding.Year, _calendarBinding.SelectedIndex + 1);
+                if (_calendarBinding.SelectedMonth >= 0 && _calendarBinding.SelectedMonth <= 11)
+                    DrawCalendar(_calendarBinding.Year, _calendarBinding.SelectedMonth + 1);
         }
 
         private void DrawCalendar(int year, int month)
         {
+            _calendarBinding.ClearStats();
+            Statistics.Month(TableUcVm.SavedRecordList,month,CalcAndSet);
             if (_gridExists)
             {
                 Background.Children.Remove(_grid);
                 _gridExists = false;
             }
-
             DrawCalendarHeader();
             DrawMonthAsCalendar(year, month);
             Background.Children.Add(_grid);
@@ -49,7 +53,7 @@ namespace Manager.Views
                 CreateColumnsAndRows(true, 1, GridUnitType.Star);
             for (int i = 0; i < 6; i++)
                 CreateColumnsAndRows(false, 1, GridUnitType.Star);
-            CreateLabels("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
+            CreateLabels(AppResource.Monday, AppResource.Tuesday, AppResource.Wednesday, AppResource.Thursday, AppResource.Friday, AppResource.Saturday, AppResource.Sunday);
         }
 
         private void CreateLabels(params string[] days)
@@ -85,7 +89,7 @@ namespace Manager.Views
             for (int i = 0; i < DateTime.DaysInMonth(year, month); i++)
             {
                 DateTime today = new DateTime(year,month,i+1);
-                Color bgcol = Color.Gray;
+                Color backgroundColor = Color.Gray;
                 TableItemUcVm item = null;
                 if (TableUcVm.SavedRecordList?.Count>0)
                     foreach (TableItemUcVm tableItem in TableUcVm.SavedRecordList)
@@ -95,7 +99,7 @@ namespace Manager.Views
                             tableItem?.Record?.Date.Day == today.Day)
                         {
                             item = tableItem;
-                            bgcol = tableItem.Record.Type == ERecordType.Vacation ? Color.Blue : Color.Green;
+                            backgroundColor = tableItem.Record.Type == ERecordType.Vacation ? Color.Blue : Color.Green;
                             break;
                         }
                     }
@@ -103,7 +107,7 @@ namespace Manager.Views
                 CalendarButton butt = new CalendarButton()
                 {
                     Text = (i + 1).ToString(),
-                    BackgroundColor = bgcol,
+                    BackgroundColor = backgroundColor,
                     Item = item
                 };
                 if (item != null)
@@ -131,12 +135,49 @@ namespace Manager.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            DrawCalendar(_calendarBinding.Year, _calendarBinding.SelectedIndex+1);
+            DrawCalendar(_calendarBinding.Year, _calendarBinding.SelectedMonth + 1);
         }
 
         private void EntryYear_OnCompleted(object sender, EventArgs e)
         {
-            DrawCalendar(_calendarBinding.Year, _calendarBinding.SelectedIndex + 1);
+            DrawCalendar(_calendarBinding.Year, _calendarBinding.SelectedMonth + 1);
         }
+
+        private void CalcAndSet(TableItemUcVm rec)
+        {
+            _calendarBinding.TotalDays++;
+            switch (rec.Record.Type)
+            {
+                case ERecordType.Hours:
+                    SetHoursStats((IHoursRecord)rec.Record);
+                    break;
+                case ERecordType.Pieces:
+                    _calendarBinding.TotalPieces += ((IPiecesRecord)rec.Record).Pieces;
+                    break;
+            }
+            if (rec.Record.Type != ERecordType.Vacation)
+            {
+                _calendarBinding.TotalBonus += ((IRecord)rec.Record).Bonus;
+                double.TryParse(rec.Record.TotalPrice, NumberStyles.Any, CultureInfo.InvariantCulture,
+                    out double price);
+                /*if (rec.Record.Type == ERecordType.Hours)
+                {
+                    _totalPriceForHourType += price;
+                }*/
+                _calendarBinding.TotalPrice += price;
+            }
+            else
+            {
+                _calendarBinding.VacationDays++;
+            }
+        }
+
+        private void SetHoursStats(IHoursRecord rec)
+        {
+            _calendarBinding.TotalTime += rec.Time + rec.OverTime;
+            /*_totalOvertimeHours += rec.OverTime;
+            _totalOvertimePrice += rec.OverTime.Hours * rec.Price + (rec.OverTime.Minutes / 60.0) * rec.Price;*/
+        }
+
     }
 }

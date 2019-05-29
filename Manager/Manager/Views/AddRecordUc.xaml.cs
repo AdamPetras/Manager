@@ -8,10 +8,18 @@ namespace Manager.Views
 {
     public partial class AddRecordUc:ContentPage
     {
+        private AddRecordVm _addRecord;
         public AddRecordUc()
         {
             InitializeComponent();
-            BindingContext = new AddRecordVm();
+            _addRecord = new AddRecordVm();
+            BindingContext = _addRecord;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _addRecord.ReloadConfigValues();
         }
     }
 }

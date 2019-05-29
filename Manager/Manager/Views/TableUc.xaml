@@ -37,10 +37,12 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Text="{x:Static resource:AppResource.Date}"  Grid.Row="0" Grid.Column="0"/>
                 <Label Text="{x:Static resource:AppResource.TypeOfWork}" Grid.Row="0" Grid.Column="1" HorizontalOptions="Center"/>
-                <Label Text="{x:Static resource:AppResource.Price}" Grid.Row="0" Grid.Column="2" HorizontalOptions="End"/>
+                <Label Text="{x:Static resource:AppResource.TimeOrPieces}" Grid.Row="0" Grid.Column="2" HorizontalOptions="Center"/>
+                <Label Text="{x:Static resource:AppResource.Price}" Grid.Row="0" Grid.Column="3" HorizontalOptions="End"/>
             </Grid>
             <BoxView BackgroundColor="Black" HeightRequest = "1" HorizontalOptions="FillAndExpand"/>
             <ListView Margin="0,0,0,0" HorizontalOptions="Center" ItemsSource="{Binding RecordList}"

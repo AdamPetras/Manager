@@ -225,19 +225,19 @@ namespace Manager.ViewModels
                     }
                     break;
                 case (int)ESelectedStage.LastWeek:
-                    Week(DateTime.Today.AddDays(-7), SavedRecordList);
+                    Statistics.Week(DateTime.Today.AddDays(-7), SavedRecordList,CalcAndSet);
                     break;
                 case (int)ESelectedStage.LastMonth:
-                    Month(SavedRecordList, DateTime.Today.Month - 1);
+                    Statistics.Month(SavedRecordList, DateTime.Today.Month - 1, CalcAndSet);
                     break;
                 case (int)ESelectedStage.Week:
-                    Week(DateTime.Today, SavedRecordList);
+                    Statistics.Week(DateTime.Today, SavedRecordList, CalcAndSet);
                     break;
                 case (int)ESelectedStage.Month:
-                    Month(SavedRecordList, DateTime.Today.Month);
+                    Statistics.Month(SavedRecordList, DateTime.Today.Month, CalcAndSet);
                     break;
                 case (int)ESelectedStage.Year:
-                    Year(SavedRecordList);
+                    Statistics.Year(SavedRecordList, CalcAndSet);
                     break;
                 case (int)ESelectedStage.VacationAll:
                     foreach (TableItemUcVm tmp in SelectVacations(SavedRecordList))
@@ -246,7 +246,7 @@ namespace Manager.ViewModels
                     }
                     break;
                 case (int)ESelectedStage.VacationYear:
-                    Year(SelectVacations(SavedRecordList));
+                    Statistics.Year(SelectVacations(SavedRecordList), CalcAndSet);
                     break;
             }
             if((WorkHours.Hours + WorkHours.Minutes / 60.0) != 0)
@@ -256,53 +256,6 @@ namespace Manager.ViewModels
         private ObservableCollection<TableItemUcVm> SelectVacations(IReadOnlyCollection<TableItemUcVm> records)
         {
             return new ObservableCollection<TableItemUcVm>(records.Where(s => s.Record.Type == ERecordType.Vacation).ToList());
-        }
-
-        private Tuple<DateTime, DateTime> GetStartAndEndOfTheWeek(DateTime now)
-        {
-            while (now.DayOfWeek != DayOfWeek.Monday)  //iterace dokud nenarazím na pondìlí
-            {
-                now = now.AddDays(-1);
-            }
-            if (now.DayOfWeek == DayOfWeek.Monday)
-            {
-                now = now.AddDays(-1);
-            }
-            DateTime endDate = now.AddDays(7);
-            return new Tuple<DateTime, DateTime>(now, endDate);
-        }
-
-        private void Week(DateTime startDate, IReadOnlyCollection<TableItemUcVm> records)
-        {
-            Tuple<DateTime, DateTime> dates = GetStartAndEndOfTheWeek(startDate);
-            foreach (TableItemUcVm rec in records)
-            {
-                if ((rec.Record.Date > dates.Item1) && (rec.Record.Date < dates.Item2))
-                {
-                    CalcAndSet(rec);
-                }
-            }
-        }
-
-        private void Month(IReadOnlyCollection<TableItemUcVm> records, int month)
-        {
-            foreach (TableItemUcVm rec in records)
-            {
-                if (rec.Record.Date.Month == month && rec.Record.Date.Year == DateTime.Today.Year)
-                {
-                    CalcAndSet(rec);
-                }
-            }
-        }
-        private void Year(IReadOnlyCollection<TableItemUcVm> records)
-        {
-            foreach (TableItemUcVm rec in records)
-            {
-                if (rec.Record.Date.Year == DateTime.Today.Year)
-                {
-                    CalcAndSet(rec);
-                }
-            }
         }
 
         private void CalcAndSet(TableItemUcVm rec)

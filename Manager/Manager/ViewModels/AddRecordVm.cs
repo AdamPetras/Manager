@@ -71,6 +71,10 @@ namespace Manager.ViewModels
             get => _date;
             set
             {
+                if (DateTo < value)
+                {
+                    DateTo = value;
+                }
                 _date = value;
                 OnPropertyChanged(nameof(Date));
             }
@@ -84,7 +88,7 @@ namespace Manager.ViewModels
                 DateTime tmp = _dateTo;
                 if (value < Date)
                 {
-                    Application.Current.MainPage.DisplayAlert("Wrong date", "Date to is earlier than the date from.",
+                    Application.Current.MainPage.DisplayAlert(AppResource.WrongDateTitle, AppResource.WrongDateMessage,
                         "Ok");
                     DateTo = tmp;
                 }
@@ -258,19 +262,26 @@ namespace Manager.ViewModels
             }
         }
 
+        
+
         private void ClearValues()
         {
             SelectedPicker = 0;
             Date = DateTime.Today;
             Description = "";
-            Hours = SaveStaticVariables.DefaultHours;
-            Minutes = SaveStaticVariables.DefaultMinutes;
-            Pieces = SaveStaticVariables.DefaultPieces;
-            Price = SaveStaticVariables.DefaultPrice;
+            ReloadConfigValues();
             DateTo = DateTime.Today;
             Bonus = 0;
             OverTimeHours = 0;
             OverTimeMinutes = 0;
+        }
+
+        public void ReloadConfigValues()
+        {
+            Hours = SaveStaticVariables.DefaultHours;
+            Minutes = SaveStaticVariables.DefaultMinutes;
+            Pieces = SaveStaticVariables.DefaultPieces;
+            Price = SaveStaticVariables.DefaultPrice;
         }
 
         private void SetButtonCancelModifyVisible(bool visible = true)
@@ -291,7 +302,7 @@ namespace Manager.ViewModels
 
         private void AddButtonCommand()
         {
-            Application.Current.MainPage.DisplayAlert("Info", "Record has been " + AddOrModifyRecord() + ".", "OK");
+            Application.Current.MainPage.DisplayAlert("Info", AppResource.AddMessage +" "+ AddOrModifyRecord() + ".", "OK");
             ClearValues();
         }
 
@@ -300,10 +311,10 @@ namespace Manager.ViewModels
             if (_modifying == null)
             {
                 Add();
-                return "added";
+                return AppResource.Added.ToLower();
             }
             Modify();
-            return "modified";
+            return AppResource.Modified.ToLower();
         }
 
         private void Add()

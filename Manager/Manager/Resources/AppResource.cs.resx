@@ -123,6 +123,12 @@
   <data name="AddButton" xml:space="preserve">
     <value>Přidat</value>
   </data>
+  <data name="Added" xml:space="preserve">
+    <value>Přidán</value>
+  </data>
+  <data name="AddMessage" xml:space="preserve">
+    <value>Záznam byl</value>
+  </data>
   <data name="AddRecordTab" xml:space="preserve">
     <value>Přidat záznam</value>
   </data>
@@ -168,6 +174,15 @@
   <data name="December" xml:space="preserve">
     <value>Prosinec</value>
   </data>
+  <data name="DefaultPieces" xml:space="preserve">
+    <value>Výchozí kusy</value>
+  </data>
+  <data name="DefaultPrice" xml:space="preserve">
+    <value>Výchozí částka</value>
+  </data>
+  <data name="DefaultTime" xml:space="preserve">
+    <value>Výchozí čas</value>
+  </data>
   <data name="DeleteButton" xml:space="preserve">
     <value>Smazat</value>
   </data>
@@ -183,6 +198,9 @@
   <data name="February" xml:space="preserve">
     <value>Únor</value>
   </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Pá</value>
+  </data>
   <data name="Hours" xml:space="preserve">
     <value>hodin</value>
   </data>
@@ -191,9 +209,6 @@
   </data>
   <data name="HoursType" xml:space="preserve">
     <value>Hodinová</value>
-  </data>
-  <data name="IsOverTime" xml:space="preserve">
-    <value>Je přesčas?</value>
   </data>
   <data name="January" xml:space="preserve">
     <value>Leden</value>
@@ -219,8 +234,14 @@
   <data name="Minutes" xml:space="preserve">
     <value>minut</value>
   </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Modifikován</value>
+  </data>
   <data name="ModifyButton" xml:space="preserve">
     <value>Upravit</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Po</value>
   </data>
   <data name="MonthItem" xml:space="preserve">
     <value>Tento měsíc</value>
@@ -261,6 +282,15 @@
   <data name="RemoveDatabase" xml:space="preserve">
     <value>Odstranění databáze</value>
   </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Obnovit výchozí</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>So</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Uložit</value>
+  </data>
   <data name="September" xml:space="preserve">
     <value>Září</value>
   </data>
@@ -270,8 +300,17 @@
   <data name="Statistics" xml:space="preserve">
     <value>Statistika</value>
   </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Ne</value>
+  </data>
   <data name="TableTab" xml:space="preserve">
     <value>Tabulka</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Čt</value>
+  </data>
+  <data name="TimeOrPieces" xml:space="preserve">
+    <value>Čas/kusy</value>
   </data>
   <data name="TotalOvertimeBonuses" xml:space="preserve">
     <value>Přesčasy - prémie</value>
@@ -291,6 +330,12 @@
   <data name="TotalPrice" xml:space="preserve">
     <value>Celková cena</value>
   </data>
+  <data name="TotalTime" xml:space="preserve">
+    <value>Počet hodin</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Út</value>
+  </data>
   <data name="TypeOfWork" xml:space="preserve">
     <value>Typ mzdy</value>
   </data>
@@ -306,8 +351,17 @@
   <data name="VacationYearItem" xml:space="preserve">
     <value>Dovolená tento rok</value>
   </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>St</value>
+  </data>
   <data name="WeekItem" xml:space="preserve">
     <value>Tento týden</value>
+  </data>
+  <data name="WrongDateMessage" xml:space="preserve">
+    <value>Datum do byl zadan dříve než datum od.</value>
+  </data>
+  <data name="WrongDateTitle" xml:space="preserve">
+    <value>Špatný datum</value>
   </data>
   <data name="YearItem" xml:space="preserve">
     <value>Tento rok</value>

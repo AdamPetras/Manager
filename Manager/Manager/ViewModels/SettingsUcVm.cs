@@ -23,6 +23,7 @@ namespace Manager.ViewModels
         private uint _defaultPieces;
 
         private static readonly string _path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SaveConfig.xml");
+        private bool _isRestoreDefaultEnabled;
 
         public ICommand ClearAllRecordsCommand { get; }
 
@@ -99,7 +100,15 @@ namespace Manager.ViewModels
             }
         }
 
-        
+        public bool IsRestoreDefaultEnabled
+        {
+            get => _isRestoreDefaultEnabled;
+            set
+            {
+                _isRestoreDefaultEnabled = value;
+                OnPropertyChanged(nameof(IsRestoreDefaultEnabled));
+            }
+        }
 
 
         public SettingsUcVm()
@@ -111,12 +120,20 @@ namespace Manager.ViewModels
             RestoreDefaultCommand = new Command(RestoreDefault);
         }
 
+        public void SetRestoreButtonEnabled()
+        {
+            if (DefaultHours == 0 && DefaultMinutes == 0 && Math.Abs(DefaultPrice) < 0.2 && DefaultPieces == 0)
+                IsRestoreDefaultEnabled = false;
+            else IsRestoreDefaultEnabled = true;
+        }
+
         private void ClearValues()
         {
             DefaultHours = 0;
             DefaultMinutes = 0;
             DefaultPieces = 0;
             DefaultPrice = 0;
+            SetRestoreButtonEnabled();
         }
 
         private void RestoreDefault()
@@ -149,6 +166,7 @@ namespace Manager.ViewModels
                         break;
                 }
             }
+            SetRestoreButtonEnabled();
         }
 
         private void SaveSettings()
@@ -160,6 +178,7 @@ namespace Manager.ViewModels
             saveList.Add(new SaveOption(nameof(DefaultPrice), DefaultPrice.ToString(CultureInfo.InvariantCulture)));
             save.CreateXmlFile(saveList);
             ((IXmlBase)save).WriteXmlToConsole(_path);
+            SetRestoreButtonEnabled();
         }
 
         public async void ClearRecords()
