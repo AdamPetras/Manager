@@ -162,9 +162,9 @@ namespace Manager.Resources {
         /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Calendar.
         /// </summary>
-        public static string Calendar {
+        public static string CalendarTab {
             get {
-                return ResourceManager.GetString("Calendar", resourceCulture);
+                return ResourceManager.GetString("CalendarTab", resourceCulture);
             }
         }
         
@@ -187,7 +187,7 @@ namespace Manager.Resources {
         }
         
         /// <summary>
-        ///   Vyhledá lokalizovaný řetězec podobný Do you really want to clear database?.
+        ///   Vyhledá lokalizovaný řetězec podobný Do you really want to clear records from database?.
         /// </summary>
         public static string ClearDatabaseMessage {
             get {
@@ -241,7 +241,7 @@ namespace Manager.Resources {
         }
         
         /// <summary>
-        ///   Vyhledá lokalizovaný řetězec podobný Default price.
+        ///   Vyhledá lokalizovaný řetězec podobný Default price per hour.
         /// </summary>
         public static string DefaultPrice {
             get {
@@ -255,6 +255,78 @@ namespace Manager.Resources {
         public static string DefaultTime {
             get {
                 return ResourceManager.GetString("DefaultTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný All.
+        /// </summary>
+        public static string DeleteActionAll {
+            get {
+                return ResourceManager.GetString("DeleteActionAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Last month.
+        /// </summary>
+        public static string DeleteActionLastMonth {
+            get {
+                return ResourceManager.GetString("DeleteActionLastMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Last year.
+        /// </summary>
+        public static string DeleteActionLastYear {
+            get {
+                return ResourceManager.GetString("DeleteActionLastYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Last years.
+        /// </summary>
+        public static string DeleteActionLastYears {
+            get {
+                return ResourceManager.GetString("DeleteActionLastYears", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný This month.
+        /// </summary>
+        public static string DeleteActionThisMonth {
+            get {
+                return ResourceManager.GetString("DeleteActionThisMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný This year.
+        /// </summary>
+        public static string DeleteActionThisYear {
+            get {
+                return ResourceManager.GetString("DeleteActionThisYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný All vacations.
+        /// </summary>
+        public static string DeleteActionVacations {
+            get {
+                return ResourceManager.GetString("DeleteActionVacations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Vacation this year.
+        /// </summary>
+        public static string DeleteActionVacationThisYear {
+            get {
+                return ResourceManager.GetString("DeleteActionVacationThisYear", resourceCulture);
             }
         }
         
@@ -291,6 +363,15 @@ namespace Manager.Resources {
         public static string DialogRemoveTitle {
             get {
                 return ResourceManager.GetString("DialogRemoveTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Export data.
+        /// </summary>
+        public static string ExportButton {
+            get {
+                return ResourceManager.GetString("ExportButton", resourceCulture);
             }
         }
         
@@ -336,6 +417,15 @@ namespace Manager.Resources {
         public static string HoursType {
             get {
                 return ResourceManager.GetString("HoursType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Import data.
+        /// </summary>
+        public static string ImportButton {
+            get {
+                return ResourceManager.GetString("ImportButton", resourceCulture);
             }
         }
         

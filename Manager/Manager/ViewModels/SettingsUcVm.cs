@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Manager.Annotations;
+using Manager.Mappers;
+using Manager.Model.Enums;
 using Manager.Model.Interfaces;
 using Manager.Resources;
 using Manager.SaveManagement;
@@ -16,26 +18,30 @@ namespace Manager.ViewModels
 {
     public class SettingsUcVm:INotifyPropertyChanged
     {
-        private IXmlSave save;
+        private readonly IXmlSave _save;
         private uint _defaultHours;
         private uint _defaultMinutes;
         private double _defaultPrice;
         private uint _defaultPieces;
-
-        private static readonly string _path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SaveConfig.xml");
+        private readonly IXmlManager _manager;
+        private static readonly string Path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SaveConfig.xml");
         private bool _isRestoreDefaultEnabled;
+        private int _selectedDeleteAction;
 
         public ICommand ClearAllRecordsCommand { get; }
-
         public ICommand SaveSettingsCommand { get; }
         public ICommand RestoreDefaultCommand { get; }
+        public ICommand ExportDataCommand { get; }
+        public ICommand ImportDataCommand { get; }
+
+        public List<string> DeleteActionsList { get; } = new List<string>(EnumMapper.MapEnumToStringArray<EDeleteAction>());
 
         public uint DefaultHours
         {
             get => _defaultHours;
             set
             {
-                if (value <= 23 && value >= 0)
+                if (value <= 23)
                 {
                     _defaultHours = value;
                     SaveStaticVariables.DefaultHours = value;
@@ -60,7 +66,7 @@ namespace Manager.ViewModels
             get => _defaultMinutes;
             set
             {
-                if (value <= 59 && value >= 0)
+                if (value <= 59)
                 {
                     _defaultMinutes = value;
                     SaveStaticVariables.DefaultMinutes = value;
@@ -110,14 +116,55 @@ namespace Manager.ViewModels
             }
         }
 
+        public int SelectedDeleteAction
+        {
+            get => _selectedDeleteAction;
+            set
+            {
+                _selectedDeleteAction = value;
+                OnPropertyChanged(nameof(SelectedDeleteAction));
+            }
+        }
 
         public SettingsUcVm()
         {
-            save = new XmlSave(_path);
+            _save = new XmlSave(Path);
+            _manager = new XmlManager(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "recordData.xml"));
             LoadOnStartup();
             SaveSettingsCommand = new Command(SaveSettings);
             ClearAllRecordsCommand = new Command(ClearRecords);
             RestoreDefaultCommand = new Command(RestoreDefault);
+            ExportDataCommand = new Command(ExportData);
+            ImportDataCommand = new Command(ImportData);
+            SelectedDeleteAction = 0;
+        }
+
+        private void ImportData()
+        {
+            string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string filePath = System.IO.Path.Combine(directory, "cachedData.xml");
+            if (!File.Exists(filePath))
+                return;
+            ((IXmlBase)_manager).StringToXml(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "recordData.xml"), File.ReadAllText(filePath));
+            LoadRecordsAsync();
+        }
+
+        private void ExportData()
+        {
+            string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string filePath = System.IO.Path.Combine(directory, "cachedData.xml");
+            File.WriteAllText(filePath,((IXmlBase)_manager).XmlToString(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "recordData.xml")));
+        }
+
+        private async void LoadRecordsAsync()
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                foreach (IBaseRecord tmp in _manager.LoadXmlFile())
+                {
+                    TableUcVm.SavedRecordList.Add(new TableItemUcVm(tmp));
+                }
+            });
         }
 
         public void SetRestoreButtonEnabled()
@@ -144,7 +191,7 @@ namespace Manager.ViewModels
 
         private void LoadOnStartup()
         {
-            foreach (SaveOption opt in save.LoadXmlFile())
+            foreach (SaveOption opt in _save.LoadXmlFile())
             {
                 switch (opt.Title)
                 {
@@ -171,13 +218,15 @@ namespace Manager.ViewModels
 
         private void SaveSettings()
         {
-            List<SaveOption> saveList = new List<SaveOption>();
-            saveList.Add(new SaveOption(nameof(DefaultHours),DefaultHours.ToString()));
-            saveList.Add(new SaveOption(nameof(DefaultMinutes), DefaultMinutes.ToString()));
-            saveList.Add(new SaveOption(nameof(DefaultPieces), DefaultPieces.ToString()));
-            saveList.Add(new SaveOption(nameof(DefaultPrice), DefaultPrice.ToString(CultureInfo.InvariantCulture)));
-            save.CreateXmlFile(saveList);
-            ((IXmlBase)save).WriteXmlToConsole(_path);
+            List<SaveOption> saveList = new List<SaveOption>
+            {
+                new SaveOption(nameof(DefaultHours), DefaultHours.ToString()),
+                new SaveOption(nameof(DefaultMinutes), DefaultMinutes.ToString()),
+                new SaveOption(nameof(DefaultPieces), DefaultPieces.ToString()),
+                new SaveOption(nameof(DefaultPrice), DefaultPrice.ToString(CultureInfo.InvariantCulture))
+            };
+            _save.CreateXmlFile(saveList);
+            ((IXmlBase)_save).WriteXmlToConsole(Path);
             SetRestoreButtonEnabled();
         }
 
@@ -186,7 +235,7 @@ namespace Manager.ViewModels
             if (await Application.Current.MainPage.DisplayAlert(AppResource.DialogRemoveTitle,
                 AppResource.ClearDatabaseMessage, AppResource.Yes, AppResource.No))
             {
-                MessagingCenter.Send<IBaseRecord>(new NoneRecord(), "ClearRecords");
+                MessagingCenter.Send<IBaseRecord, EDeleteAction>(new NoneRecord(), "ClearRecords", (EDeleteAction)SelectedDeleteAction);
             }
         }
 

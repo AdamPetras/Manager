@@ -69,6 +69,7 @@ namespace Manager.Views
             }
         }
 
+
         private void CreateColumnsAndRows(bool isColumn, int length, GridUnitType type)
         {
             if (isColumn)

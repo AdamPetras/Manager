@@ -8,38 +8,36 @@ using System.Xml.Linq;
 using Manager.Model;
 using Manager.Model.Enums;
 using Manager.Model.Interfaces;
-using Manager.ViewModels;
-using Xamarin.Forms;
 
 namespace Manager.SaveManagement
 {
     public class XmlManager : XmlBase, IXmlManager
     {
-        private XmlDocument _document;
-        private string path;
+        private readonly XmlDocument _document;
+        private readonly string _path;
 
         public XmlManager(string path)
         {
             _document = new XmlDocument();
-            this.path = path;
+            this._path = path;
         }
 
         public void CreateNewXmlFile(IReadOnlyCollection<IBaseRecord> recordList)
         {
-            if (File.Exists(path))
-                File.Delete(path);
-            using (XmlWriter writer = XmlWriter.Create(path))
+            if (File.Exists(_path))
+                File.Delete(_path);
+            using (XmlWriter writer = XmlWriter.Create(_path))
             {
                 CreateRootElement(writer);
             }
-            _document.Load(path);
+            _document.Load(_path);
             foreach (IBaseRecord tmp in recordList)
             {
                 _document.DocumentElement?.AppendChild(CreateRecordElement(tmp));
             }
             try
             {
-                _document.Save(path);
+                _document.Save(_path);
             }
             catch (XmlException e)
             {
@@ -55,16 +53,16 @@ namespace Manager.SaveManagement
 
         public void RemoveXmlRecord(IBaseRecord rec)
         {
-            XElement xElement = XElement.Load(path);
+            XElement xElement = XElement.Load(_path);
             FindElementByRecord(xElement.Elements(), rec)?.Remove();
-            xElement.Save(path);
+            xElement.Save(_path);
         }
 
         public void AppendXmlFile(IBaseRecord rec)
         {
             try
             {
-                _document.Load(path);
+                _document.Load(_path);
             }
             catch (XmlException)
             {
@@ -72,11 +70,11 @@ namespace Manager.SaveManagement
             }
             catch (FileNotFoundException)
             {
-                using (XmlWriter writer = XmlWriter.Create(path))
+                using (XmlWriter writer = XmlWriter.Create(_path))
                 {
                     CreateRootElement(writer);
                 }
-                _document.Load(path);
+                _document.Load(_path);
             }
             catch (IOException)
             {
@@ -91,7 +89,7 @@ namespace Manager.SaveManagement
             _document.DocumentElement?.AppendChild(CreateRecordElement(rec));
             try
             {
-                _document.Save(path);
+                _document.Save(_path);
             }
             catch (XmlException e)
             {
@@ -102,7 +100,7 @@ namespace Manager.SaveManagement
 
         public void EditXmlRecord(IBaseRecord oldRec, IBaseRecord newRecord)
         {
-            XElement root = XElement.Load(path);
+            XElement root = XElement.Load(_path);
             XElement el = FindElementByRecord(root.Elements(), oldRec);
             if (el == null)
                 return;
@@ -110,7 +108,7 @@ namespace Manager.SaveManagement
             el.ReplaceWith(
                 newEl
             );
-            root.Save(path);
+            root.Save(_path);
         }
 
         private bool IfFoundedElementIsEquals(IBaseRecord rec, IBaseRecord foundRec)
@@ -183,11 +181,11 @@ namespace Manager.SaveManagement
         public List<IBaseRecord> LoadXmlFile()
         {
             List<IBaseRecord> recList = new List<IBaseRecord>();
-            if (!File.Exists(path))
+            if (!File.Exists(_path))
             {
                 return recList;
             }
-            IEnumerable<XElement> records = XElement.Load(path).Elements();
+            IEnumerable<XElement> records = XElement.Load(_path).Elements();
             foreach (XElement record in records)
             {
                 recList.Add(ParsePiecesAndTimeRecord(record));

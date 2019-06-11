@@ -29,7 +29,7 @@
                     <Picker Margin="10,0,10,0" ItemsSource="{x:Static viewModels:TableUcVm.WorkingTermList}" SelectedIndex ="{Binding SelectedPeriod}"  SelectedIndexChanged="Picker_OnSelectedIndexChanged"/>
                 <Button Text="{x:Static resource:AppResource.MoreButton}" Command="{Binding ShowStatisticsCommand}" Grid.Column="1"/>
                 </Grid>
-            <Grid Margin="10,0,10,0">
+                <Grid Margin="10,0,10,0">
                     <Grid.RowDefinitions>
                     <RowDefinition Height="20"/>
                 </Grid.RowDefinitions>

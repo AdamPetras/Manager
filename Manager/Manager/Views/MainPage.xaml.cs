@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Manager.Resources;
 using Xamarin.Forms;
 
 namespace Manager.Views
@@ -14,11 +15,11 @@ namespace Manager.Views
 
         static MainPage()
         {
-            SettingsTab = new NavigationPage(new SettingsUc());
-            AddTab = new NavigationPage(new AddRecordUc());
-            TableTab = new NavigationPage(new TableUc());
-            AboutTab = new NavigationPage(new AboutUc());
-            CalendarTab = new NavigationPage(new CalendarUc());
+            SettingsTab = new NavigationPage(new SettingsUc(){Title = AppResource.SettingsTab});
+            AddTab = new NavigationPage(new AddRecordUc(){Title = AppResource.AddRecordTab});
+            TableTab = new NavigationPage(new TableUc(){Title = AppResource.TableTab});
+            AboutTab = new NavigationPage(new AboutUc() { Title = AppResource.AboutTab});
+            CalendarTab = new NavigationPage(new CalendarUc(){Title = AppResource.CalendarTab});
         }
 
         public MainPage()

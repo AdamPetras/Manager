@@ -3,9 +3,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Manager.Annotations;
+using Manager.Mappers;
 using Manager.Model;
 using Manager.Model.Enums;
 using Manager.Model.Interfaces;
@@ -156,13 +158,7 @@ namespace Manager.ViewModels
         }
 
         public ObservableCollection<string> PickerRecordTypes { get; } =
-            new ObservableCollection<string>()
-
-            {
-                AppResource.HoursType,
-                AppResource.PiecesType,
-                AppResource.VacationType
-            };
+            new ObservableCollection<string>(EnumMapper.MapEnumToStringArray<ERecordType>().Where(s=>s.Length>0));
 
         public bool IsCancelModifyVisible
         {

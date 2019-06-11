@@ -9,6 +9,8 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Manager.Annotations;
+using Manager.Extensions;
+using Manager.Mappers;
 using Manager.Model;
 using Manager.Model.Enums;
 using Manager.Model.Interfaces;
@@ -113,17 +115,7 @@ namespace Manager.ViewModels
 
         public ICommand ShowStatisticsCommand { get; }
 
-        public static List<string> WorkingTermList = new List<string>
-        {
-            AppResource.AllItem,
-            AppResource.WeekItem,
-            AppResource.LastWeekItem,
-            AppResource.MonthItem,
-            AppResource.LastMonthItem,
-            AppResource.YearItem,
-            AppResource.VacationAllItem,
-            AppResource.VacationYearItem,
-        };
+        public static List<string> WorkingTermList = new List<string>(EnumMapper.MapEnumToStringArray<ESelectedStage>());
 
 
 
@@ -134,15 +126,90 @@ namespace Manager.ViewModels
             LoadRecordsAsync();
             MessagingCenter.Subscribe<TableItemUcVm>(this, "Add", PersistAdd);
             MessagingCenter.Subscribe<TableItemUcVm, TableItemUcVm>(this, "Modify", PersistModify);
-            MessagingCenter.Subscribe<TableItemUcVm>(this, "Remove", PersistRemove);
-            MessagingCenter.Subscribe<IBaseRecord>(this, "ClearRecords", ClearAll);
+            MessagingCenter.Subscribe<TableItemUcVm>(this, "Remove", item => { PersistRemove(item);});
+            MessagingCenter.Subscribe<IBaseRecord, EDeleteAction>(this, "ClearRecords", Clear);
         }
 
-        private void ClearAll(IBaseRecord rec)
+        private void Clear(IBaseRecord rec, EDeleteAction action)
+        {
+            switch (action)
+            {
+                case EDeleteAction.All:
+                    ClearAll();
+                    break;
+                case EDeleteAction.Vacations:
+                    ClearVacations();
+                    break;
+                case EDeleteAction.LastYear:
+                    ClearLastYear();
+                    break;
+                case EDeleteAction.LastYears:
+                    ClearLastYears();
+                    break;
+                case EDeleteAction.ThisYear:
+                    ClearThisYear();
+                    break;
+                case EDeleteAction.ThisMonth:
+                    ClearThisMonth();
+                    break;
+                case EDeleteAction.LastMonth:
+                    ClearLastMonth();
+                    break;
+                case EDeleteAction.VacationsThisYear:
+                    ClearVacationsThisYear();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(action), action, null);
+            }
+        }
+
+        private void ClearVacationsThisYear()
+        {
+            PersistRemove(new List<TableItemUcVm>(SavedRecordList.Where(s => s.Record.Date.Year == DateTime.Today.Year && s.Record.Type == ERecordType.Vacation)));
+        }
+
+        private void ClearLastMonth()
+        {
+            int month = 12;
+            int year = DateTime.Today.Year - 1;
+            if (DateTime.Today.Month != 1)
+            {
+                month = DateTime.Today.Month - 1;
+                year = DateTime.Today.Year;
+            }
+            PersistRemove(new List<TableItemUcVm>(SavedRecordList.Where(s => s.Record.Date.Year == year && s.Record.Date.Month == month)));
+        }
+
+        private void ClearThisMonth()
+        {
+            PersistRemove(new List<TableItemUcVm>(SavedRecordList.Where(s => s.Record.Date.Year == DateTime.Today.Year && s.Record.Date.Month == DateTime.Today.Month)));
+        }
+
+        private void ClearThisYear()
+        {
+            PersistRemove(new List<TableItemUcVm>(SavedRecordList.Where(s => s.Record.Date.Year == DateTime.Today.Year)));
+        }
+
+        private void ClearAll()
         {
             _saveAndLoad.CreateNewXmlFile();
             SavedRecordList.Clear();
             RecordList.Clear();
+        }
+
+        private void ClearVacations()
+        {
+            PersistRemove(new List<TableItemUcVm>(SavedRecordList.Where(s => s.Record.Type == ERecordType.Vacation)));
+        }
+
+        private void ClearLastYear()
+        {
+            PersistRemove(new List<TableItemUcVm>(SavedRecordList.Where(s => s.Record.Date.Year == DateTime.Today.Year-1)));
+        }
+
+        private void ClearLastYears()
+        {
+            PersistRemove(new List<TableItemUcVm>(SavedRecordList.Where(s => s.Record.Date.Year != DateTime.Today.Year)));
         }
 
         private async void LoadRecordsAsync()
@@ -173,12 +240,27 @@ namespace Manager.ViewModels
             ClearAndWriteStatistics();
         }
 
-        private void PersistRemove(TableItemUcVm item)
+        private void PersistRemove(TableItemUcVm item, bool isUpdated = false)
         {
             SelectedPeriod = 0;
             SavedRecordList.Remove(item);
             _saveAndLoad.RemoveXmlRecord(item.Record);
-            ClearAndWriteStatistics();
+            if (!isUpdated)
+                LoadRecordsAsync();
+        }
+
+        private void PersistRemove(TableItemUcVm[] items)
+        {
+            foreach (TableItemUcVm item in items)
+            {
+                PersistRemove(item);
+            }
+            LoadRecordsAsync();
+        }
+
+        private void PersistRemove(List<TableItemUcVm> itemList)
+        {
+            PersistRemove(itemList.ToArray());
         }
 
         private void PersistAdd(TableItemUcVm item)

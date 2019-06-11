@@ -8,8 +8,8 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance viewModels:SettingsUcVm}">
     <ContentPage.Content>
-        <StackLayout Margin="10,10,10,10">
-            <Frame Margin="10,10,10,10" BorderColor ="Black">
+        <StackLayout>
+            <Frame Margin="10,10,10,10" Padding="10,10,10,10" BorderColor ="Black">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -39,7 +39,18 @@
                     <Button IsEnabled="{Binding IsRestoreDefaultEnabled}" Text="{x:Static resources:AppResource.RestoreDefaults}" Command="{Binding RestoreDefaultCommand}"  Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="3"></Button>
                 </Grid>
             </Frame>
-            <Button Text="{x:Static resources:AppResource.RemoveDatabase}" Command="{Binding ClearAllRecordsCommand}"/>
+            <Frame Margin="10,10,10,10" Padding="10,10,10,10" BorderColor ="Black">
+                <StackLayout>
+                    <Picker ItemsSource="{Binding DeleteActionsList}" SelectedIndex="{Binding SelectedDeleteAction}" />
+                    <Button Text="{x:Static resources:AppResource.RemoveDatabase}" Command="{Binding ClearAllRecordsCommand}"/>
+                </StackLayout>
+            </Frame>
+            <Frame Margin="10,10,10,10" Padding="10,10,10,10" BorderColor ="Black">
+                <StackLayout>
+                    <Button Text="{x:Static resources:AppResource.ExportButton}" Command="{Binding ExportDataCommand}"/>
+                    <Button Text="{x:Static resources:AppResource.ImportButton}" Command="{Binding ImportDataCommand}"/>
+                </StackLayout>
+            </Frame>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

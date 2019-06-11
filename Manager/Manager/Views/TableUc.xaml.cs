@@ -17,5 +17,10 @@ namespace Manager.Views
         {
             _context.ClearAndWriteStatistics();
         }
+
+        protected override void OnAppearing()
+        {
+            _context.ClearAndWriteStatistics();
+        }
     }
 }

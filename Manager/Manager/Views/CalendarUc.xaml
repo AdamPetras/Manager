@@ -9,38 +9,42 @@
              d:DataContext="{d:DesignInstance viewModels:CalendarUcVm}">
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout x:Name="Background" Margin="10,10,10,10">
-                <StackLayout Orientation="Horizontal">
-                    <Picker x:Name="PickerMonth" ItemsSource="{Binding MonthSelect}" SelectedIndexChanged="IndexChanged" SelectedIndex="{Binding SelectedMonth}" HorizontalOptions="FillAndExpand"/>
-                    <Entry x:Name="EntryYear" Placeholder="Year" Text="{Binding Year}" Keyboard="Numeric" MaxLength="4" Completed="EntryYear_OnCompleted"/>
+            <Frame Margin="10,10,10,10" BorderColor="Black">
+                <StackLayout x:Name="Background" Margin="10,10,10,10">
+                    <StackLayout Orientation="Horizontal">
+                        <Picker x:Name="PickerMonth" ItemsSource="{Binding MonthSelect}" SelectedIndexChanged="IndexChanged" SelectedIndex="{Binding SelectedMonth}" HorizontalOptions="FillAndExpand"/>
+                        <Entry x:Name="EntryYear" Placeholder="Year" Text="{Binding Year}" Keyboard="Numeric" MaxLength="4" Completed="EntryYear_OnCompleted"/>
+                    </StackLayout>
                 </StackLayout>
-            </StackLayout>
-            <Grid Margin="10,10,10,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Label Text="{x:Static resource:AppResource.Days}" Grid.Column="0" Grid.Row="0"/>
-                <Label Text="{Binding TotalDays}" Grid.Column="1" Grid.Row="0" HorizontalOptions="End"/>
-                <Label Text="{x:Static resource:AppResource.TotalPrice}" Grid.Column="0" Grid.Row="1"/>
-                <Label Text="{Binding TotalPrice}" Grid.Column="1" Grid.Row="1" HorizontalOptions="End"/>
-                <Label Text="{x:Static resource:AppResource.Pieces}" Grid.Column="0" Grid.Row="2"/>
-                <Label Text="{Binding TotalPieces}" Grid.Column="1" Grid.Row="2" HorizontalOptions="End"/>
-                <Label Text="{x:Static resource:AppResource.TotalTime}" Grid.Column="0" Grid.Row="3"/>
-                <Label Text="{Binding TimeToString}" Grid.Column="1" Grid.Row="3" HorizontalOptions="End"/>
-                <Label Text="{x:Static resource:AppResource.Bonus}" Grid.Column="0" Grid.Row="4"/>
-                <Label Text="{Binding TotalBonus}" Grid.Column="1" Grid.Row="4" HorizontalOptions="End"/>
-                <Label Text="{x:Static resource:AppResource.VacationDays}" Grid.Column="0" Grid.Row="5"/>
-                <Label Text="{Binding VacationDays}" Grid.Column="1" Grid.Row="5" HorizontalOptions="End"/>
-            </Grid>
+            </Frame>
+            <Frame Margin="10,10,10,10" BorderColor="Black">
+                <Grid Margin="10,10,10,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Text="{x:Static resource:AppResource.Days}" Grid.Column="0" Grid.Row="0"/>
+                    <Label Text="{Binding TotalDays}" Grid.Column="1" Grid.Row="0" HorizontalOptions="End"/>
+                    <Label Text="{x:Static resource:AppResource.TotalPrice}" Grid.Column="0" Grid.Row="1"/>
+                    <Label Text="{Binding TotalPrice}" Grid.Column="1" Grid.Row="1" HorizontalOptions="End"/>
+                    <Label Text="{x:Static resource:AppResource.Pieces}" Grid.Column="0" Grid.Row="2"/>
+                    <Label Text="{Binding TotalPieces}" Grid.Column="1" Grid.Row="2" HorizontalOptions="End"/>
+                    <Label Text="{x:Static resource:AppResource.TotalTime}" Grid.Column="0" Grid.Row="3"/>
+                    <Label Text="{Binding TimeToString}" Grid.Column="1" Grid.Row="3" HorizontalOptions="End"/>
+                    <Label Text="{x:Static resource:AppResource.Bonus}" Grid.Column="0" Grid.Row="4"/>
+                    <Label Text="{Binding TotalBonus}" Grid.Column="1" Grid.Row="4" HorizontalOptions="End"/>
+                    <Label Text="{x:Static resource:AppResource.VacationDays}" Grid.Column="0" Grid.Row="5"/>
+                    <Label Text="{Binding VacationDays}" Grid.Column="1" Grid.Row="5" HorizontalOptions="End"/>
+                </Grid>
+            </Frame>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

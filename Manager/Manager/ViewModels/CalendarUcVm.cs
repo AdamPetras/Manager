@@ -4,7 +4,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Manager.Annotations;
+using Manager.Extensions;
+using Manager.Mappers;
 using Manager.Model;
+using Manager.Model.Enums;
 using Manager.Resources;
 
 namespace Manager.ViewModels
@@ -104,14 +107,7 @@ namespace Manager.ViewModels
 
         public CalendarUcVm()
         {
-            MonthSelect = new List<string>()
-            {
-                AppResource.January,AppResource.February,
-                AppResource.March,AppResource.April,AppResource.May,
-                AppResource.June,AppResource.July,AppResource.August,
-                AppResource.September,AppResource.October,AppResource.November,
-                AppResource.December
-            };
+            MonthSelect = new List<string>(EnumMapper.MapEnumToStringArray<EMonths>());
             SelectedMonth = DateTime.Now.Month - 1;
             Year = DateTime.Now.Year;
             ClearStats();

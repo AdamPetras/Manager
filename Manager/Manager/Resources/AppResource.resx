@@ -150,7 +150,7 @@
   <data name="Bonuses" xml:space="preserve">
     <value>Bonuses</value>
   </data>
-  <data name="Calendar" xml:space="preserve">
+  <data name="CalendarTab" xml:space="preserve">
     <value>Calendar</value>
   </data>
   <data name="CancelButton" xml:space="preserve">
@@ -160,7 +160,7 @@
     <value>Cancel modify</value>
   </data>
   <data name="ClearDatabaseMessage" xml:space="preserve">
-    <value>Do you really want to clear database?</value>
+    <value>Do you really want to clear records from database?</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Date</value>
@@ -178,7 +178,7 @@
     <value>Default pieces</value>
   </data>
   <data name="DefaultPrice" xml:space="preserve">
-    <value>Default price</value>
+    <value>Default price per hour</value>
   </data>
   <data name="DefaultTime" xml:space="preserve">
     <value>Default time</value>
@@ -368,5 +368,35 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="DeleteActionAll" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="DeleteActionLastMonth" xml:space="preserve">
+    <value>Last month</value>
+  </data>
+  <data name="DeleteActionLastYear" xml:space="preserve">
+    <value>Last year</value>
+  </data>
+  <data name="DeleteActionLastYears" xml:space="preserve">
+    <value>Last years</value>
+  </data>
+  <data name="DeleteActionThisMonth" xml:space="preserve">
+    <value>This month</value>
+  </data>
+  <data name="DeleteActionThisYear" xml:space="preserve">
+    <value>This year</value>
+  </data>
+  <data name="DeleteActionVacations" xml:space="preserve">
+    <value>All vacations</value>
+  </data>
+  <data name="DeleteActionVacationThisYear" xml:space="preserve">
+    <value>Vacation this year</value>
+  </data>
+  <data name="ExportButton" xml:space="preserve">
+    <value>Export data</value>
+  </data>
+  <data name="ImportButton" xml:space="preserve">
+    <value>Import data</value>
   </data>
 </root>

@@ -150,7 +150,7 @@
   <data name="Bonuses" xml:space="preserve">
     <value>Prémie</value>
   </data>
-  <data name="Calendar" xml:space="preserve">
+  <data name="CalendarTab" xml:space="preserve">
     <value>Kalendář</value>
   </data>
   <data name="CancelButton" xml:space="preserve">
@@ -160,7 +160,7 @@
     <value>Ukončit úpravy</value>
   </data>
   <data name="ClearDatabaseMessage" xml:space="preserve">
-    <value>Opravdu chcete odstranit celou databázi záznamů?</value>
+    <value>Opravdu chcete odebrat záznamy z databáze?</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Datum</value>
@@ -175,10 +175,10 @@
     <value>Prosinec</value>
   </data>
   <data name="DefaultPieces" xml:space="preserve">
-    <value>Výchozí kusy</value>
+    <value>Výchozí počet kusů</value>
   </data>
   <data name="DefaultPrice" xml:space="preserve">
-    <value>Výchozí částka</value>
+    <value>Výchozí částka za hodinu</value>
   </data>
   <data name="DefaultTime" xml:space="preserve">
     <value>Výchozí čas</value>
@@ -280,7 +280,7 @@
     <value>Cena za kus</value>
   </data>
   <data name="RemoveDatabase" xml:space="preserve">
-    <value>Odstranění databáze</value>
+    <value>Odstranit data</value>
   </data>
   <data name="RestoreDefaults" xml:space="preserve">
     <value>Obnovit výchozí</value>
@@ -368,5 +368,35 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ano</value>
+  </data>
+  <data name="DeleteActionAll" xml:space="preserve">
+    <value>Vše</value>
+  </data>
+  <data name="DeleteActionLastMonth" xml:space="preserve">
+    <value>Minulý měsíc</value>
+  </data>
+  <data name="DeleteActionLastYear" xml:space="preserve">
+    <value>Minulý rok</value>
+  </data>
+  <data name="DeleteActionLastYears" xml:space="preserve">
+    <value>Minulé roky</value>
+  </data>
+  <data name="DeleteActionThisMonth" xml:space="preserve">
+    <value>Tento měsíc</value>
+  </data>
+  <data name="DeleteActionThisYear" xml:space="preserve">
+    <value>Tento rok</value>
+  </data>
+  <data name="DeleteActionVacations" xml:space="preserve">
+    <value>Všechna dovolená</value>
+  </data>
+  <data name="DeleteActionVacationThisYear" xml:space="preserve">
+    <value>Dovolená tento rok</value>
+  </data>
+  <data name="ExportButton" xml:space="preserve">
+    <value>Uložit data</value>
+  </data>
+  <data name="ImportButton" xml:space="preserve">
+    <value>Načíst data</value>
   </data>
 </root>
