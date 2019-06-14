@@ -32,6 +32,7 @@ namespace Manager.ViewModels
         private WorkTime _workHours;
         private double _priceTogether;
         private uint _piecesTogether;
+        private string _searchDate;
         private double _bonusTogether;
         private uint _selectedPeriod;
         private uint _vacationDays;
@@ -112,22 +113,46 @@ namespace Manager.ViewModels
                 OnPropertyChanged(nameof(PriceTogether));
             }
         }
+        public string SearchDate
+        {
+            get => _searchDate;
+            set
+            {
+                _searchDate = value;
+                OnPropertyChanged(nameof(SearchDate));
+            }
+        }
 
         public ICommand ShowStatisticsCommand { get; }
 
+        public ICommand FindByDateCommand { get; }
+
         public static List<string> WorkingTermList = new List<string>(EnumMapper.MapEnumToStringArray<ESelectedStage>());
-
-
 
         public TableUcVm()
         {
             ShowStatisticsCommand = new Command(ShowStatistics);
+            FindByDateCommand = new Command(FindByDate);
             _saveAndLoad = new XmlManager(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "recordData.xml"));
             LoadRecordsAsync();
             MessagingCenter.Subscribe<TableItemUcVm>(this, "Add", PersistAdd);
             MessagingCenter.Subscribe<TableItemUcVm, TableItemUcVm>(this, "Modify", PersistModify);
             MessagingCenter.Subscribe<TableItemUcVm>(this, "Remove", item => { PersistRemove(item);});
             MessagingCenter.Subscribe<IBaseRecord, EDeleteAction>(this, "ClearRecords", Clear);
+            SearchDate = "";
+        }
+
+        public void FindByDate()
+        {
+            ClearUp();
+            RecordList.Clear();
+            foreach (TableItemUcVm tableItem in SavedRecordList)
+            {
+                if (tableItem.Record.DateString.Contains(SearchDate))
+                {
+                    CalcAndSet(tableItem);
+                }
+            }
         }
 
         private void Clear(IBaseRecord rec, EDeleteAction action)

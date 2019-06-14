@@ -19,7 +19,7 @@ namespace Manager.SaveManagement
         public XmlManager(string path)
         {
             _document = new XmlDocument();
-            this._path = path;
+            _path = path;
         }
 
         public void CreateNewXmlFile(IReadOnlyCollection<IBaseRecord> recordList)
@@ -162,7 +162,8 @@ namespace Manager.SaveManagement
             switch (rec.Type)
             {
                 case ERecordType.Hours:
-                    data.SetAttribute("Variable", ((IHoursRecord)rec).Time.ToString());
+                    data.SetAttribute("WorkTimeFrom", ((IHoursRecord) rec).WorkTimeFrom.ToString());
+                    data.SetAttribute("WorkTimeTo", ((IHoursRecord)rec).WorkTimeTo.ToString());
                     data.SetAttribute("OverTime", ((IHoursRecord)rec).OverTime.ToString());
                     break;
                 case ERecordType.Pieces:
@@ -206,9 +207,10 @@ namespace Manager.SaveManagement
                 switch (recType)
                 {
                     case ERecordType.Hours:
-                        WorkTime workTime = ParseTimeRecord(dataElement.Attribute("Variable")?.Value.Split(':'));
+                        TimeSpan workTimeFrom = ParseTimeRecord(dataElement.Attribute("WorkTimeFrom")?.Value.Split(':')).ToTimeSpan();
+                        TimeSpan workTimeTo = ParseTimeRecord(dataElement.Attribute("WorkTimeTo")?.Value.Split(':')).ToTimeSpan();
                         WorkTime overTime = ParseTimeRecord(dataElement.Attribute("OverTime")?.Value.Split(':'));
-                        rec = new HoursRecord(date,workTime,price,bonus, description, overTime);
+                        rec = new HoursRecord(date, workTimeFrom, workTimeTo, price,bonus, description, overTime);
                         break;
                     case ERecordType.Pieces:
                         uint.TryParse(dataElement.Attribute("Variable")?.Value, out uint pieces);
@@ -227,8 +229,8 @@ namespace Manager.SaveManagement
         {
             if (recType != ERecordType.Vacation && recType != ERecordType.None)
             {
-                double.TryParse(priceString, out double price);
-                double.TryParse(bonusString, out double bonus);
+                double.TryParse(priceString.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double price);
+                double.TryParse(bonusString.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double bonus);
                 return new Tuple<double, double>(price, bonus);
             }
             return new Tuple<double, double>(0, 0);
@@ -250,8 +252,8 @@ namespace Manager.SaveManagement
 
         private WorkTime ParseTimeRecord(string[] timeString)
         {
-            uint.TryParse(timeString[0], out uint hours);
-            uint.TryParse(timeString[1], out uint minutes);
+            int.TryParse(timeString[0], out int hours);
+            int.TryParse(timeString[1], out int minutes);
             return new WorkTime(hours, minutes);
         }
     }

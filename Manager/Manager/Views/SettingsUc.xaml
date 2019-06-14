@@ -8,8 +8,8 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance viewModels:SettingsUcVm}">
     <ContentPage.Content>
-        <StackLayout>
-            <Frame Margin="10,10,10,10" Padding="10,10,10,10" BorderColor ="Black">
+        <StackLayout VerticalOptions="FillAndExpand">
+            <Frame Margin="10,5,10,0" Padding="5,5,5,5" BorderColor ="Black" VerticalOptions="FillAndExpand">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -25,28 +25,31 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Label Text="{x:Static resources:AppResource.DefaultTime}" Grid.Column="0" Grid.Row="0" VerticalOptions="Center" Grid.ColumnSpan="2"/>
-                    <Entry Text="{Binding DefaultHours}" Placeholder="hours" Grid.Column="2" Grid.Row="0"/>
-                    <Label Text="{x:Static resources:AppResource.Hours}" Grid.Column="3" Grid.Row="0" VerticalOptions="Center"/>
-                    <Entry Text="{Binding DefaultMinutes}"  Placeholder="minutes" Grid.Column="4" Grid.Row="0"/>
-                    <Label Text="{x:Static resources:AppResource.Minutes}" Grid.Column="5" Grid.Row="0" VerticalOptions="Center"/>
-                    <Label Text="{x:Static resources:AppResource.DefaultPrice}" Grid.Column="0" Grid.Row="1" VerticalOptions="Center" Grid.ColumnSpan="2"/>
-                    <Entry Text="{Binding DefaultPrice}" Placeholder="price" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4"/>
-                    <Label Text="{x:Static resources:AppResource.DefaultPieces}" Grid.Column="0" Grid.Row="2" VerticalOptions="Center" Grid.ColumnSpan="2"/>
-                    <Entry Text="{Binding DefaultPieces}" Placeholder="pieces" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="4"/>
-                    <Button Text="{x:Static resources:AppResource.Save}" Command="{Binding SaveSettingsCommand}"  Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3"></Button>
-                    <Button IsEnabled="{Binding IsRestoreDefaultEnabled}" Text="{x:Static resources:AppResource.RestoreDefaults}" Command="{Binding RestoreDefaultCommand}"  Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="3"></Button>
+                    <Label Text="{x:Static resources:AppResource.DefaultSettings}" Grid.Column="0" Grid.Row="0" VerticalOptions="Center" HorizontalTextAlignment="Center" Grid.ColumnSpan="6"/>
+                    <Label Text="{x:Static resources:AppResource.DefaultTimeFrom}" Grid.Column="0" Grid.Row="1" VerticalOptions="Center" Grid.ColumnSpan="2"/>
+                    <TimePicker Time ="{Binding DefaultTimeFrom}"  Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4"/>
+                    <Label Text="{x:Static resources:AppResource.DefaultTimeTo}" Grid.Column="0" Grid.Row="2" VerticalOptions="Center" Grid.ColumnSpan="2"/>
+                    <TimePicker Time ="{Binding DefaultTimeTo}"  Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="4"/>
+                    <Label Text="{x:Static resources:AppResource.DefaultPrice}" Grid.Column="0" Grid.Row="3" VerticalOptions="Center" Grid.ColumnSpan="2"/>
+                    <Entry Text="{Binding DefaultPrice}" Placeholder="price" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="4"/>
+                    <Label Text="{x:Static resources:AppResource.DefaultPieces}" Grid.Column="0" Grid.Row="4" VerticalOptions="Center" Grid.ColumnSpan="2"/>
+                    <Entry Text="{Binding DefaultPieces}" Placeholder="pieces" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="4"/>
+                    <Button Text="{x:Static resources:AppResource.Save}" Command="{Binding SaveSettingsCommand}"  Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="3"></Button>
+                    <Button IsEnabled="{Binding IsRestoreDefaultEnabled}" Text="{x:Static resources:AppResource.RestoreDefaults}" Command="{Binding RestoreDefaultCommand}"  Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="3"></Button>
                 </Grid>
             </Frame>
-            <Frame Margin="10,10,10,10" Padding="10,10,10,10" BorderColor ="Black">
+            <Frame Margin="10,0,10,0" Padding="5,5,5,5" BorderColor ="Black" VerticalOptions="FillAndExpand">
                 <StackLayout>
+                    <Label Text="{x:Static resources:AppResource.RemoveDataFromDatabase}" HorizontalTextAlignment="Center"/>
                     <Picker ItemsSource="{Binding DeleteActionsList}" SelectedIndex="{Binding SelectedDeleteAction}" />
                     <Button Text="{x:Static resources:AppResource.RemoveDatabase}" Command="{Binding ClearAllRecordsCommand}"/>
                 </StackLayout>
             </Frame>
-            <Frame Margin="10,10,10,10" Padding="10,10,10,10" BorderColor ="Black">
+            <Frame Margin="10,0,10,5" Padding="5,5,5,5" BorderColor ="Black" VerticalOptions="FillAndExpand">
                 <StackLayout>
+                    <Label Text="{x:Static resources:AppResource.SaveDatabase}" HorizontalTextAlignment="Center"/>
                     <Button Text="{x:Static resources:AppResource.ExportButton}" Command="{Binding ExportDataCommand}"/>
                     <Button Text="{x:Static resources:AppResource.ImportButton}" Command="{Binding ImportDataCommand}"/>
                 </StackLayout>

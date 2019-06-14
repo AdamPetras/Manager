@@ -5,6 +5,7 @@ using Manager.Extensions;
 using Manager.Model.Enums;
 using Manager.Model.Interfaces;
 using Manager.Resources;
+using Xamarin.Forms.Xaml;
 
 namespace Manager.Model
 {
@@ -20,14 +21,19 @@ namespace Manager.Model
         public string Description { get; set; }
         public string Value { get; }
         public string GetRecordType { get; }
+        public TimeSpan WorkTimeFrom { get; set; }
+        public TimeSpan WorkTimeTo { get; set; }
         public WorkTime Time { get; set; }
         public WorkTime OverTime { get; set; }
 
 
-        public HoursRecord(DateTime date, uint hours,uint minutes, double price, double bonus, string description,uint overTimeHours,uint overTimeMinutes)
+        public HoursRecord(DateTime date, TimeSpan from, TimeSpan to, double price, double bonus, string description,int overTimeHours,int overTimeMinutes)
         {
             Id = Guid.NewGuid();
             Date = date;
+            WorkTimeFrom = from;
+            WorkTimeTo = to;
+            (int hours,int minutes) = CalculateHoursAndMinutes();
             Time = new WorkTime(hours, minutes);
             Price = price;
             Bonus = bonus;
@@ -37,8 +43,15 @@ namespace Manager.Model
             GetRecordType = AppResource.HoursType;
             Value = (Time + OverTime).ToString();
         }
-        public HoursRecord(DateTime date, WorkTime time, double price, double bonus, string description, WorkTime overTime) :this(date,time.Hours,time.Minutes,price,bonus, description,overTime.Hours,overTime.Minutes)
+
+        public HoursRecord(DateTime date, TimeSpan from, TimeSpan to, double price, double bonus, string description, WorkTime overTime):this(date,from,to,price,bonus,description,overTime.Hours,overTime.Minutes)
         {
+        }
+
+        private Tuple<int, int> CalculateHoursAndMinutes()
+        {
+            TimeSpan span = WorkTimeTo - WorkTimeFrom;
+            return new Tuple<int, int>(span.Hours, span.Minutes);
         }
 
         public static bool operator ==(HoursRecord obj1 , HoursRecord obj2)

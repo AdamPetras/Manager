@@ -180,8 +180,8 @@
   <data name="DefaultPrice" xml:space="preserve">
     <value>Výchozí částka za hodinu</value>
   </data>
-  <data name="DefaultTime" xml:space="preserve">
-    <value>Výchozí čas</value>
+  <data name="DefaultTimeFrom" xml:space="preserve">
+    <value>Výchozí čas od</value>
   </data>
   <data name="DeleteButton" xml:space="preserve">
     <value>Smazat</value>
@@ -398,5 +398,32 @@
   </data>
   <data name="ImportButton" xml:space="preserve">
     <value>Načíst data</value>
+  </data>
+  <data name="DefaultSettings" xml:space="preserve">
+    <value>Výchozí nastavení</value>
+  </data>
+  <data name="RemoveDataFromDatabase" xml:space="preserve">
+    <value>Odebrat data z databáze</value>
+  </data>
+  <data name="SaveDatabase" xml:space="preserve">
+    <value>Uložit databázi</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Hledat</value>
+  </data>
+  <data name="SearchByDate" xml:space="preserve">
+    <value>Vložte datum</value>
+  </data>
+  <data name="DefaultTimeTo" xml:space="preserve">
+    <value>Výchozí čas do</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>Od</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>Do</value>
+  </data>
+  <data name="WorkTime" xml:space="preserve">
+    <value>Čas práce</value>
   </data>
 </root>

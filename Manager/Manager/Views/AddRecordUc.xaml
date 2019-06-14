@@ -26,14 +26,15 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Label Text="{x:Static resource:AppResource.TypeOfWork}" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
         <Picker Grid.Row="0" Grid.Column="1" ItemsSource="{Binding PickerRecordTypes}" Grid.ColumnSpan="4" SelectedIndex="{Binding SelectedPicker}"  HorizontalOptions="FillAndExpand" VerticalOptions="Center"/>
@@ -44,27 +45,25 @@
         <!--Vacation date-->
         <Label IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Vacation}}" Text="{x:Static resource:AppResource.DateTo}" Grid.Row="3" Grid.Column="0"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
         <DatePicker IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Vacation}}" Date="{Binding DateTo}" MaximumDate="1.1.2200" MinimumDate="1.1.2000" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-        <!--Pieces-->
-        <Label IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Pieces}}"  Text="{x:Static resource:AppResource.Pieces}" Grid.Row="3" Grid.Column="0"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-        <Entry IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Pieces}}" Keyboard="Numeric" Text="{Binding Pieces}"  Grid.Row ="3" Grid.Column="1" Grid.ColumnSpan="4"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-        <!--Hours and minutes-->
-        <Label IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Hours}}"  Text="{x:Static resource:AppResource.HoursAndMinutes}" Grid.Row="3" Grid.Column="0"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-        <Entry IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Hours}}" Keyboard="Numeric" Text="{Binding Hours}"  Grid.Row ="3" Grid.Column="1"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-        <Label IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Hours}}"  Text="{x:Static resource:AppResource.Hours}" Grid.Row="3" Grid.Column="2" VerticalOptions="End" Margin="0,0,0,10"/>
-        <Entry IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Hours}}" Keyboard="Numeric" Text="{Binding Minutes}"  Grid.Row ="3" Grid.Column="3"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-        <Label IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Hours}}"  Text="{x:Static resource:AppResource.Minutes}" Grid.Row="3" Grid.Column="4" VerticalOptions="End" Margin="0,0,0,10"/>
         <!--Bonus and price-->
-        <Label IsVisible="{Binding SelectedPicker, Converter={StaticResource NonEqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Vacation}}" Text="{x:Static resource:AppResource.Price}" Grid.Row ="4" Grid.Column ="0"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-        <Entry IsVisible="{Binding SelectedPicker, Converter={StaticResource NonEqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Vacation}}" Keyboard="Numeric" Text="{Binding Price}" Grid.Row ="4" Grid.Column="1" Grid.ColumnSpan="4"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-        <Label IsVisible="{Binding SelectedPicker, Converter={StaticResource NonEqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Vacation}}" Text="{x:Static resource:AppResource.Bonus}" Grid.Row ="5" Grid.Column="0"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-        <Entry IsVisible="{Binding SelectedPicker, Converter={StaticResource NonEqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Vacation}}" Keyboard="Numeric" Text="{Binding Bonus}" Grid.Row ="5" Grid.Column="1" Grid.ColumnSpan="4"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+        <Label IsVisible="{Binding SelectedPicker, Converter={StaticResource NonEqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Vacation}}" Text="{x:Static resource:AppResource.Price}" Grid.Row ="3" Grid.Column ="0"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+        <Entry IsVisible="{Binding SelectedPicker, Converter={StaticResource NonEqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Vacation}}" Text="{Binding Price}" Grid.Row ="3" Grid.Column="1" Grid.ColumnSpan="4"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+        <Label IsVisible="{Binding SelectedPicker, Converter={StaticResource NonEqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Vacation}}" Text="{x:Static resource:AppResource.Bonus}" Grid.Row ="4" Grid.Column="0"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+        <Entry IsVisible="{Binding SelectedPicker, Converter={StaticResource NonEqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Vacation}}" Keyboard="Numeric" Text="{Binding Bonus}" Grid.Row ="4" Grid.Column="1" Grid.ColumnSpan="4"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+        <!--Hours and minutes-->
+        <Label IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Hours}}"  Text="{x:Static resource:AppResource.WorkTime}" Grid.Row="5" Grid.Column="0"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+        <Label IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Hours}}"  Text="{x:Static resource:AppResource.From}" Grid.Row="5" Grid.Column="1"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+        <TimePicker IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Hours}}" Grid.Row="5" Grid.Column="2" Time="{Binding WorkTimeFrom}" HorizontalOptions="FillAndExpand"/>
+        <Label IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Hours}}"  Text="{x:Static resource:AppResource.To}" Grid.Row="5" Grid.Column="3"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+        <TimePicker IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Hours}}" Grid.Row="5" Grid.Column="4" Time="{Binding WorkTimeTo}" HorizontalOptions="FillAndExpand"/>
+        <!--Pieces-->
+        <Label IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Pieces}}"  Text="{x:Static resource:AppResource.Pieces}" Grid.Row="5" Grid.Column="0"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+        <Entry IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Pieces}}" Keyboard="Numeric" Text="{Binding Pieces}"  Grid.Row ="5" Grid.Column="1" Grid.ColumnSpan="4"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
         <!--Overtime row-->
         <Label IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Hours}}" Text="{x:Static resource:AppResource.OverTime}" Grid.Row ="6" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="Center"/>
-        <Entry IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Hours}}" Keyboard="Numeric" Text="{Binding OverTimeHours}" Grid.Row ="6" Grid.Column="1" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-        <Label IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Hours}}" Text="{x:Static resource:AppResource.Hours}" Grid.Row ="6" Grid.Column="2" VerticalOptions="End" Margin="0,0,0,10"/>
-        <Entry IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Hours}}" Keyboard="Numeric" Text="{Binding OverTimeMinutes}" Grid.Row ="6" Grid.Column="3" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-        <Label IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Hours}}" Text="{x:Static resource:AppResource.Minutes}" Grid.Row ="6" Grid.Column="4" VerticalOptions="End" Margin="0,0,0,10"/>
-        <Button IsVisible="{Binding IsCancelModifyVisible}" Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="2"  Text="{x:Static resource:AppResource.CancelModify}" Command="{Binding CancelModify}" VerticalOptions="End"/>
-        <Button Text="{Binding ButtonText}" Command="{Binding ButtonAdd}" Grid.Row ="7" Grid.Column="0" Grid.ColumnSpan="{Binding ButtonAddColumnSpan}" VerticalOptions="End"/>
+        <TimePicker IsVisible="{Binding SelectedPicker, Converter={StaticResource EqualityConverter}, ConverterParameter={x:Static enums:ERecordType.Hours}}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="4" Time="{Binding OverTime}"/>
+
+        <Button IsVisible="{Binding IsCancelModifyVisible}" Grid.Row="8" Grid.Column="3" Grid.ColumnSpan="2"  Text="{x:Static resource:AppResource.CancelModify}" Command="{Binding CancelModify}" VerticalOptions="End"/>
+        <Button Text="{Binding ButtonText}" Command="{Binding ButtonAdd}" Grid.Row ="8" Grid.Column="0" Grid.ColumnSpan="{Binding ButtonAddColumnSpan}" VerticalOptions="End"/>
     </Grid>
 </ContentPage>

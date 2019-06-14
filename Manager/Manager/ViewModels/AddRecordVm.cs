@@ -22,10 +22,8 @@ namespace Manager.ViewModels
     {
         private DateTime _date;
         private DateTime _dateTo;
-        private double _bonus;
-        private uint _hours;
-        private uint _minutes;
-        private double _price;
+        private string _bonus;
+        private string _price;
         private uint _pieces;
         private int _selectedPicker;
         private string _buttonText;
@@ -33,8 +31,9 @@ namespace Manager.ViewModels
         private TableItemUcVm _modifying;
         private bool _isCancelModifyVisible;
         private int _buttonAddColumnSpan;
-        private uint _overTimeHours;
-        private uint _overTimeMinutes;
+        private TimeSpan _workTimeFrom;
+        private TimeSpan _workTimeTo;
+        private TimeSpan _overTime;
         public ICommand ButtonAdd { get; }
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -102,49 +101,59 @@ namespace Manager.ViewModels
             }
         }
 
-        public double Bonus
+        public string Bonus
         {
             get => _bonus;
             set
             {
-                _bonus = value;
+                if (IsDigitsOnly(value))
+                {
+                    _bonus = value.Replace('.', ',');
+                }
+                else
+                {
+                    _bonus = value.Remove(value.Length - 1);
+                }
                 OnPropertyChanged(nameof(Bonus));
             }
         }
 
-        public uint Hours
-        {
-            get => _hours;
-            set
-            {
-                if (value > 23)
-                    value = 23;
-                _hours = value;
-                OnPropertyChanged(nameof(Hours));
-            }
-        }
 
-        public uint Minutes
-        {
-            get => _minutes;
-            set
-            {
-                if (value > 59)
-                    value = 59;
-                _minutes = value;
-                OnPropertyChanged(nameof(Minutes));
-            }
-        }
-
-
-        public double Price
+        public string Price
         {
             get => _price;
             set
             {
-                _price = value;
+                if (IsDigitsOnly(value))
+                {
+                    _price = value.Replace('.', ',');
+                }
+                else
+                {
+                    _price = value.Remove(value.Length-1);
+                }
                 OnPropertyChanged(nameof(Price));
             }
+        }
+
+        private bool IsDigitsOnly(string str)
+        {
+            foreach (char c in str)
+            {
+                if (!(IsNumber(c) || IsDotOrComma(c)))
+                    return false;
+            }
+            return true;
+        }
+
+        private bool IsNumber(char c)
+        {
+            return c >= '0' && c <= '9';
+        }
+
+        private bool IsDotOrComma(char c)
+        {
+            return c == ',' || c == '.';
         }
 
         public uint Pieces
@@ -170,7 +179,7 @@ namespace Manager.ViewModels
             }
         }
 
-        public Command CancelModify { get; }
+        public ICommand CancelModify { get; }
 
         public int ButtonAddColumnSpan
         {
@@ -182,27 +191,35 @@ namespace Manager.ViewModels
             }
         }
 
-        public uint OverTimeHours
+        public TimeSpan WorkTimeFrom
         {
-            get => _overTimeHours;
+            get => _workTimeFrom;
             set
             {
-                if (value > 23)
-                    value = 23;
-                _overTimeHours = value;
-                OnPropertyChanged(nameof(OverTimeHours));
+                if (value > WorkTimeTo)
+                    WorkTimeTo = value;
+                _workTimeFrom = value;
+                OnPropertyChanged(nameof(WorkTimeFrom));
             }
         }
 
-        public uint OverTimeMinutes
+        public TimeSpan WorkTimeTo
         {
-            get => _overTimeMinutes;
+            get => _workTimeTo;
             set
             {
-                if (value > 59)
-                    value = 59;
-                _overTimeMinutes = value;
-                OnPropertyChanged(nameof(OverTimeMinutes));
+                _workTimeTo = value;
+                OnPropertyChanged(nameof(WorkTimeTo));
+            }
+        }
+
+        public TimeSpan OverTime
+        {
+            get => _overTime;
+            set
+            {
+                _overTime = value;
+                OnPropertyChanged(nameof(OverTime));
             }
         }
 
@@ -236,8 +253,9 @@ namespace Manager.ViewModels
                             SelectedPicker = (int) ERecordType.Vacation;
                             return;
                         case ERecordType.Hours:
-                            Hours = ((IHoursRecord) modifer.Record).Time.Hours;
-                            Minutes = ((IHoursRecord) modifer.Record).Time.Minutes;
+                            _workTimeTo = new TimeSpan(((IHoursRecord) modifer.Record).WorkTimeTo.Hours,((IHoursRecord)modifer.Record).WorkTimeTo.Minutes,0);
+                            _workTimeFrom = new TimeSpan(((IHoursRecord) modifer.Record).WorkTimeFrom.Hours,((IHoursRecord)modifer.Record).WorkTimeFrom.Minutes,0);
+                            _overTime = new TimeSpan(((IHoursRecord)modifer.Record).OverTime.Hours, ((IHoursRecord)modifer.Record).OverTime.Minutes,0);
                             SelectedPicker = (int) ERecordType.Hours;
                             break;
                         case ERecordType.Pieces:
@@ -245,8 +263,8 @@ namespace Manager.ViewModels
                             SelectedPicker = (int) ERecordType.Pieces;
                             break;
                     }
-                    Price = ((IRecord) modifer.Record).Price;
-                    Bonus = ((IRecord) modifer.Record).Bonus;
+                    Price = ((IRecord) modifer.Record).Price.ToString(CultureInfo.InvariantCulture);
+                    Bonus = ((IRecord) modifer.Record).Bonus.ToString(CultureInfo.InvariantCulture);
                 }
                 else
                 {
@@ -267,17 +285,17 @@ namespace Manager.ViewModels
             Description = "";
             ReloadConfigValues();
             DateTo = DateTime.Today;
-            Bonus = 0;
-            OverTimeHours = 0;
-            OverTimeMinutes = 0;
+            Bonus = "0";
+            Price = "0";
+            OverTime = TimeSpan.Zero;
         }
 
         public void ReloadConfigValues()
         {
-            Hours = SaveStaticVariables.DefaultHours;
-            Minutes = SaveStaticVariables.DefaultMinutes;
+            WorkTimeFrom = SaveStaticVariables.DefaultTimeFrom;
+            WorkTimeTo = SaveStaticVariables.DefaultTimeTo;
             Pieces = SaveStaticVariables.DefaultPieces;
-            Price = SaveStaticVariables.DefaultPrice;
+            Price = SaveStaticVariables.DefaultPrice.ToString(CultureInfo.InvariantCulture);
         }
 
         private void SetButtonCancelModifyVisible(bool visible = true)
@@ -334,16 +352,19 @@ namespace Manager.ViewModels
 
         private IBaseRecord[] CreateRecords()
         {
+            double.TryParse(Price, out double price);
+            double.TryParse(Bonus, out double bonus);
             switch (SelectedPicker)
             {
                 case (int)ERecordType.Hours:
-                    return new IBaseRecord[] {new HoursRecord(Date, Hours, Minutes, Price, Bonus, Description, OverTimeHours,OverTimeMinutes)};
+                    return new IBaseRecord[] {new HoursRecord(Date, WorkTimeFrom , WorkTimeTo, price, bonus, Description, OverTime.Hours,OverTime.Minutes)};
                 case (int)ERecordType.Pieces:
-                    return new IBaseRecord[] {new PiecesRecord(Date, Pieces, Price, Bonus, Description)};
+                    return new IBaseRecord[] {new PiecesRecord(Date, Pieces, price, bonus, Description)};
                 default:
                     return AddVacationRecords();
             }
         }
+
 
         private void SetupDate(DateTimeAsReference cal)
         {

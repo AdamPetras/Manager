@@ -1,9 +1,11 @@
+using System;
+
 namespace Manager.Model
 {
     public class WorkTime
     {
-        public uint Hours { get; set; }
-        public uint Minutes { get; set; }
+        public int Hours { get; set; }
+        public int Minutes { get; set; }
 
         public WorkTime()
         {
@@ -11,7 +13,7 @@ namespace Manager.Model
             Minutes = 0;
         }
 
-        public WorkTime(uint hours, uint minutes)
+        public WorkTime(int hours, int minutes)
         {
             Hours = hours;
             Minutes = minutes;
@@ -74,5 +76,9 @@ namespace Manager.Model
             }
         }
 
+        public TimeSpan ToTimeSpan()
+        { 
+            return new TimeSpan(Hours,Minutes,0);
+        }
     }
 }

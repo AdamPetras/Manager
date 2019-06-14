@@ -19,14 +19,14 @@ namespace Manager.ViewModels
     public class SettingsUcVm:INotifyPropertyChanged
     {
         private readonly IXmlSave _save;
-        private uint _defaultHours;
-        private uint _defaultMinutes;
         private double _defaultPrice;
         private uint _defaultPieces;
         private readonly IXmlManager _manager;
         private static readonly string Path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SaveConfig.xml");
         private bool _isRestoreDefaultEnabled;
         private int _selectedDeleteAction;
+        private TimeSpan _defaultTimeTo;
+        private TimeSpan _defaultTimeFrom;
 
         public ICommand ClearAllRecordsCommand { get; }
         public ICommand SaveSettingsCommand { get; }
@@ -36,55 +36,6 @@ namespace Manager.ViewModels
 
         public List<string> DeleteActionsList { get; } = new List<string>(EnumMapper.MapEnumToStringArray<EDeleteAction>());
 
-        public uint DefaultHours
-        {
-            get => _defaultHours;
-            set
-            {
-                if (value <= 23)
-                {
-                    _defaultHours = value;
-                    SaveStaticVariables.DefaultHours = value;
-                    OnPropertyChanged(nameof(DefaultHours));
-                }
-
-                else if (value > 23)
-                {
-                    _defaultHours = 23;
-                    SaveStaticVariables.DefaultHours = 23;
-
-                }
-                else
-                {
-                    _defaultHours = 0;
-                    SaveStaticVariables.DefaultHours = 0;
-                }
-            }
-        }
-        public uint DefaultMinutes
-        {
-            get => _defaultMinutes;
-            set
-            {
-                if (value <= 59)
-                {
-                    _defaultMinutes = value;
-                    SaveStaticVariables.DefaultMinutes = value;
-                    OnPropertyChanged(nameof(DefaultMinutes));
-                }
-
-                else if (value > 59)
-                {
-                    _defaultMinutes = 59;
-                    SaveStaticVariables.DefaultMinutes = 59;
-                }
-                else
-                {
-                    _defaultMinutes = 0;
-                    SaveStaticVariables.DefaultMinutes = 0;
-                }
-            }
-        }
         public uint DefaultPieces
         {
             get => _defaultPieces;
@@ -123,6 +74,28 @@ namespace Manager.ViewModels
             {
                 _selectedDeleteAction = value;
                 OnPropertyChanged(nameof(SelectedDeleteAction));
+            }
+        }
+
+        public TimeSpan DefaultTimeFrom
+        {
+            get => _defaultTimeFrom;
+            set
+            {
+                _defaultTimeFrom = value;
+                SaveStaticVariables.DefaultTimeFrom = value;
+                OnPropertyChanged(nameof(DefaultTimeFrom));
+            }
+        }
+
+        public TimeSpan DefaultTimeTo
+        {
+            get => _defaultTimeTo;
+            set
+            {
+                _defaultTimeTo = value;
+                SaveStaticVariables.DefaultTimeTo = value;
+                OnPropertyChanged(nameof(DefaultTimeTo));
             }
         }
 
@@ -169,15 +142,15 @@ namespace Manager.ViewModels
 
         public void SetRestoreButtonEnabled()
         {
-            if (DefaultHours == 0 && DefaultMinutes == 0 && Math.Abs(DefaultPrice) < 0.2 && DefaultPieces == 0)
+            if (DefaultTimeFrom == TimeSpan.Zero && DefaultTimeTo == TimeSpan.Zero && Math.Abs(DefaultPrice) < 0.2 && DefaultPieces == 0)
                 IsRestoreDefaultEnabled = false;
             else IsRestoreDefaultEnabled = true;
         }
 
         private void ClearValues()
         {
-            DefaultHours = 0;
-            DefaultMinutes = 0;
+            DefaultTimeFrom = TimeSpan.Zero;
+            DefaultTimeTo = TimeSpan.Zero;
             DefaultPieces = 0;
             DefaultPrice = 0;
             SetRestoreButtonEnabled();
@@ -195,13 +168,13 @@ namespace Manager.ViewModels
             {
                 switch (opt.Title)
                 {
-                    case nameof(DefaultHours):
-                        uint.TryParse(opt.Value, out _defaultHours);
-                        DefaultHours = _defaultHours;
+                    case nameof(DefaultTimeFrom):
+                        TimeSpan.TryParse(opt.Value, out _defaultTimeFrom);
+                        DefaultTimeFrom = _defaultTimeFrom;
                         break;
-                    case nameof(DefaultMinutes):
-                        uint.TryParse(opt.Value, out _defaultMinutes);
-                        DefaultMinutes = _defaultMinutes;
+                    case nameof(DefaultTimeTo):
+                        TimeSpan.TryParse(opt.Value, out _defaultTimeTo);
+                        DefaultTimeTo = _defaultTimeTo;
                         break;
                     case nameof(DefaultPieces):
                         uint.TryParse(opt.Value, out _defaultPieces);
@@ -220,8 +193,8 @@ namespace Manager.ViewModels
         {
             List<SaveOption> saveList = new List<SaveOption>
             {
-                new SaveOption(nameof(DefaultHours), DefaultHours.ToString()),
-                new SaveOption(nameof(DefaultMinutes), DefaultMinutes.ToString()),
+                new SaveOption(nameof(DefaultTimeFrom), DefaultTimeFrom.ToString()),
+                new SaveOption(nameof(DefaultTimeTo), DefaultTimeTo.ToString()),
                 new SaveOption(nameof(DefaultPieces), DefaultPieces.ToString()),
                 new SaveOption(nameof(DefaultPrice), DefaultPrice.ToString(CultureInfo.InvariantCulture))
             };

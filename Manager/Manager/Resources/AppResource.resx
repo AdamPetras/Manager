@@ -180,8 +180,8 @@
   <data name="DefaultPrice" xml:space="preserve">
     <value>Default price per hour</value>
   </data>
-  <data name="DefaultTime" xml:space="preserve">
-    <value>Default time</value>
+  <data name="DefaultTimeFrom" xml:space="preserve">
+    <value>Default time from</value>
   </data>
   <data name="DeleteButton" xml:space="preserve">
     <value>Delete</value>
@@ -398,5 +398,32 @@
   </data>
   <data name="ImportButton" xml:space="preserve">
     <value>Import data</value>
+  </data>
+  <data name="DefaultSettings" xml:space="preserve">
+    <value>Default settings</value>
+  </data>
+  <data name="RemoveDataFromDatabase" xml:space="preserve">
+    <value>Remove data from database</value>
+  </data>
+  <data name="SaveDatabase" xml:space="preserve">
+    <value>Save database</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchByDate" xml:space="preserve">
+    <value>Enter date</value>
+  </data>
+  <data name="DefaultTimeTo" xml:space="preserve">
+    <value>Default time to</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>Od</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>Do</value>
+  </data>
+  <data name="WorkTime" xml:space="preserve">
+    <value>Work time</value>
   </data>
 </root>

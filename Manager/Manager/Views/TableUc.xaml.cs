@@ -22,5 +22,10 @@ namespace Manager.Views
         {
             _context.ClearAndWriteStatistics();
         }
+
+        private void FindByDate(object sender, EventArgs e)
+        {
+            _context.FindByDate();
+        }
     }
 }

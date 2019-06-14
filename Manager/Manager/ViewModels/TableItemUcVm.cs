@@ -61,7 +61,7 @@ namespace Manager.ViewModels
             if (item.Record.Type == ERecordType.Hours)
             {
                 IHoursRecord rec = (IHoursRecord) item.Record;
-                Application.Current.MainPage.DisplayAlert("Info", AppResource.Date + ": " + rec.DateString+ "\n"+AppResource.HoursAndMinutes+": " + rec.Time+ "\n"+AppResource.PricePerHour+": "+rec.Price+ "\n"+AppResource.Bonus+": " + rec.Bonus+ "\n"+AppResource.TotalPrice+": " + rec.TotalPrice+ "\n"+AppResource.OverTime+": " + rec.OverTime + "\n"+AppResource.Description+":\n" + rec.Description, AppResource.Ok);
+                Application.Current.MainPage.DisplayAlert("Info", AppResource.Date + ": " + rec.DateString+"\n"+AppResource.From+": "+rec.WorkTimeFrom.ToString()+"\n"+AppResource.To+": "+rec.WorkTimeTo+"\n"+AppResource.HoursAndMinutes+": " + rec.Time+ "\n"+AppResource.PricePerHour+": "+rec.Price+ "\n"+AppResource.Bonus+": " + rec.Bonus+ "\n"+AppResource.TotalPrice+": " + rec.TotalPrice+ "\n"+AppResource.OverTime+": " + rec.OverTime + "\n"+AppResource.Description+":\n" + rec.Description, AppResource.Ok);
             }
             else if (item.Record.Type == ERecordType.Pieces)
             {
