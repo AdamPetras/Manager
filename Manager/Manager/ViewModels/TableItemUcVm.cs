@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -45,10 +46,14 @@ namespace Manager.ViewModels
             More = new Command<TableItemUcVm>(MoreInformationRecord);
             Delete = new Command<TableItemUcVm>(RemoveRecord);
             Modify = new Command<TableItemUcVm>(ModifyRecord);
+            if (rec.Date.DayOfWeek == DayOfWeek.Saturday || rec.Date.DayOfWeek == DayOfWeek.Sunday)
+            {
+                IsOverTimeColor = Color.Red;
+            }
             if (rec.Type == ERecordType.Hours)
             {
                 if (((IHoursRecord) rec).OverTime != new WorkTime())
-                    IsOverTimeColor = Color.Red;
+                    IsOverTimeColor = Color.DeepSkyBlue;
             }
             _record = rec;
         }
