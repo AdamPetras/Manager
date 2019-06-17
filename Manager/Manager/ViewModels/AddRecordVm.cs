@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Manager.Annotations;
+using Manager.Extensions;
 using Manager.Mappers;
 using Manager.Model;
 using Manager.Model.Enums;
@@ -34,6 +35,7 @@ namespace Manager.ViewModels
         private TimeSpan _workTimeFrom;
         private TimeSpan _workTimeTo;
         private TimeSpan _overTime;
+        public ICommand CancelModify { get; }
         public ICommand ButtonAdd { get; }
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -106,14 +108,7 @@ namespace Manager.ViewModels
             get => _bonus;
             set
             {
-                if (IsDigitsOnly(value))
-                {
-                    _bonus = value.Replace('.', ',');
-                }
-                else
-                {
-                    _bonus = value.Remove(value.Length - 1);
-                }
+                _bonus = value.IsDigitsOnly()? value.Replace('.', ',') : value.Remove(value.Length - 1);
                 OnPropertyChanged(nameof(Bonus));
             }
         }
@@ -124,36 +119,9 @@ namespace Manager.ViewModels
             get => _price;
             set
             {
-                if (IsDigitsOnly(value))
-                {
-                    _price = value.Replace('.', ',');
-                }
-                else
-                {
-                    _price = value.Remove(value.Length-1);
-                }
+                _price = value.IsDigitsOnly() ? value.Replace('.', ',') : value.Remove(value.Length-1);
                 OnPropertyChanged(nameof(Price));
             }
-        }
-
-        private bool IsDigitsOnly(string str)
-        {
-            foreach (char c in str)
-            {
-                if (!(IsNumber(c) || IsDotOrComma(c)))
-                    return false;
-            }
-            return true;
-        }
-
-        private bool IsNumber(char c)
-        {
-            return c >= '0' && c <= '9';
-        }
-
-        private bool IsDotOrComma(char c)
-        {
-            return c == ',' || c == '.';
         }
 
         public uint Pieces
@@ -179,7 +147,6 @@ namespace Manager.ViewModels
             }
         }
 
-        public ICommand CancelModify { get; }
 
         public int ButtonAddColumnSpan
         {
@@ -222,7 +189,6 @@ namespace Manager.ViewModels
                 OnPropertyChanged(nameof(OverTime));
             }
         }
-
 
         public AddRecordVm()
         {
@@ -316,7 +282,12 @@ namespace Manager.ViewModels
 
         private void AddButtonCommand()
         {
-            Application.Current.MainPage.DisplayAlert("Info", AppResource.AddMessage +" "+ AddOrModifyRecord() + ".", "OK");
+            if (WorkTimeFrom > WorkTimeTo)
+            {
+                WorkTimeTo = new TimeSpan(1, WorkTimeTo.Hours, WorkTimeTo.Minutes, WorkTimeTo.Seconds);
+            }
+            Application.Current.MainPage.DisplayAlert("Info",
+                AppResource.AddMessage + " " + AddOrModifyRecord() + ".", "OK");
             ClearValues();
         }
 

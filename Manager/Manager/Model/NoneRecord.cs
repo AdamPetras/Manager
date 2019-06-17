@@ -1,7 +1,8 @@
 ﻿using System;
 using Manager.Model.Enums;
+using Manager.Model.Interfaces;
 
-namespace Manager.Model.Interfaces
+namespace Manager.Model
 {
     public class NoneRecord:IBaseRecord
     {

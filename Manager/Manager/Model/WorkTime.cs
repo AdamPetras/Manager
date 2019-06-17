@@ -4,6 +4,7 @@ namespace Manager.Model
 {
     public class WorkTime
     {
+        public int Days { get; set; }
         public int Hours { get; set; }
         public int Minutes { get; set; }
 
@@ -11,12 +12,14 @@ namespace Manager.Model
         {
             Hours = 0;
             Minutes = 0;
+            Days = 0;
         }
 
-        public WorkTime(int hours, int minutes)
+        public WorkTime(int hours, int minutes,int days = 0)
         {
             Hours = hours;
             Minutes = minutes;
+            Days = days;
         }
 
         public static WorkTime operator +(WorkTime b, WorkTime c)
@@ -78,7 +81,7 @@ namespace Manager.Model
 
         public TimeSpan ToTimeSpan()
         { 
-            return new TimeSpan(Hours,Minutes,0);
+            return new TimeSpan(Days,Hours, Minutes,0);
         }
     }
 }

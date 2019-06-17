@@ -153,6 +153,7 @@ namespace Manager.ViewModels
                     CalcAndSet(tableItem);
                 }
             }
+            CalculateAveragePrice();
         }
 
         private void Clear(IBaseRecord rec, EDeleteAction action)
@@ -323,6 +324,7 @@ namespace Manager.ViewModels
         {
             ClearUp();
             RecordList.Clear();
+            SearchDate = "";
             switch (SelectedPeriod)
             {
                 case (int)ESelectedStage.All:
@@ -356,8 +358,13 @@ namespace Manager.ViewModels
                     Statistics.Year(SelectVacations(SavedRecordList), CalcAndSet);
                     break;
             }
-            if((WorkHours.Hours + WorkHours.Minutes / 60.0) != 0)
-                _averagePricePerHour = Math.Round(_totalPriceForHourType / (WorkHours.Hours + WorkHours.Minutes/60.0), 1);
+            CalculateAveragePrice();
+        }
+
+        private void CalculateAveragePrice()
+        {
+            if ((WorkHours.Hours + WorkHours.Minutes / 60.0) != 0)
+                _averagePricePerHour = Math.Round(_totalPriceForHourType / (WorkHours.Hours + WorkHours.Minutes / 60.0), 1);
         }
 
         private ObservableCollection<TableItemUcVm> SelectVacations(IReadOnlyCollection<TableItemUcVm> records)

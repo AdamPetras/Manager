@@ -426,4 +426,13 @@
   <data name="WorkTime" xml:space="preserve">
     <value>Work time</value>
   </data>
+  <data name="IsNightRecord" xml:space="preserve">
+    <value>Night shift</value>
+  </data>
+  <data name="TimeErrorDialog" xml:space="preserve">
+    <value>The wrong time from to</value>
+  </data>
+  <data name="TimeErrorDialogTitle" xml:space="preserve">
+    <value>Time error</value>
+  </data>
 </root>

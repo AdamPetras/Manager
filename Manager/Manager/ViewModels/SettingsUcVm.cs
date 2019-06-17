@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Manager.Annotations;
 using Manager.Mappers;
+using Manager.Model;
 using Manager.Model.Enums;
 using Manager.Model.Interfaces;
 using Manager.Resources;

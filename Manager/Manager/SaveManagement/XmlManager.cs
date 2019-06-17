@@ -136,7 +136,7 @@ namespace Manager.SaveManagement
                 {
                     if (IfFoundedElementIsEquals(rec, foundRec))
                         return recordElement;
-                }
+                } 
             }
             return null;
         }
@@ -252,9 +252,18 @@ namespace Manager.SaveManagement
 
         private WorkTime ParseTimeRecord(string[] timeString)
         {
-            int.TryParse(timeString[0], out int hours);
+            string[] str = timeString[0].Split('.');
+            int hours;
+            int days = 0;
+            if (str.Length == 2)
+            {
+                int.TryParse(str[0], out days);
+                int.TryParse(str[1], out hours);
+            }
+            else
+                int.TryParse(timeString[0], out hours);
             int.TryParse(timeString[1], out int minutes);
-            return new WorkTime(hours, minutes);
+            return new WorkTime(hours, minutes, days);
         }
     }
 }

@@ -457,6 +457,15 @@ namespace Manager.Resources {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Night shift.
+        /// </summary>
+        public static string IsNightRecord {
+            get {
+                return ResourceManager.GetString("IsNightRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný January.
         /// </summary>
         public static string January {
@@ -786,6 +795,24 @@ namespace Manager.Resources {
         public static string Thursday {
             get {
                 return ResourceManager.GetString("Thursday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný The wrong time from to.
+        /// </summary>
+        public static string TimeErrorDialog {
+            get {
+                return ResourceManager.GetString("TimeErrorDialog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Time error.
+        /// </summary>
+        public static string TimeErrorDialogTitle {
+            get {
+                return ResourceManager.GetString("TimeErrorDialogTitle", resourceCulture);
             }
         }
         

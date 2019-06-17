@@ -426,4 +426,13 @@
   <data name="WorkTime" xml:space="preserve">
     <value>Čas práce</value>
   </data>
+  <data name="IsNightRecord" xml:space="preserve">
+    <value>Noční směna</value>
+  </data>
+  <data name="TimeErrorDialog" xml:space="preserve">
+    <value>Špatně zadaný čas od do.</value>
+  </data>
+  <data name="TimeErrorDialogTitle" xml:space="preserve">
+    <value>Špatný čas</value>
+  </data>
 </root>
