@@ -9,7 +9,6 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Manager.Annotations;
-using Manager.Extensions;
 using Manager.Mappers;
 using Manager.Model;
 using Manager.Model.Enums;
@@ -115,6 +114,7 @@ namespace Manager.ViewModels
                 OnPropertyChanged(nameof(PriceTogether));
             }
         }
+
         public string SearchDate
         {
             get => _searchDate;

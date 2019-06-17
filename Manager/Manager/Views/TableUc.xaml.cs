@@ -1,5 +1,6 @@
 using System;
 using Manager.ViewModels;
+using Xamarin.Forms;
 
 namespace Manager.Views
 {
@@ -26,6 +27,14 @@ namespace Manager.Views
         private void FindByDate(object sender, EventArgs e)
         {
             _context.FindByDate();
+        }
+
+        private void FindByDateEmptyString(object sender, TextChangedEventArgs e)
+        {
+            if (_context.SearchDate.Length == 0)
+            {
+                _context.FindByDate();
+            }
         }
     }
 }

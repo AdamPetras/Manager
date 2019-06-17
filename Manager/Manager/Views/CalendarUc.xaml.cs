@@ -16,8 +16,12 @@ namespace Manager.Views
         private Grid _grid;
         private bool _gridExists;
         private readonly CalendarUcVm _calendarBinding;
+        private readonly Color _backgroundColorDefault;
+        private readonly Color _backgroundColorWeekend;
         public CalendarUc()
         {
+            _backgroundColorDefault = Color.Gray;
+            _backgroundColorWeekend = Color.Red;
             InitializeComponent();
             _calendarBinding = new CalendarUcVm();
             BindingContext = _calendarBinding;
@@ -52,7 +56,6 @@ namespace Manager.Views
             CreateColumnsAndRows(false, 1, GridUnitType.Star);
             for (int i = 0; i < 5; i++)
                     CreateColumnsAndRows(false, 2, GridUnitType.Star);
-
             CreateLabels(AppResource.Monday, AppResource.Tuesday, AppResource.Wednesday, AppResource.Thursday, AppResource.Friday, AppResource.Saturday, AppResource.Sunday);
         }
 
@@ -86,11 +89,10 @@ namespace Manager.Views
                 offset = 6;
             }
             else offset -= 1;
-
             for (int i = 0; i < DateTime.DaysInMonth(year, month); i++)
             {
                 DateTime today = new DateTime(year,month,i+1);
-                Color backgroundColor = Color.Gray;
+                Color backgroundColor = SelectBackgroundColor(today);
                 TableItemUcVm item = null;
                 if (TableUcVm.SavedRecordList?.Count>0)
                     foreach (TableItemUcVm tableItem in TableUcVm.SavedRecordList)
@@ -104,7 +106,6 @@ namespace Manager.Views
                             break;
                         }
                     }
-
                 CalendarButton butt = new CalendarButton()
                 {
                     Text = (i + 1).ToString(),
@@ -112,14 +113,22 @@ namespace Manager.Views
                     Item = item
                 };
                 if (item != null)
-                    butt.Command = new Command(()=>item.MoreInformationRecord(butt.Item));
+                    butt.Command = new Command(() => item.MoreInformationRecord(butt.Item));
                 else
                 {
                     butt.Command = new Command(() => ChangeTabToAddRecordAndSetupDate(today));
                 }
-
                 _grid.Children.Add(butt, (i + offset) % 7, (i + offset) / 7 + 1);
             }
+        }
+
+        private Color SelectBackgroundColor(DateTime today)
+        {
+            if (today.DayOfWeek == DayOfWeek.Sunday || today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                return _backgroundColorWeekend;
+            }
+            return _backgroundColorDefault;
         }
 
         private void ChangeTabToAddRecordAndSetupDate(DateTime today)
