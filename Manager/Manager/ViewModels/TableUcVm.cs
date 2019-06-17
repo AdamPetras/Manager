@@ -210,7 +210,7 @@ namespace Manager.ViewModels
 
         private void ClearVacationsThisYear()
         {
-            PersistRemove(new List<TableItemUcVm>(SavedRecordList.Where(s => s.Record.Date.Year == DateTime.Today.Year && s.Record.Type == ERecordType.Vacation)));
+            PersistRemove(SavedRecordList.Where(s => s.Record.Date.Year == DateTime.Today.Year && s.Record.Type == ERecordType.Vacation).ToList());
         }
 
         private void ClearLastMonth()
@@ -222,17 +222,17 @@ namespace Manager.ViewModels
                 month = DateTime.Today.Month - 1;
                 year = DateTime.Today.Year;
             }
-            PersistRemove(new List<TableItemUcVm>(SavedRecordList.Where(s => s.Record.Date.Year == year && s.Record.Date.Month == month)));
+            PersistRemove(SavedRecordList.Where(s => s.Record.Date.Year == year && s.Record.Date.Month == month).ToList());
         }
 
         private void ClearThisMonth()
         {
-            PersistRemove(new List<TableItemUcVm>(SavedRecordList.Where(s => s.Record.Date.Year == DateTime.Today.Year && s.Record.Date.Month == DateTime.Today.Month)));
+            PersistRemove(SavedRecordList.Where(s => s.Record.Date.Year == DateTime.Today.Year && s.Record.Date.Month == DateTime.Today.Month).ToList());
         }
 
         private void ClearThisYear()
         {
-            PersistRemove(new List<TableItemUcVm>(SavedRecordList.Where(s => s.Record.Date.Year == DateTime.Today.Year)));
+            PersistRemove(SavedRecordList.Where(s => s.Record.Date.Year == DateTime.Today.Year).ToList());
         }
 
         private void ClearAll()
@@ -244,17 +244,17 @@ namespace Manager.ViewModels
 
         private void ClearVacations()
         {
-            PersistRemove(new List<TableItemUcVm>(SavedRecordList.Where(s => s.Record.Type == ERecordType.Vacation)));
+            PersistRemove(SavedRecordList.Where(s => s.Record.Type == ERecordType.Vacation).ToList());
         }
 
         private void ClearLastYear()
         {
-            PersistRemove(new List<TableItemUcVm>(SavedRecordList.Where(s => s.Record.Date.Year == DateTime.Today.Year-1)));
+            PersistRemove(SavedRecordList.Where(s => s.Record.Date.Year == DateTime.Today.Year-1).ToList());
         }
 
         private void ClearLastYears()
         {
-            PersistRemove(new List<TableItemUcVm>(SavedRecordList.Where(s => s.Record.Date.Year != DateTime.Today.Year)));
+            PersistRemove(SavedRecordList.Where(s => s.Record.Date.Year != DateTime.Today.Year).ToList());
         }
 
         private async void LoadRecordsAsync()
@@ -268,6 +268,15 @@ namespace Manager.ViewModels
                 }
                 ClearAndWriteStatistics();
             });
+        }
+        private void LoadRecords()
+        {
+            foreach (IBaseRecord tmp in _saveAndLoad.LoadXmlFile())
+            {
+                SelectedPeriod = 0;
+                SavedRecordList.Add(new TableItemUcVm(tmp));
+            }
+            ClearAndWriteStatistics();
         }
 
         private void PersistModify(TableItemUcVm find, TableItemUcVm modify)
@@ -285,22 +294,22 @@ namespace Manager.ViewModels
             ClearAndWriteStatistics();
         }
 
-        private void PersistRemove(TableItemUcVm item, bool isUpdated = false)
+        private void PersistRemove(TableItemUcVm item, bool isUpdated = true)
         {
             SelectedPeriod = 0;
             SavedRecordList.Remove(item);
             _saveAndLoad.RemoveXmlRecord(item.Record);
             if (!isUpdated)
                 LoadRecordsAsync();
+
         }
 
         private void PersistRemove(TableItemUcVm[] items)
         {
-            foreach (TableItemUcVm item in items)
+            for (int i = items.Length - 1; i >= 0; i--)
             {
-                PersistRemove(item);
+                PersistRemove(items[i]);
             }
-            LoadRecordsAsync();
         }
 
         private void PersistRemove(List<TableItemUcVm> itemList)
@@ -403,7 +412,7 @@ namespace Manager.ViewModels
 
         private void CalculateAveragePrice()
         {
-            if ((WorkHours.Hours + WorkHours.Minutes / 60.0) != 0)
+            if ((WorkHours.Hours + WorkHours.Minutes / 60.0) != 0) //ošetření dělení nulou
                 _averagePricePerHour = Math.Round(_totalPriceForHourType / (WorkHours.Hours + WorkHours.Minutes / 60.0), 1);
         }
 
