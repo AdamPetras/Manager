@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -41,6 +41,8 @@ namespace Manager.ViewModels
         private readonly IXmlManager _saveAndLoad;
         private double _totalOvertimePrice;
         private WorkTime _totalOvertimeHours;
+        private string _orderByDateButtonText;
+        private bool _isOrderedByAscending;
 
         public uint SelectedPeriod
         {
@@ -127,12 +129,26 @@ namespace Manager.ViewModels
 
         public ICommand FindByDateCommand { get; }
 
+        public string OrderByDateButtonText
+        {
+            get => _orderByDateButtonText;
+            set
+            {
+                _orderByDateButtonText = value;
+                OnPropertyChanged(nameof(OrderByDateButtonText));
+            }
+        }
+
+        public ICommand OrderByDateCommand { get; }
+
         public static List<string> WorkingTermList = new List<string>(EnumMapper.MapEnumToStringArray<ESelectedStage>());
 
         public TableUcVm()
         {
+            _isOrderedByAscending = false;
             ShowStatisticsCommand = new Command(ShowStatistics);
             FindByDateCommand = new Command(FindByDate);
+            OrderByDateCommand = new Command(SetOrderDirection);
             _saveAndLoad = new XmlManager(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "recordData.xml"));
             LoadRecordsAsync();
             MessagingCenter.Subscribe<TableItemUcVm>(this, "Add", PersistAdd);
@@ -141,6 +157,8 @@ namespace Manager.ViewModels
             MessagingCenter.Subscribe<IBaseRecord, EDeleteAction>(this, "ClearRecords", Clear);
             SearchDate = "";
         }
+
+        
 
         public void FindByDate()
         {
@@ -154,6 +172,7 @@ namespace Manager.ViewModels
                 }
             }
             CalculateAveragePrice();
+            OrderByDate();
         }
 
         private void Clear(IBaseRecord rec, EDeleteAction action)
@@ -325,6 +344,7 @@ namespace Manager.ViewModels
             ClearUp();
             RecordList.Clear();
             SearchDate = "";
+            OrderByDate();
             switch (SelectedPeriod)
             {
                 case (int)ESelectedStage.All:
@@ -359,6 +379,26 @@ namespace Manager.ViewModels
                     break;
             }
             CalculateAveragePrice();
+        }
+
+        private void SetOrderDirection()
+        {
+            _isOrderedByAscending = !_isOrderedByAscending;
+            ClearAndWriteStatistics();
+        }
+
+        private void OrderByDate()
+        {
+            if (!_isOrderedByAscending)
+            {
+                SavedRecordList = new ObservableCollection<TableItemUcVm>(SavedRecordList.OrderByDescending(s => s.Record.Date));
+                OrderByDateButtonText = AppResource.Date + " ⇩";
+            }
+            else
+            {
+                SavedRecordList = new ObservableCollection<TableItemUcVm>(SavedRecordList.OrderBy(s => s.Record.Date));
+                OrderByDateButtonText = AppResource.Date + " ⇧";
+            }
         }
 
         private void CalculateAveragePrice()
