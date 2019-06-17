@@ -426,6 +426,12 @@
   <data name="WorkTime" xml:space="preserve">
     <value>Work time</value>
   </data>
+  <data name="ExistDateDialogTitle" xml:space="preserve">
+    <value>Existing date</value>
+  </data>
+  <data name="ExistingDateDialogMessage" xml:space="preserve">
+    <value>Are you sure you want to add record with this date?</value>
+  </data>
   <data name="IsNightRecord" xml:space="preserve">
     <value>Night shift</value>
   </data>

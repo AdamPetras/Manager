@@ -426,6 +426,12 @@
   <data name="WorkTime" xml:space="preserve">
     <value>Čas práce</value>
   </data>
+  <data name="ExistDateDialogTitle" xml:space="preserve">
+    <value>Datum existuje</value>
+  </data>
+  <data name="ExistingDateDialogMessage" xml:space="preserve">
+    <value>Opravdu chcete přidat záznam s tímto datumem?</value>
+  </data>
   <data name="IsNightRecord" xml:space="preserve">
     <value>Noční směna</value>
   </data>

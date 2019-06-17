@@ -385,6 +385,24 @@ namespace Manager.Resources {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Existing date.
+        /// </summary>
+        public static string ExistDateDialogTitle {
+            get {
+                return ResourceManager.GetString("ExistDateDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Are you sure you want to add record with this date?.
+        /// </summary>
+        public static string ExistingDateDialogMessage {
+            get {
+                return ResourceManager.GetString("ExistingDateDialogMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Export data.
         /// </summary>
         public static string ExportButton {

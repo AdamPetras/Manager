@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Manager.Annotations;
 using Manager.Extensions;
@@ -280,15 +281,33 @@ namespace Manager.ViewModels
             SetupModifyAction(new TableItemUcVm(new NoneRecord()));
         }
 
-        private void AddButtonCommand()
+        private async void AddButtonCommand()
+        {
+            
+            if (await ExistingDate())
+            {
+                NightShift();
+                await Application.Current.MainPage.DisplayAlert("Info",
+                    AppResource.AddMessage + " " + AddOrModifyRecord() + ".", "OK");
+                ClearValues();
+            }
+        }
+
+        private async Task<bool> ExistingDate()
+        {
+            bool answer = true;
+            if (TableUcVm.SavedRecordList.Any(s => s.Record.Date.Year == Date.Year && s.Record.Date.Month == Date.Month && s.Record.Date.Day == Date.Day))
+                answer = await Application.Current.MainPage.DisplayAlert(AppResource.ExistDateDialogTitle,
+                    AppResource.ExistingDateDialogMessage, AppResource.Yes, AppResource.No);
+            return answer;
+        }
+
+        private void NightShift()
         {
             if (WorkTimeFrom > WorkTimeTo)
             {
                 WorkTimeTo = new TimeSpan(1, WorkTimeTo.Hours, WorkTimeTo.Minutes, WorkTimeTo.Seconds);
             }
-            Application.Current.MainPage.DisplayAlert("Info",
-                AppResource.AddMessage + " " + AddOrModifyRecord() + ".", "OK");
-            ClearValues();
         }
 
         private string AddOrModifyRecord()

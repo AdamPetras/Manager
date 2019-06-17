@@ -38,7 +38,7 @@ namespace Manager.ViewModels
         private uint _vacationDays;
         private double _averagePricePerHour;
         private double _totalPriceForHourType;
-        private IXmlManager _saveAndLoad;
+        private readonly IXmlManager _saveAndLoad;
         private double _totalOvertimePrice;
         private WorkTime _totalOvertimeHours;
 
