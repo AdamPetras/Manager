@@ -24,7 +24,7 @@ namespace Manager.ViewModels
     {
         
         public event PropertyChangedEventHandler PropertyChanged;
-        public ObservableCollection<TableItemUcVm> RecordList { get; private set; } = new ObservableCollection<TableItemUcVm>();
+        public ObservableCollection<TableItemUcVm> RecordList { get; } = new ObservableCollection<TableItemUcVm>();
         public static ObservableCollection<TableItemUcVm> SavedRecordList { get; set; } = new ObservableCollection<TableItemUcVm>();
         private TableItemUcVm _selectedItem;
         private uint _datesFounded;
@@ -268,15 +268,6 @@ namespace Manager.ViewModels
                 }
                 ClearAndWriteStatistics();
             });
-        }
-        private void LoadRecords()
-        {
-            foreach (IBaseRecord tmp in _saveAndLoad.LoadXmlFile())
-            {
-                SelectedPeriod = 0;
-                SavedRecordList.Add(new TableItemUcVm(tmp));
-            }
-            ClearAndWriteStatistics();
         }
 
         private void PersistModify(TableItemUcVm find, TableItemUcVm modify)

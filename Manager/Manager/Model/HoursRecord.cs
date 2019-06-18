@@ -8,7 +8,7 @@ using Manager.Resources;
 namespace Manager.Model
 {
     public class HoursRecord : IHoursRecord
-    {
+    { 
         public Guid Id { get; set; }
         public DateTime Date { get; set; }
         public double Bonus { get; set; }
@@ -88,13 +88,14 @@ namespace Manager.Model
         }
         protected bool Equals(HoursRecord other)
         {
-            return Id.Equals(other.Id) && Date.Equals(other.Date) && Bonus.Equals(other.Bonus) && Price.Equals(other.Price) && Equals(OverTime,other.OverTime) && Type == other.Type && string.Equals(Description, other.Description) && Equals(Time, other.Time);
+            return Id.Equals(other.Id) && Date.Equals(other.Date) && Bonus.Equals(other.Bonus) && Price.Equals(other.Price) && Type == other.Type && string.Equals(Description, other.Description) && string.Equals(Value, other.Value) && string.Equals(GetRecordType, other.GetRecordType) && WorkTimeFrom.Equals(other.WorkTimeFrom) && WorkTimeTo.Equals(other.WorkTimeTo) && Equals(Time, other.Time) && Equals(BreakTime, other.BreakTime) && Equals(OverTime, other.OverTime);
         }
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (obj.GetType() != GetType()) return false;
             return Equals((HoursRecord)obj);
         }
 
@@ -108,8 +109,12 @@ namespace Manager.Model
                 hashCode = (hashCode * 397) ^ Price.GetHashCode();
                 hashCode = (hashCode * 397) ^ (int)Type;
                 hashCode = (hashCode * 397) ^ (Description != null ? Description.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (Value != null ? Value.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (GetRecordType != null ? GetRecordType.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ WorkTimeFrom.GetHashCode();
+                hashCode = (hashCode * 397) ^ WorkTimeTo.GetHashCode();
                 hashCode = (hashCode * 397) ^ (Time != null ? Time.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (BreakTime != null ? BreakTime.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (OverTime != null ? OverTime.GetHashCode() : 0);
                 return hashCode;
             }

@@ -17,6 +17,8 @@ namespace Manager.Model
 
         public NoneRecord()
         {
+            DateString = "";
+            TotalPrice = "";
             Value = "";
             Type = ERecordType.None;
             GetRecordType = "None";

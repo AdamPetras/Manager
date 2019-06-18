@@ -7,7 +7,7 @@ namespace Manager.Model
         public DateTime Date;
         public DateTimeAsReference(DateTime date)
         {
-            this.Date = date;
+            Date = date;
         }
     }
 }

@@ -83,7 +83,7 @@ namespace Manager.Model
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (obj.GetType() != GetType()) return false;
             return Equals((WorkTime)obj);
         }
 
@@ -91,7 +91,7 @@ namespace Manager.Model
         {
             unchecked
             {
-                return ((int)Hours * 397) ^ (int)Minutes;
+                return (Hours * 397) ^ Minutes;
             }
         }
 
