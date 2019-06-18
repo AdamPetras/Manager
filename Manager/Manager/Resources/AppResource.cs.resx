@@ -178,7 +178,7 @@
     <value>Výchozí počet kusů</value>
   </data>
   <data name="DefaultPrice" xml:space="preserve">
-    <value>Výchozí částka za hodinu</value>
+    <value>Výchozí částka za hodinu/kus</value>
   </data>
   <data name="DefaultTimeFrom" xml:space="preserve">
     <value>Výchozí čas od</value>
@@ -440,5 +440,8 @@
   </data>
   <data name="TimeErrorDialogTitle" xml:space="preserve">
     <value>Špatný čas</value>
+  </data>
+  <data name="BreakTime" xml:space="preserve">
+    <value>Přestávka</value>
   </data>
 </root>

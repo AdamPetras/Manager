@@ -24,17 +24,20 @@ namespace Manager.Model
         public TimeSpan WorkTimeFrom { get; set; }
         public TimeSpan WorkTimeTo { get; set; }
         public WorkTime Time { get; set; }
+        public WorkTime BreakTime { get; set; }
         public WorkTime OverTime { get; set; }
 
 
-        public HoursRecord(DateTime date, TimeSpan from, TimeSpan to, double price, double bonus, string description,int overTimeHours,int overTimeMinutes)
+        public HoursRecord(DateTime date, TimeSpan from, TimeSpan to, double price, double bonus, string description,int overTimeHours,int overTimeMinutes, WorkTime breakTime)
         {
             Id = Guid.NewGuid();
             Date = date;
             WorkTimeFrom = from;
             WorkTimeTo = to;
             (int hours,int minutes) = CalculateHoursAndMinutes();
+            BreakTime = breakTime;
             Time = new WorkTime(hours, minutes);
+            Time -= BreakTime;
             Price = price;
             Bonus = bonus;
             Description = description ?? "";
@@ -44,7 +47,7 @@ namespace Manager.Model
             Value = (Time + OverTime).ToString();
         }
 
-        public HoursRecord(DateTime date, TimeSpan from, TimeSpan to, double price, double bonus, string description, WorkTime overTime):this(date,from,to,price,bonus,description,overTime.Hours,overTime.Minutes)
+        public HoursRecord(DateTime date, TimeSpan from, TimeSpan to, double price, double bonus, string description, WorkTime overTime, WorkTime breakTime) :this(date,from,to,price,bonus,description,overTime.Hours,overTime.Minutes,breakTime)
         {
         }
 

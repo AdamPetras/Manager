@@ -178,7 +178,7 @@
     <value>Default pieces</value>
   </data>
   <data name="DefaultPrice" xml:space="preserve">
-    <value>Default price per hour</value>
+    <value>Default price per hour/piece</value>
   </data>
   <data name="DefaultTimeFrom" xml:space="preserve">
     <value>Default time from</value>
@@ -440,5 +440,8 @@
   </data>
   <data name="TimeErrorDialogTitle" xml:space="preserve">
     <value>Time error</value>
+  </data>
+  <data name="BreakTime" xml:space="preserve">
+    <value>Break time</value>
   </data>
 </root>

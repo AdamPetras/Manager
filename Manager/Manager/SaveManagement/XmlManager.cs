@@ -164,6 +164,7 @@ namespace Manager.SaveManagement
                 case ERecordType.Hours:
                     data.SetAttribute("WorkTimeFrom", ((IHoursRecord) rec).WorkTimeFrom.ToString());
                     data.SetAttribute("WorkTimeTo", ((IHoursRecord)rec).WorkTimeTo.ToString());
+                    data.SetAttribute("BreakTime", ((IHoursRecord)rec).BreakTime.ToString());
                     data.SetAttribute("OverTime", ((IHoursRecord)rec).OverTime.ToString());
                     break;
                 case ERecordType.Pieces:
@@ -209,8 +210,10 @@ namespace Manager.SaveManagement
                     case ERecordType.Hours:
                         TimeSpan workTimeFrom = ParseTimeRecord(dataElement.Attribute("WorkTimeFrom")?.Value.Split(':')).ToTimeSpan();
                         TimeSpan workTimeTo = ParseTimeRecord(dataElement.Attribute("WorkTimeTo")?.Value.Split(':')).ToTimeSpan();
+                        TimeSpan breakTime = ParseTimeRecord(dataElement.Attribute("BreakTime")?.Value.Split(':'))
+                            .ToTimeSpan();
                         WorkTime overTime = ParseTimeRecord(dataElement.Attribute("OverTime")?.Value.Split(':'));
-                        rec = new HoursRecord(date, workTimeFrom, workTimeTo, price,bonus, description, overTime);
+                        rec = new HoursRecord(date, workTimeFrom, workTimeTo, price,bonus, description, overTime,new WorkTime(breakTime.Hours,breakTime.Minutes));
                         break;
                     case ERecordType.Pieces:
                         uint.TryParse(dataElement.Attribute("Variable")?.Value, out uint pieces);

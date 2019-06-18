@@ -22,6 +22,22 @@ namespace Manager.Model
             Days = days;
         }
 
+        public static WorkTime operator -(WorkTime b, WorkTime c)
+        {
+            int minutes = b.Minutes - c.Minutes;
+            int hours = b.Hours - c.Hours;
+            if (minutes < 0)
+            {
+                minutes += 60;
+                hours--;
+            }
+            if (hours < 0)
+            {
+                hours = 0;
+            }
+            return new WorkTime(hours,minutes);
+        }
+
         public static WorkTime operator +(WorkTime b, WorkTime c)
         {
             return new WorkTime

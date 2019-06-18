@@ -36,6 +36,7 @@ namespace Manager.ViewModels
         private TimeSpan _workTimeFrom;
         private TimeSpan _workTimeTo;
         private TimeSpan _overTime;
+        private TimeSpan _breakTime;
         public ICommand CancelModify { get; }
         public ICommand ButtonAdd { get; }
         public event PropertyChangedEventHandler PropertyChanged;
@@ -188,6 +189,16 @@ namespace Manager.ViewModels
             {
                 _overTime = value;
                 OnPropertyChanged(nameof(OverTime));
+            }
+        }
+
+        public TimeSpan BreakTime
+        {
+            get => _breakTime;
+            set
+            {
+                _breakTime = value;
+                OnPropertyChanged(nameof(BreakTime));
             }
         }
 
@@ -347,7 +358,7 @@ namespace Manager.ViewModels
             switch (SelectedPicker)
             {
                 case (int)ERecordType.Hours:
-                    return new IBaseRecord[] {new HoursRecord(Date, WorkTimeFrom , WorkTimeTo, price, bonus, Description, OverTime.Hours,OverTime.Minutes)};
+                    return new IBaseRecord[] {new HoursRecord(Date, WorkTimeFrom , WorkTimeTo, price, bonus, Description, OverTime.Hours,OverTime.Minutes, new WorkTime(BreakTime.Hours,BreakTime.Minutes))};
                 case (int)ERecordType.Pieces:
                     return new IBaseRecord[] {new PiecesRecord(Date, Pieces, price, bonus, Description)};
                 default:

@@ -160,6 +160,15 @@ namespace Manager.Resources {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Break time.
+        /// </summary>
+        public static string BreakTime {
+            get {
+                return ResourceManager.GetString("BreakTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Calendar.
         /// </summary>
         public static string CalendarTab {
@@ -241,7 +250,7 @@ namespace Manager.Resources {
         }
         
         /// <summary>
-        ///   Vyhledá lokalizovaný řetězec podobný Default price per hour.
+        ///   Vyhledá lokalizovaný řetězec podobný Default price per hour/piece.
         /// </summary>
         public static string DefaultPrice {
             get {
