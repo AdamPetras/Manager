@@ -1,9 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
 using Manager.Annotations;
-using Manager.Views;
-using Xamarin.Forms;
 
 namespace Manager.ViewModels
 {

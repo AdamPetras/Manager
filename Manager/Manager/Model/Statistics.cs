@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using Manager.Model.Enums;
-using Manager.Model.Interfaces;
 using Manager.ViewModels;
 
 namespace Manager.Model

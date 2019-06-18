@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Globalization;
-using Manager.Annotations;
 using Manager.Extensions;
 using Manager.Model.Enums;
 using Manager.Model.Interfaces;
 using Manager.Resources;
-using Xamarin.Forms.Xaml;
 
 namespace Manager.Model
 {

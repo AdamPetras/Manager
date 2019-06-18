@@ -1,5 +1,4 @@
 using System;
-using Manager.Model.Enums;
 using Xamarin.Forms;
 
 namespace Manager.Converters

@@ -1,14 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using Manager.Annotations;
-using Manager.Extensions;
 using Manager.Mappers;
 using Manager.Model;
 using Manager.Model.Enums;
-using Manager.Resources;
 
 namespace Manager.ViewModels
 {

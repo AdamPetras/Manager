@@ -9,7 +9,6 @@ using Manager.Model.Interfaces;
 using Manager.Resources;
 using Manager.Views;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 
 namespace Manager.ViewModels
 {
