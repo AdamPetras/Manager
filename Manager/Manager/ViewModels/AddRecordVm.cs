@@ -262,7 +262,6 @@ namespace Manager.ViewModels
             ReloadConfigValues();
             DateTo = DateTime.Today;
             Bonus = "0";
-            Price = "0";
             OverTime = TimeSpan.Zero;
         }
 
@@ -272,6 +271,7 @@ namespace Manager.ViewModels
             WorkTimeTo = SaveStaticVariables.DefaultTimeTo;
             Pieces = SaveStaticVariables.DefaultPieces;
             Price = SaveStaticVariables.DefaultPrice.ToString(CultureInfo.InvariantCulture);
+            BreakTime = new TimeSpan(0,30,0);
         }
 
         private void SetButtonCancelModifyVisible(bool visible = true)

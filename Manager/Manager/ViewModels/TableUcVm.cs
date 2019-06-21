@@ -289,11 +289,11 @@ namespace Manager.ViewModels
         {
             SelectedPeriod = 0;
             SavedRecordList.Remove(item);
-            RecordList.Remove(item);
+            if(RecordList.Contains(item))
+                RecordList.Remove(item);
             _saveAndLoad.RemoveXmlRecord(item.Record);
             if (!isUpdated)
                 LoadRecordsAsync();
-
         }
 
         private void PersistRemove(TableItemUcVm[] items)
