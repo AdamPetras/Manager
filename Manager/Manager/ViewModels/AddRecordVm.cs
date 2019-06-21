@@ -90,12 +90,10 @@ namespace Manager.ViewModels
             get => _dateTo;
             set
             {
-                DateTime tmp = _dateTo;
                 if (value < Date)
                 {
                     Application.Current.MainPage.DisplayAlert(AppResource.WrongDateTitle, AppResource.WrongDateMessage,
                         "Ok");
-                    DateTo = tmp;
                 }
                 else
                 {
