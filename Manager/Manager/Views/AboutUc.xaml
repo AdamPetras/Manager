@@ -23,6 +23,6 @@
         <Label Text=""/>
         <Label Text="Email support at"/>
         <Label Text="abushrek@seznam.cz"/>
-        <Label Text="v1.10" VerticalOptions="EndAndExpand" HorizontalOptions="End"/>
+        <Label Text="v1.22" VerticalOptions="EndAndExpand" HorizontalOptions="End"/>
     </StackLayout>
 </ContentPage>

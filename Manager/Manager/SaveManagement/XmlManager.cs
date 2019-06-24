@@ -121,6 +121,10 @@ namespace Manager.SaveManagement
                     return (PiecesRecord)foundRec == (PiecesRecord)rec;
                 case ERecordType.Vacation:
                     return (VacationRecord)foundRec == (VacationRecord)rec;
+                case ERecordType.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
             return false;
         }

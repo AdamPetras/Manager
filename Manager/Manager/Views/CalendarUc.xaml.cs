@@ -72,7 +72,6 @@ namespace Manager.Views
             }
         }
 
-
         private void CreateColumnsAndRows(bool isColumn, int length, GridUnitType type)
         {
             if (isColumn)
@@ -102,9 +101,22 @@ namespace Manager.Views
                             tableItem?.Record?.Date.Day == today.Day)
                         {
                             item = tableItem;
-                            backgroundColor = tableItem.Record.Type == ERecordType.Vacation ? Color.Blue : Color.Green;
+                            backgroundColor = tableItem?.Record?.Type == ERecordType.Vacation ? Color.DarkOrange : Color.Green;
+                            if (tableItem?.Record?.Type == ERecordType.Hours)
+                            {
+                                if (((IHoursRecord) tableItem.Record).OverTime != new WorkTime(0, 0))
+                                {
+                                    backgroundColor = Color.LightBlue;
+                                }
+                            }
+
                             break;
                         }
+                    }
+                if (today.Year == DateTime.Today.Year && today.Month == DateTime.Today.Month &&
+                    today.Day == DateTime.Today.Day)
+                    {
+                        backgroundColor = Color.Gold;
                     }
                 CalendarButton butt = new CalendarButton()
                 {

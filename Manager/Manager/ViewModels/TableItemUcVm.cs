@@ -17,16 +17,16 @@ namespace Manager.ViewModels
         public ICommand More { get; }
         public ICommand Modify { get; }
         public ICommand Delete { get; }
-        private Color _isOverTimeColor;
+        private Color _buttonBackgroundColor;
         private IBaseRecord _record;
 
-        public Color IsOverTimeColor
+        public Color ButtonBackgroundColor
         {
-            get => _isOverTimeColor;
+            get => _buttonBackgroundColor;
             set
             {
-                _isOverTimeColor = value;
-                OnPropertyChanged(nameof(IsOverTimeColor));
+                _buttonBackgroundColor = value;
+                OnPropertyChanged(nameof(ButtonBackgroundColor));
             }
         }
 
@@ -47,12 +47,16 @@ namespace Manager.ViewModels
             Modify = new Command<TableItemUcVm>(ModifyRecord);
             if (rec.Date.DayOfWeek == DayOfWeek.Saturday || rec.Date.DayOfWeek == DayOfWeek.Sunday)
             {
-                IsOverTimeColor = Color.Red;
+                ButtonBackgroundColor = Color.Red;
             }
             if (rec.Type == ERecordType.Hours)
             {
                 if (((IHoursRecord) rec).OverTime != new WorkTime())
-                    IsOverTimeColor = Color.DeepSkyBlue;
+                    ButtonBackgroundColor = Color.LightBlue;
+            }
+            if (rec.Type == ERecordType.Vacation)
+            {
+                ButtonBackgroundColor = Color.DarkOrange;
             }
             _record = rec;
         }
@@ -65,7 +69,7 @@ namespace Manager.ViewModels
             if (item.Record.Type == ERecordType.Hours)
             {
                 IHoursRecord rec = (IHoursRecord) item.Record;
-                Application.Current.MainPage.DisplayAlert("Info", AppResource.Date + ": " + rec.DateString+"\n"+AppResource.From+": "+rec.WorkTimeFrom.ToString()+"\n"+AppResource.To+": "+rec.WorkTimeTo+"\n"+AppResource.HoursAndMinutes+": " + rec.Time+"\n"+AppResource.BreakTime+": "+rec.BreakTime +"\n"+AppResource.PricePerHour+": "+rec.Price+ "\n"+AppResource.Bonus+": " + rec.Bonus+ "\n"+AppResource.TotalPrice+": " + rec.TotalPrice+ "\n"+AppResource.OverTime+": " + rec.OverTime + "\n"+AppResource.Description+":\n" + rec.Description, AppResource.Ok);
+                Application.Current.MainPage.DisplayAlert("Info", AppResource.Date + ": " + rec.DateString+"\n"+AppResource.From+": "+rec.WorkTimeFrom+"\n"+AppResource.To+": "+rec.WorkTimeTo+"\n"+AppResource.HoursAndMinutes+": " + rec.Time+"\n"+AppResource.BreakTime+": "+rec.BreakTime +"\n"+AppResource.PricePerHour+": "+rec.Price+ "\n"+AppResource.Bonus+": " + rec.Bonus+ "\n"+AppResource.TotalPrice+": " + rec.TotalPrice+ "\n"+AppResource.OverTime+": " + rec.OverTime + "\n"+AppResource.Description+":\n" + rec.Description, AppResource.Ok);
             }
             else if (item.Record.Type == ERecordType.Pieces)
             {

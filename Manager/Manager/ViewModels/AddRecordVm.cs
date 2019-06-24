@@ -90,16 +90,18 @@ namespace Manager.ViewModels
             get => _dateTo;
             set
             {
+                DateTime resetDate = DateTo;
                 if (value < Date)
                 {
                     Application.Current.MainPage.DisplayAlert(AppResource.WrongDateTitle, AppResource.WrongDateMessage,
                         "Ok");
+                    _dateTo = resetDate;
                 }
                 else
                 {
                     _dateTo = value;
-                    OnPropertyChanged(nameof(DateTo));
                 }
+                OnPropertyChanged(nameof(DateTo));
             }
         }
 

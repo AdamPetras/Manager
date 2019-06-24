@@ -8,7 +8,7 @@
              xmlns:converters="clr-namespace:Manager.Converters"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance viewModels:TableItemUcVm}"
-             BackgroundColor="{Binding IsOverTimeColor}"
+             BackgroundColor="{Binding ButtonBackgroundColor}"
              >
     <Grid.Resources>
         <ResourceDictionary>
