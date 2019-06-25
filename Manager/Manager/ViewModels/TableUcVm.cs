@@ -289,9 +289,8 @@ namespace Manager.ViewModels
         {
             SelectedPeriod = 0;
             SavedRecordList.Remove(item);
-            if(RecordList.Contains(item))
-                RecordList.Remove(item);
             _saveAndLoad.RemoveXmlRecord(item.Record);
+            ClearAndWriteStatistics();
             if (!isUpdated)
                 LoadRecordsAsync();
         }

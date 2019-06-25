@@ -29,9 +29,9 @@
                     </Grid.RowDefinitions>
                     <Label Text="{x:Static resources:AppResource.DefaultSettings}" Grid.Column="0" Grid.Row="0" VerticalOptions="Center" HorizontalTextAlignment="Center" Grid.ColumnSpan="6"/>
                     <Label Text="{x:Static resources:AppResource.DefaultTimeFrom}" Grid.Column="0" Grid.Row="1" VerticalOptions="Center" Grid.ColumnSpan="2"/>
-                    <TimePicker Time ="{Binding DefaultTimeFrom}"  Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4"/>
+                    <TimePicker Time ="{Binding DefaultTimeFrom}"  Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" Format="HH:mm"/>
                     <Label Text="{x:Static resources:AppResource.DefaultTimeTo}" Grid.Column="0" Grid.Row="2" VerticalOptions="Center" Grid.ColumnSpan="2"/>
-                    <TimePicker Time ="{Binding DefaultTimeTo}"  Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="4"/>
+                    <TimePicker Time ="{Binding DefaultTimeTo}"  Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="4" Format="HH:mm"/>
                     <Label Text="{x:Static resources:AppResource.DefaultPrice}" Grid.Column="0" Grid.Row="3" VerticalOptions="Center" Grid.ColumnSpan="2"/>
                     <Entry Text="{Binding DefaultPrice}" Placeholder="price" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="4"/>
                     <Label Text="{x:Static resources:AppResource.DefaultPieces}" Grid.Column="0" Grid.Row="4" VerticalOptions="Center" Grid.ColumnSpan="2"/>
